@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "buildCommand": "pnpm --filter @dtc/storefront build",
+  "installCommand": "pnpm install",
+  "outputDirectory": "apps/storefront/.next",
+  "framework": "nextjs",
+  "env": {
+    "NEXT_PUBLIC_DEFAULT_REGION": "in",
+    "NODE_ENV": "production"
+  }
+}

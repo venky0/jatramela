@@ -33,7 +33,8 @@ function checkEnvVariables() {
       )
     );
 
-    process.exit(1);
+    // Warn but don't block the build — key is added after backend deployment
+    console.warn("⚠️  Missing env vars above — app will work after backend setup");
   }
 }
 

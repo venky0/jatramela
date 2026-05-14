@@ -15,3 +15,5 @@ bots/reports/
 dist/
 build/
 .cache/
+.vercel
+.env*.local

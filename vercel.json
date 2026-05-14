@@ -1,6 +1,6 @@
 {
-  "installCommand": "pnpm install --filter @dtc/storefront...",
-  "buildCommand": "pnpm --filter @dtc/storefront build",
+  "installCommand": "corepack enable && pnpm install --filter @dtc/storefront...",
+  "buildCommand": "cd apps/storefront && pnpm build",
   "outputDirectory": "apps/storefront/.next",
   "framework": "nextjs"
 }

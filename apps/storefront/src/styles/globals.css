@@ -1,0 +1,706 @@
+@import url('https://fonts.googleapis.com/css2?family=Yatra+One&family=Baloo+2:wght@400;500;600;700;800&family=Hind:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+Kannada:wght@400;600;700&display=swap');
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* ======================================================
+   JATRAMELA — KARNATAKA HERITAGE DESIGN SYSTEM
+   "Back to Roots" — South Indian Lifestyle Marketplace
+   Light: Jasmine Cream + Mysore Gold + Forest Green
+   Dark:  Deep Sandalwood Night
+   ====================================================== */
+
+:root, [data-theme="light"] {
+  --bg-primary:      #FFFBF0;
+  --bg-secondary:    #FFF3D6;
+  --bg-card:         #FFFFFF;
+  --bg-card-hover:   #FFF8E7;
+  --bg-glass:        rgba(255, 251, 240, 0.94);
+  --bg-header:       #5C1E06;   /* deep Karnataka red-brown */
+  --bg-dark:         #1a0a00;   /* deep dark Karnataka night */
+  --bg-section-alt:  #F4F0E8;
+
+  --primary:         #C0392B;   /* Kumkum red */
+  --primary-dark:    #96281B;
+  --primary-glow:    rgba(192, 57, 43, 0.15);
+  --gold:            #C9A84C;   /* Mysore gold */
+  --gold-bright:     #E8C56A;
+  --gold-primary:    #C9A84C;   /* alias for --gold */
+  --gold-glow:       rgba(201, 168, 76, 0.2);
+  --green:           #2E6B3E;   /* Forest green */
+  --green-bright:    #3D8B50;
+  --green-glow:      rgba(46, 107, 62, 0.15);
+  --sandalwood:      #C4955A;   /* Sandalwood */
+  --turmeric:        #D4900A;   /* Turmeric */
+
+  --text-primary:    #2C1810;   /* Deep dark brown */
+  --text-muted:      #6B3A20;
+  --text-subtle:     #9B6B40;
+  --text-on-header:  #FFF8E7;
+  --text-gold:       #C9A84C;
+
+  --border:          rgba(201, 168, 76, 0.3);
+  --border-strong:   rgba(192, 57, 43, 0.25);
+
+  --gradient-hero:   linear-gradient(135deg, rgba(92,30,6,0.85) 0%, rgba(92,30,6,0.3) 60%, transparent 100%);
+  --gradient-gold:   linear-gradient(135deg, #C9A84C 0%, #E8C56A 50%, #C9A84C 100%);
+  --gradient-btn:    linear-gradient(135deg, #C0392B 0%, #E74C3C 100%);
+  --gradient-green:  linear-gradient(135deg, #2E6B3E 0%, #3D8B50 100%);
+  --gradient-gold-btn: linear-gradient(135deg, #C9A84C 0%, #D4A030 100%);
+
+  --shadow-card:     0 2px 12px rgba(44,24,16,0.08), 0 1px 4px rgba(44,24,16,0.04);
+  --shadow-hover:    0 8px 32px rgba(192,57,43,0.18), 0 3px 10px rgba(44,24,16,0.1);
+  --shadow-header:   0 4px 24px rgba(44,24,16,0.35);
+  --shadow-gold:     0 4px 20px rgba(201,168,76,0.3);
+}
+
+[data-theme="dark"] {
+  --bg-primary:      #180D06;
+  --bg-secondary:    #261408;
+  --bg-card:         #33190A;
+  --bg-card-hover:   #421F0C;
+  --bg-glass:        rgba(38,20,8,0.95);
+  --bg-header:       #3D0E02;
+  --bg-section-alt:  #1E100A;
+
+  --primary:         #E74C3C;
+  --primary-dark:    #C0392B;
+  --primary-glow:    rgba(231,76,60,0.2);
+  --gold:            #E8C56A;
+  --gold-bright:     #F5D98A;
+  --gold-glow:       rgba(232,197,106,0.2);
+  --green:           #3D8B50;
+  --green-bright:    #4CAF64;
+  --green-glow:      rgba(61,139,80,0.2);
+  --sandalwood:      #D4AA72;
+  --turmeric:        #F0A820;
+
+  --text-primary:    #FFF3D6;
+  --text-muted:      #C8A070;
+  --text-subtle:     #9B7040;
+  --text-on-header:  #FFF8E7;
+  --text-gold:       #E8C56A;
+
+  --border:          rgba(232,197,106,0.2);
+  --border-strong:   rgba(231,76,60,0.25);
+
+  --gradient-hero:   linear-gradient(135deg, rgba(24,5,0,0.9) 0%, rgba(24,5,0,0.4) 60%, transparent 100%);
+  --gradient-gold:   linear-gradient(135deg, #C9A84C 0%, #E8C56A 50%, #C9A84C 100%);
+  --gradient-btn:    linear-gradient(135deg, #E74C3C 0%, #C0392B 100%);
+  --gradient-green:  linear-gradient(135deg, #3D8B50 0%, #2E6B3E 100%);
+  --gradient-gold-btn: linear-gradient(135deg, #C9A84C 0%, #B89040 100%);
+
+  --shadow-card:     0 2px 12px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.4);
+  --shadow-hover:    0 12px 40px rgba(231,76,60,0.2), 0 4px 12px rgba(0,0,0,0.5);
+  --shadow-header:   0 4px 24px rgba(0,0,0,0.6);
+  --shadow-gold:     0 4px 20px rgba(232,197,106,0.25);
+}
+
+/* ── BASE ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-family: 'Hind', 'Baloo 2', system-ui, sans-serif;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+h1, h2, h3, .display-font { font-family: 'Baloo 2', 'Playfair Display', sans-serif; }
+.serif-title { font-family: 'Playfair Display', serif; }
+.kannada-title { font-family: 'Yatra One', serif; }
+
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: var(--bg-secondary); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+::selection { background: var(--gold-glow); color: var(--gold); }
+
+/* ── TEMPLE BORDER MOTIF (CSS) ──────────────────────── */
+.temple-border {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--gold) 0px, var(--gold) 2px,
+    transparent 2px, transparent 10px,
+    var(--gold) 10px, var(--gold) 12px,
+    transparent 12px, transparent 22px
+  );
+  height: 3px;
+}
+.temple-border-thin {
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(201,168,76,0.6) 0px, rgba(201,168,76,0.6) 2px,
+    transparent 2px, transparent 8px
+  );
+  height: 2px;
+}
+
+/* ── ANIMATIONS ────────────────────────────────────── */
+@keyframes slide-up-fade {
+  0%   { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer-gold {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+@keyframes float-gently {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes fade-in {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes scale-in {
+  from { transform: scale(0.92); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+@keyframes spin-toggle {
+  from { transform: rotate(-30deg) scale(0.8); opacity: 0; }
+  to   { transform: rotate(0deg)   scale(1);   opacity: 1; }
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(201,168,76,0.5); }
+  70%  { box-shadow: 0 0 0 10px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* ── UTILITIES ─────────────────────────────────────── */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .glass {
+    background: var(--bg-glass);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid var(--border);
+  }
+
+  .text-gradient-gold {
+    background: var(--gradient-gold);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-shimmer {
+    background: linear-gradient(90deg, var(--gold) 0%, #F5D98A 40%, var(--gold) 80%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer-gold 3s linear infinite;
+  }
+
+  .text-gradient-red {
+    background: linear-gradient(135deg, var(--primary) 0%, #E74C3C 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .animate-slide-up  { animation: slide-up-fade 0.65s ease-out both; }
+  .animate-float     { animation: float-gently 4s ease-in-out infinite; }
+  .animate-fade      { animation: fade-in 0.5s ease-out both; }
+  .animate-scale-in  { animation: scale-in 0.45s ease-out both; }
+  .delay-100  { animation-delay: 0.1s; }
+  .delay-200  { animation-delay: 0.2s; }
+  .delay-300  { animation-delay: 0.3s; }
+  .delay-400  { animation-delay: 0.4s; }
+  .delay-500  { animation-delay: 0.5s; }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--text-primary);
+    -webkit-box-shadow: 0 0 0 1000px var(--bg-card) inset;
+  }
+  input:focus ~ label,
+  input:not(:placeholder-shown) ~ label { @apply -translate-y-2 text-xsmall-regular; }
+  input:focus ~ label { @apply left-0; }
+}
+
+/* ── COMPONENTS ────────────────────────────────────── */
+@layer components {
+  .content-container { @apply max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8; }
+
+  /* ─ Buttons ─ */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full font-bold text-sm tracking-wide transition-all duration-300;
+    background: var(--gradient-btn);
+    color: #FFF8E7;
+    border: 2px solid var(--primary-dark);
+    box-shadow: 0 3px 14px var(--primary-glow), inset 0 1px 0 rgba(255,255,255,0.15);
+    font-family: 'Baloo 2', sans-serif;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px var(--primary-glow); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full font-bold text-sm tracking-wide transition-all duration-300;
+    background: var(--gradient-gold-btn);
+    color: #2C1810;
+    border: 2px solid rgba(201,168,76,0.4);
+    box-shadow: var(--shadow-gold);
+    font-family: 'Baloo 2', sans-serif;
+  }
+  .btn-gold:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
+  .btn-green {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full font-bold text-sm tracking-wide transition-all duration-300;
+    background: var(--gradient-green);
+    color: #FFF8E7;
+    border: 2px solid rgba(46,107,62,0.4);
+    box-shadow: 0 3px 14px var(--green-glow);
+    font-family: 'Baloo 2', sans-serif;
+  }
+  .btn-green:hover { transform: translateY(-2px); box-shadow: 0 6px 20px var(--green-glow); }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full font-bold text-sm tracking-wide transition-all duration-300;
+    background: transparent;
+    color: var(--text-on-header);
+    border: 2px solid rgba(255,248,231,0.45);
+    font-family: 'Baloo 2', sans-serif;
+  }
+  .btn-ghost:hover { background: rgba(255,248,231,0.12); }
+
+  .btn-outline-gold {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full font-bold text-sm tracking-wide transition-all duration-300;
+    background: transparent;
+    color: var(--gold);
+    border: 2px solid var(--gold);
+    font-family: 'Baloo 2', sans-serif;
+  }
+  .btn-outline-gold:hover { background: var(--gold-glow); }
+
+  /* ─ Cards ─ */
+  .heritage-card {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  .heritage-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--gold);
+  }
+
+  .category-card {
+    @apply relative overflow-hidden rounded-2xl cursor-pointer;
+    border: 2px solid var(--border);
+    transition: all 0.3s ease;
+  }
+  .category-card:hover { border-color: var(--gold); transform: scale(1.02); }
+  .category-card:hover .category-overlay { opacity: 1; }
+
+  .category-overlay {
+    @apply absolute inset-0 flex items-end p-5;
+    background: linear-gradient(to top, rgba(44,24,16,0.85) 0%, transparent 60%);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+
+  /* ─ Section headings ─ */
+  .section-heading {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    color: var(--primary);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+  }
+  .section-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    height: 3px;
+    background: var(--gradient-gold);
+    border-radius: 2px;
+  }
+
+  .section-label {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ─ Nav ─ */
+  .nav-link {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-on-header);
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+  .nav-link:hover { color: var(--gold-bright); }
+
+  /* ─ Footer ─ */
+  .footer-link {
+    font-size: 0.82rem;
+    color: rgba(255,248,231,0.62);
+    transition: color 0.2s;
+    display: block;
+    padding: 2px 0;
+  }
+  .footer-link:hover { color: var(--gold-bright); }
+
+  /* ─ Feature/benefit pills ─ */
+  .benefit-pill {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    color: var(--text-muted);
+    transition: all 0.25s;
+  }
+  .benefit-pill:hover { border-color: var(--green); color: var(--green); }
+
+  /* ─ Tag ─ */
+  .tag-green {
+    @apply inline-flex items-center gap-1 px-3 py-0.5 rounded-full text-[11px] font-bold;
+    background: var(--green-glow);
+    color: var(--green);
+    border: 1px solid var(--green);
+  }
+  .tag-gold {
+    @apply inline-flex items-center gap-1 px-3 py-0.5 rounded-full text-[11px] font-bold;
+    background: var(--gold-glow);
+    color: var(--turmeric);
+    border: 1px solid var(--gold);
+  }
+  .tag-red {
+    @apply inline-flex items-center gap-1 px-3 py-0.5 rounded-full text-[11px] font-bold;
+    background: var(--primary-glow);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+  }
+
+  /* ─ Form inputs ─ */
+  .field-input {
+    @apply w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200;
+    background: var(--bg-secondary);
+    border: 1.5px solid var(--border);
+    color: var(--text-primary);
+  }
+  .field-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-glow); }
+
+  .field-label {
+    @apply block text-xs font-semibold mb-1.5;
+    color: var(--text-muted);
+    font-family: 'Baloo 2', sans-serif;
+  }
+
+  /* ─ Testimonial card ─ */
+  .testimonial-card {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-left: 4px solid var(--gold);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+  }
+
+  /* ─ Razorpay btn ─ */
+  .btn-razorpay {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-white;
+    background: linear-gradient(135deg, #528FF0, #3C5FD5);
+  }
+  .btn-razorpay:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(82,143,240,0.4); }
+
+  /* ─ Typography scale (Medusa compat) ─ */
+  .text-xsmall-regular { @apply text-[10px] leading-4 font-normal; }
+  .text-small-regular  { @apply text-xs leading-5 font-normal; }
+  .text-small-semi     { @apply text-xs leading-5 font-semibold; }
+  .text-base-regular   { @apply text-sm leading-6 font-normal; }
+  .text-base-semi      { @apply text-sm leading-6 font-semibold; }
+  .text-large-regular  { @apply text-base leading-6 font-normal; }
+  .text-large-semi     { @apply text-base leading-6 font-semibold; }
+  .text-xl-regular     { @apply text-2xl leading-[36px] font-normal; }
+  .text-xl-semi        { @apply text-2xl leading-[36px] font-semibold; }
+  .text-2xl-regular    { @apply text-[30px] leading-[48px] font-normal; }
+  .text-2xl-semi       { @apply text-[30px] leading-[48px] font-semibold; }
+  .text-3xl-regular    { @apply text-[32px] leading-[44px] font-normal; }
+  .text-3xl-semi       { @apply text-[32px] leading-[44px] font-semibold; }
+}
+
+/* ============================================================
+   MOBILE BOTTOM NAV — safe area padding for page content
+   ============================================================ */
+@media (max-width: 1279px) {
+  /* Only add padding to page body, not to nav/footer */
+  body > #__next > main,
+  [data-testid="main-content"],
+  .page-content-wrapper {
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+  }
+  /* Footer sits ABOVE the bottom nav — add clearance */
+  footer {
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
+/* ============================================================
+   PRODUCT CARD — hover elevation & gold glow (HIGH priority UX)
+   ============================================================ */
+[data-testid="product-wrapper"] {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  border-radius: 12px;
+}
+[data-testid="product-wrapper"]:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(201,168,76,0.18), 0 4px 12px rgba(0,0,0,0.25);
+}
+[data-testid="product-wrapper"]:hover img {
+  transform: scale(1.03);
+  transition: transform 300ms ease;
+}
+[data-testid="product-wrapper"] img {
+  transition: transform 300ms ease;
+}
+
+.category-heading, .section-heading-kannada {
+  font-family: 'Noto Sans Kannada', 'Baloo 2', sans-serif;
+}
+
+/* ============================================================
+   LOADING SKELETON — kolam-inspired shimmer
+   ============================================================ */
+.animate-pulse {
+  background: linear-gradient(
+    90deg,
+    rgba(201,168,76,0.06) 25%,
+    rgba(201,168,76,0.14) 50%,
+    rgba(201,168,76,0.06) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-kolam 1.6s infinite;
+}
+@keyframes shimmer-kolam {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ============================================================
+   COMPREHENSIVE MOBILE RESPONSIVE FIXES
+   Zero visual errors across all breakpoints
+   ============================================================ */
+
+/* ── Global safe defaults ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Content container mobile padding ── */
+@media (max-width: 640px) {
+  .content-container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* ── Hero section: mobile responsive ── */
+@media (max-width: 767px) {
+  /* Hero min-height scales naturally, not fixed */
+  section.hero-banner {
+    min-height: 100svh !important;
+    min-height: 100vh !important;
+  }
+
+  /* Hero text size scaling */
+  .hero-title {
+    font-size: clamp(1.7rem, 8vw, 2.8rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Hero paragraph — reduce size */
+  .hero-body {
+    font-size: 0.875rem !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Hero search bar: input shrinks, button stays */
+  .hero-search-input {
+    padding-right: 5.5rem !important; /* space for button */
+    font-size: 0.8rem !important;
+  }
+
+  /* Buttons: full width on very small screens */
+  .hero-cta-row {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .hero-cta-row a, .hero-cta-row button {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  /* Stats bar: 2 cols */
+  .stats-bar-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Category cards: 1 col on phone, 2 on tablet */
+  .categories-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Section padding: reduce on mobile */
+  .section-py { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+
+  /* Newsletter form: stack on mobile */
+  .newsletter-form {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+  .newsletter-form input,
+  .newsletter-form button {
+    width: 100% !important;
+  }
+
+  /* About section image: auto height on mobile */
+  .about-image-wrapper {
+    height: 240px !important;
+  }
+
+  /* Featured products: 1 col */
+  .featured-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  /* Tablet: 2 col categories */
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ── Chatbot: keep above mobile bottom nav ── */
+@media (max-width: 1279px) {
+  /* Float button: raise above bottom nav (nav is ~64px + safe area) */
+  .chatbot-btn {
+    bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px) + 0.75rem) !important;
+  }
+  /* Chat window: raise and constrain width */
+  .chatbot-window {
+    bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px) + 5rem) !important;
+    right: 0.75rem !important;
+    left: 0.75rem !important;
+    width: auto !important;
+    max-width: 100% !important;
+    max-height: 65vh !important;
+  }
+}
+
+/* ── Search modal: full screen on mobile ── */
+@media (max-width: 640px) {
+  .search-modal-container {
+    padding-top: 0 !important;
+    align-items: flex-end !important;
+  }
+  .search-modal-box {
+    border-radius: 1.25rem 1.25rem 0 0 !important;
+    max-height: 80vh !important;
+  }
+}
+
+/* ── Prevent horizontal scroll ── */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* ── Fix nav overflow on small screens ── */
+@media (max-width: 380px) {
+  .nav-logo-text { display: none !important; }
+  .nav-logo-sub  { display: none !important; }
+}
+
+/* ── Product actions mobile ── */
+@media (max-width: 640px) {
+  .product-actions-sticky {
+    position: fixed !important;
+    bottom: calc(4rem + env(safe-area-inset-bottom, 0px)) !important;
+    left: 0 !important; right: 0 !important;
+    z-index: 30 !important;
+    padding: 0.75rem 1rem !important;
+    background: var(--bg-glass) !important;
+    backdrop-filter: blur(12px) !important;
+    border-top: 1px solid var(--border) !important;
+  }
+}
+
+/* ── Mobile helper: scrollbar-hide ── */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Ensure text never overflows its container ── */
+h1, h2, h3, h4, h5, h6, p, span, a, button {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+
+/* ============================================================
+   PRODUCT CARD — hover elevation & gold glow (HIGH priority UX)
+   ============================================================ */
+[data-testid="product-wrapper"] {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  border-radius: 12px;
+}
+[data-testid="product-wrapper"]:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(201,168,76,0.18), 0 4px 12px rgba(0,0,0,0.25);
+}
+[data-testid="product-wrapper"]:hover img {
+  transform: scale(1.03);
+  transition: transform 300ms ease;
+}
+[data-testid="product-wrapper"] img {
+  transition: transform 300ms ease;
+}
+
+.category-heading, .section-heading-kannada {
+  font-family: 'Noto Sans Kannada', 'Baloo 2', sans-serif;
+}
+
+/* ============================================================
+   LOADING SKELETON — kolam-inspired shimmer
+   ============================================================ */
+.animate-pulse {
+  background: linear-gradient(
+    90deg,
+    rgba(201,168,76,0.06) 25%,
+    rgba(201,168,76,0.14) 50%,
+    rgba(201,168,76,0.06) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-kolam 1.6s infinite;
+}
+@keyframes shimmer-kolam {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

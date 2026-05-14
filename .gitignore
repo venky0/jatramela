@@ -1,0 +1,17 @@
+node_modules/
+.next/
+.turbo/
+*.log
+npm-debug.log*
+.DS_Store
+.env
+.env.local
+.env.production
+apps/backend/.env
+apps/storefront/.env.local
+apps/storefront/.env.production
+bots/reports/
+*.db
+dist/
+build/
+.cache/

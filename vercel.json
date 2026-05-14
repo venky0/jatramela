@@ -1,6 +1,7 @@
 {
-  "installCommand": "corepack enable && pnpm install --filter @dtc/storefront...",
-  "buildCommand": "cd apps/storefront && pnpm build",
+  "installCommand": "npm install --prefix apps/storefront --legacy-peer-deps",
+  "buildCommand": "npm run build --prefix apps/storefront",
   "outputDirectory": "apps/storefront/.next",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "regions": ["sin1"]
 }

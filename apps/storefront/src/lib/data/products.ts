@@ -28,6 +28,13 @@ const MOCK_PRODUCTS: HttpTypes.StoreProduct[] = [
       title: "Mysore Silk & Sarees",
       handle: "silk-sarees"
     } as any,
+    categories: [
+      {
+        id: "cat_clothing",
+        name: "Clothing",
+        handle: "clothing"
+      }
+    ] as any,
     options: [
       {
         id: "opt_color",
@@ -74,6 +81,13 @@ const MOCK_PRODUCTS: HttpTypes.StoreProduct[] = [
       title: "Organic Foods",
       handle: "organic-foods"
     } as any,
+    categories: [
+      {
+        id: "cat_organic",
+        name: "Organic Food",
+        handle: "organic"
+      }
+    ] as any,
     options: [] as any,
     variants: [
       {
@@ -109,6 +123,13 @@ const MOCK_PRODUCTS: HttpTypes.StoreProduct[] = [
       title: "Wellness & Ayurveda",
       handle: "wellness-ayurveda"
     } as any,
+    categories: [
+      {
+        id: "cat_wellness",
+        name: "Wellness",
+        handle: "wellness"
+      }
+    ] as any,
     options: [] as any,
     variants: [
       {
@@ -144,6 +165,13 @@ const MOCK_PRODUCTS: HttpTypes.StoreProduct[] = [
       title: "Heritage Handicrafts",
       handle: "heritage-handicrafts"
     } as any,
+    categories: [
+      {
+        id: "cat_handicrafts",
+        name: "Handicrafts",
+        handle: "handicrafts"
+      }
+    ] as any,
     options: [] as any,
     variants: [
       {
@@ -179,6 +207,13 @@ const MOCK_PRODUCTS: HttpTypes.StoreProduct[] = [
       title: "Natural Home",
       handle: "natural-home"
     } as any,
+    categories: [
+      {
+        id: "cat_handicrafts",
+        name: "Handicrafts",
+        handle: "handicrafts"
+      }
+    ] as any,
     options: [] as any,
     variants: [
       {
@@ -214,6 +249,13 @@ const MOCK_PRODUCTS: HttpTypes.StoreProduct[] = [
       title: "Digital Products",
       handle: "digital-products"
     } as any,
+    categories: [
+      {
+        id: "cat_wellness",
+        name: "Wellness",
+        handle: "wellness"
+      }
+    ] as any,
     options: [] as any,
     variants: [
       {
@@ -281,6 +323,16 @@ export const listProducts = async ({
         ? queryParams.collection_id 
         : [queryParams.collection_id]
       products = products.filter(p => ids.includes(p.collection_id))
+    }
+
+    // Filter by category if specified
+    if (queryParams?.category_id) {
+      const ids = Array.isArray(queryParams.category_id) 
+        ? queryParams.category_id 
+        : [queryParams.category_id]
+      products = products.filter(p => 
+        p.categories?.some(cat => ids.includes(cat.id))
+      )
     }
 
     return {

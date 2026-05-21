@@ -48,15 +48,15 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
   const languageToggleState = useToggleState()
 
   return (
-    <div className="h-full">
-      <div className="flex items-center h-full">
-        <Popover className="h-full flex">
+    <div className="xl:hidden flex items-center">
+      <div className="flex items-center">
+        <Popover className="flex">
           {({ open, close }) => (
             <>
-              <div className="relative flex h-full">
+              <div className="relative flex">
                 <Popover.Button
                   data-testid="nav-menu-button"
-                  className="relative h-full flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-200 focus:outline-none"
+                  className="relative h-9 flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-200 focus:outline-none"
                   style={{
                     background: open ? "rgba(201,168,76,0.18)" : "rgba(255,255,255,0.08)",
                     border: `1px solid ${open ? "rgba(201,168,76,0.6)" : "rgba(255,248,231,0.18)"}`,

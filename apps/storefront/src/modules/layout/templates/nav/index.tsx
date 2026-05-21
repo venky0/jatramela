@@ -39,7 +39,6 @@ export default async function Nav() {
           {/* Right actions */}
           <div className="flex items-center gap-2 flex-shrink-0">
             <NavSearchBtn />
-            <DasaraTheme />
             <ThemeToggle />
 
             {/* Account */}

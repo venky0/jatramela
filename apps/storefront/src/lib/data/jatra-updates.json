@@ -1,0 +1,122 @@
+{
+  "jatra_mysuru_dasara": {
+    "crowdStatus": "Peak",
+    "crowdCount": "51,670 devotees present",
+    "currentRitual": "Special Maha Mangalarathi at Chamundeshwari Temple",
+    "nextEvent": "Jumboo Savari Elephant Procession final inspection",
+    "weather": "24\u00b0C, Clear Sky",
+    "parkingAlert": "Heavy traffic on hill road. Use city parking and KSRTC shuttle service.",
+    "liveAlert": "Special senior citizen direct entry active at North Gate.",
+    "lastUpdated": "2026-05-21T19:19:56.201215Z"
+  },
+  "jatra_sharanabasaveshwara": {
+    "crowdStatus": "Normal",
+    "crowdCount": "13,305 devotees present",
+    "currentRitual": "Pooja at the sacred Samadhi shrine",
+    "nextEvent": "Mass feeding (Dasoha) at noon in main hall",
+    "weather": "32\u00b0C, Morning Fog",
+    "parkingAlert": "No delays. Main temple parking is open and clear.",
+    "liveAlert": "Free medical camp active near the main temple arch.",
+    "lastUpdated": "2026-05-21T19:19:56.201654Z"
+  },
+  "jatra_hampi_utsav": {
+    "crowdStatus": "Moderate",
+    "crowdCount": "22,145 devotees present",
+    "currentRitual": "Virupaksha Temple special Abhisheka",
+    "nextEvent": "Janapada folk art performances on stone stage",
+    "weather": "22\u00b0C, Pleasant Breeze",
+    "parkingAlert": "Traffic diverted near Hampi Bazaar. Use Hampi bypass parking.",
+    "liveAlert": "KSRTC running special shuttle buses from Hosapete central station.",
+    "lastUpdated": "2026-05-21T19:19:56.201662Z"
+  },
+  "jatra_kadalekai_parishe": {
+    "crowdStatus": "Calm",
+    "crowdCount": "4,306 devotees present",
+    "currentRitual": "Sacred Kadalekai (groundnut) offering to Nandi",
+    "nextEvent": "Folk singing performances near monolithic Nandi",
+    "weather": "24\u00b0C, Cloud Cover",
+    "parkingAlert": "Heavy parking congestion. Use public transit to reach Basavanagudi.",
+    "liveAlert": "Plastic bag ban strictly enforced. Eco-friendly bags available.",
+    "lastUpdated": "2026-05-21T19:19:56.201668Z"
+  },
+  "jatra_banashankari_devi": {
+    "crowdStatus": "Calm",
+    "crowdCount": "4,992 devotees present",
+    "currentRitual": "Panchamrutha Abhisheka and floral decoration",
+    "nextEvent": "Mass Prasada distribution at temple kitchen",
+    "weather": "27\u00b0C, Warm Sunshine",
+    "parkingAlert": "Cholachagudda road clear. Free parking near temple pond.",
+    "liveAlert": "Special queue passes available for vegetable alankara darshana.",
+    "lastUpdated": "2026-05-21T19:19:56.201673Z"
+  },
+  "jatra_suttur_mahotsav": {
+    "crowdStatus": "Normal",
+    "crowdCount": "10,240 devotees present",
+    "currentRitual": "Inauguration of Krishi Mela (Agricultural Expo)",
+    "nextEvent": "Mass marriage ceremonies (Uchita Vivaha) in main hall",
+    "weather": "30\u00b0C, Cloud Cover",
+    "parkingAlert": "Designated parking zones A & B are 60% full.",
+    "liveAlert": "Free buttermilk distribution center active near Kapila bridge.",
+    "lastUpdated": "2026-05-21T19:19:56.201678Z"
+  },
+  "jatra_ghati_subrahmanya": {
+    "crowdStatus": "Peak",
+    "crowdCount": "62,054 devotees present",
+    "currentRitual": "Ksheerabhisheka for swayambhu Naga deity",
+    "nextEvent": "Cattle fair inauguration and cattle parade",
+    "weather": "34\u00b0C, Clear Sky",
+    "parkingAlert": "Heavy delays on Doddaballapur highway. Traffic police coordinating.",
+    "liveAlert": "Special direct entry ticket counters open near North gate.",
+    "lastUpdated": "2026-05-21T19:19:56.201683Z"
+  },
+  "jatra_udupi_paryaya": {
+    "crowdStatus": "Calm",
+    "crowdCount": "1,623 devotees present",
+    "currentRitual": "Kanakana Kindi special temple offering",
+    "nextEvent": "Lord Krishna temple car street procession",
+    "weather": "30\u00b0C, Warm Sunshine",
+    "parkingAlert": "Parking filled at Car Street. Park near City Bus Stand.",
+    "liveAlert": "Anna Prasad (mass meals) starts at 11:30 AM at Bhojana Shala.",
+    "lastUpdated": "2026-05-21T19:19:56.201688Z"
+  },
+  "jatra_mailara_lingeshwara": {
+    "crowdStatus": "Calm",
+    "crowdCount": "4,211 devotees present",
+    "currentRitual": "Mailara Lingeshwara sacred Abhisheka",
+    "nextEvent": "Karnika Utsava (divine prophecy prediction)",
+    "weather": "34\u00b0C, Pleasant Breeze",
+    "parkingAlert": "Open field parking near Mylara plains is clear.",
+    "liveAlert": "Karnika prophecy bow setup complete on the plains.",
+    "lastUpdated": "2026-05-21T19:19:56.201693Z"
+  },
+  "jatra_sirsi_marikamba": {
+    "crowdStatus": "Normal",
+    "crowdCount": "12,119 devotees present",
+    "currentRitual": "Kalyanotsava sacred marriage preparations for the Goddess",
+    "nextEvent": "Rathotsava chariot pulling through Sirsi main streets",
+    "weather": "24\u00b0C, Cloud Cover",
+    "parkingAlert": "Car street is closed to private vehicles. Use Yellapur road parking.",
+    "liveAlert": "Massive 8-wheeled chariot assembly completed at car street.",
+    "lastUpdated": "2026-05-21T19:19:56.201698Z"
+  },
+  "jatra_saundatte_yellamma": {
+    "crowdStatus": "VVIP",
+    "crowdCount": "109,449+ devotees & VIPs present",
+    "currentRitual": "Chowdaki Pada singing praising Goddess Yellamma",
+    "nextEvent": "Sacred vessel 'Jag' carrying procession by devotees",
+    "weather": "32\u00b0C, Pleasant Breeze",
+    "parkingAlert": "Foothill parking is 80% full. Expect delay in getting jeeps.",
+    "liveAlert": "Devotional singing (Chowdaki Pada) active throughout the night.",
+    "lastUpdated": "2026-05-21T19:19:56.201703Z"
+  },
+  "jatra_gokarna_mahashivaratri": {
+    "crowdStatus": "VVIP",
+    "crowdCount": "126,350+ devotees & VIPs present",
+    "currentRitual": "Biligiri Ratha deepotsava ceremony",
+    "nextEvent": "Maha Ratha sea-side chariot pulling along narrow streets",
+    "weather": "27\u00b0C, Clear Sky",
+    "parkingAlert": "Beach road parking is full. Use temple school ground parking.",
+    "liveAlert": "Queue for Sparsha Darshana of Atmalinga is about 1.5 hours wait.",
+    "lastUpdated": "2026-05-21T19:19:56.201708Z"
+  }
+}

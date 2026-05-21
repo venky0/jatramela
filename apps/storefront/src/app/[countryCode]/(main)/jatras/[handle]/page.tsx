@@ -3,6 +3,27 @@ import { notFound } from "next/navigation"
 import Image from "next/image"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { getJatraByHandle } from "@lib/data/jatras"
+import LiveJatraUpdates from "./live-updates"
+import fs from "fs/promises"
+import path from "path"
+
+async function getJatraUpdate(jatraId: string) {
+  try {
+    const cwd = process.cwd()
+    let filePath = path.join(cwd, "src/lib/data/jatra-updates.json")
+    try {
+      await fs.access(filePath)
+    } catch {
+      filePath = path.join(cwd, "apps/storefront/src/lib/data/jatra-updates.json")
+    }
+    const content = await fs.readFile(filePath, "utf-8")
+    const data = JSON.parse(content)
+    return data[jatraId] || null
+  } catch (error) {
+    console.error("Error reading updates for", jatraId, error)
+    return null
+  }
+}
 
 export const dynamic = "force-dynamic"
 
@@ -34,6 +55,8 @@ export default async function JatraDetailPage(props: Props) {
   if (!jatra) {
     notFound()
   }
+
+  const jatraUpdate = await getJatraUpdate(jatra.id)
 
   // Devotional shlokas tailored to the deity/jatra
   let shloka = "॥ ॐ तत्सत् ॥"
@@ -123,6 +146,13 @@ export default async function JatraDetailPage(props: Props) {
           {/* Subtle Devotional Vignette Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#120500]/90 via-transparent to-black/20" />
         </div>
+
+        {/* Live Devotional Updates section */}
+        {jatraUpdate && (
+          <div className="mb-12">
+            <LiveJatraUpdates jatraId={jatra.id} initialData={jatraUpdate} />
+          </div>
+        )}
 
         {/* Detailed Metadata Grid */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">

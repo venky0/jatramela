@@ -7,6 +7,7 @@ export interface Jatra {
   place: string
   district: string
   kannadaMonth: string
+  gregorianMonths: string[]
   timing: string
   image: string
   summary: string
@@ -25,6 +26,7 @@ export const JATRA_DATA: Jatra[] = [
     place: "Chamundi Hills, Mysuru",
     district: "Mysuru",
     kannadaMonth: "Ashwayuja (September - October)",
+    gregorianMonths: ["September", "October"],
     timing: "Ashwayuja Shuddha Prathipade to Vijayadashami",
     image: "/images/jatras/mysuru-dasara.png",
     summary: "The state festival of Karnataka (Nada Habba) celebrating Goddess Chamundeshwari's victory over the demon Mahishasura, featuring the legendary Jumboo Savari elephant procession.",
@@ -47,6 +49,7 @@ export const JATRA_DATA: Jatra[] = [
     place: "Sri Sharanabasaveshwara Temple, Kalaburagi",
     district: "Kalaburagi",
     kannadaMonth: "Chaitra (March - April)",
+    gregorianMonths: ["March", "April"],
     timing: "Chaitra Bahula Panchami (20 days after Yugadi)",
     image: "/images/jatras/sharanabasaveshwara.png",
     summary: "A massive, spiritually charged chariot festival (Rathotsava) attracting lakhs of devotees, honoring the great Veerashaiva saint who preached charity and selfless work.",
@@ -69,6 +72,7 @@ export const JATRA_DATA: Jatra[] = [
     place: "Virupaksha Temple Complex, Hampi",
     district: "Vijayanagara",
     kannadaMonth: "Karthika (November)",
+    gregorianMonths: ["November"],
     timing: "Annual 3-day cultural and spiritual Jatra",
     image: "/images/jatras/hampi-utsav.png",
     summary: "A majestic cultural and spiritual confluence set against the ruins of the Vijayanagara Empire, bringing to life the golden era of Hindu heritage.",
@@ -91,6 +95,7 @@ export const JATRA_DATA: Jatra[] = [
     place: "Bull Temple (Dodda Basavana Gudi), Bengaluru",
     district: "Bengaluru Urban",
     kannadaMonth: "Karthika (November - December)",
+    gregorianMonths: ["November", "December"],
     timing: "Karthika Somavara (Last Monday of Karthika Month)",
     image: "/images/jatras/kadalekai-parishe.png",
     summary: "The legendary groundnut fair of Bengaluru, where farmers offer their first harvest of peanuts to the giant sacred bull deity to invoke crop protection and prosperity.",
@@ -113,6 +118,7 @@ export const JATRA_DATA: Jatra[] = [
     place: "Banashankari Temple, Cholachagudda, Badami",
     district: "Bagalkot",
     kannadaMonth: "Pushya (January - February)",
+    gregorianMonths: ["January", "February"],
     timing: "Pushya Shuddha Poornima",
     image: "/images/jatras/mysuru-dasara.png",
     summary: "A vibrant annual temple fair in the historic town of Badami, drawing lakhs of devotees to worship Goddess Banashankari, known as the goddess of forests and vegetation.",
@@ -135,6 +141,7 @@ export const JATRA_DATA: Jatra[] = [
     place: "Suttur Sri Veerasimhasana Mahasamsthana Math, Suttur",
     district: "Mysuru",
     kannadaMonth: "Pushya (January)",
+    gregorianMonths: ["January"],
     timing: "A 6-day multi-dimensional cultural and spiritual festival in the month of Pushya",
     image: "/images/jatras/hampi-utsav.png",
     summary: "A massive six-day socio-religious event on the banks of the Kapila River, blending spiritual rituals, agricultural expos, mass marriages, and educational seminars.",
@@ -157,6 +164,7 @@ export const JATRA_DATA: Jatra[] = [
     place: "Ghati Subrahmanya Temple, Doddaballapur",
     district: "Bengaluru Rural",
     kannadaMonth: "Pushya (December - January)",
+    gregorianMonths: ["December", "January"],
     timing: "Pushya Shuddha Shashti",
     image: "/images/jatras/sharanabasaveshwara.png",
     summary: "A highly revered chariot festival dedicated to the snake deity Lord Subrahmanya, featuring unique snake-worship rituals and one of the largest cattle fairs in Southern India.",
@@ -179,6 +187,7 @@ export const JATRA_DATA: Jatra[] = [
     place: "Udupi Krishna Math, Udupi",
     district: "Udupi",
     kannadaMonth: "Makara (January)",
+    gregorianMonths: ["January"],
     timing: "Biennial (once every two years) on January 18th",
     image: "/images/jatras/hampi-utsav.png",
     summary: "A grand biennial ceremony where the administration of the historic Udupi Sri Krishna Math is handed over to the next of the Ashta Mathas (Eight Monasteries) founded by Sri Madhvacharya.",
@@ -201,6 +210,7 @@ export const JATRA_DATA: Jatra[] = [
     place: "Mailara Lingeshwara Temple, Mylara",
     district: "Vijayanagara",
     kannadaMonth: "Magha (February)",
+    gregorianMonths: ["February"],
     timing: "Bharati Hunnime (Full Moon day of Magha month)",
     image: "/images/jatras/sharanabasaveshwara.png",
     summary: "A unique folk-spiritual fair famous for the 'Goravara Kunitha' dance and the 'Karnika Utsava' (divine prophecy of agricultural and political fortunes) delivered by a dedicated priest.",
@@ -223,6 +233,7 @@ export const JATRA_DATA: Jatra[] = [
     place: "Marikamba Temple, Sirsi",
     district: "Uttara Kannada",
     kannadaMonth: "Phalguna (March)",
+    gregorianMonths: ["March"],
     timing: "Held once every two years (biennial) for 9 days in March",
     image: "/images/jatras/mysuru-dasara.png",
     summary: "One of the largest goddess festivals in Karnataka, famous for its massive eight-wheeled chariot and the magnificent processional wooden idol of Goddess Marikamba.",
@@ -245,6 +256,7 @@ export const JATRA_DATA: Jatra[] = [
     place: "Yellamma Gudi, Saundatti",
     district: "Belagavi",
     kannadaMonth: "Margashirsha / Pushya (December - January)",
+    gregorianMonths: ["December", "January"],
     timing: "Margashirsha Poornima (Bharat Hunnime)",
     image: "/images/jatras/mysuru-dasara.png",
     summary: "A massive pilgrimage festival on the hill of Yellammagudda, drawing millions of devotees who worship Goddess Renuka, performing unique ritualistic baths and carrying sacred pots.",
@@ -267,6 +279,7 @@ export const JATRA_DATA: Jatra[] = [
     place: "Mahabaleshwar Temple, Gokarna",
     district: "Uttara Kannada",
     kannadaMonth: "Magha / Phalguna (February - March)",
+    gregorianMonths: ["February", "March"],
     timing: "Mahashivaratri festival (Chaturdashi of Magha Krishna Paksha)",
     image: "/images/jatras/sharanabasaveshwara.png",
     summary: "A majestic seaside chariot festival where two massive chariots (Maha Ratha) are pulled along the narrow beach-town streets to honor the sacred Atmalinga of Lord Shiva.",

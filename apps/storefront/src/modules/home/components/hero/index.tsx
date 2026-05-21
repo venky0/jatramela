@@ -5,6 +5,8 @@ import Link from "next/link"
 import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 import KannadaMorphText from "./kannada-morph"
+import { JATRA_DATA, type Jatra } from "@lib/data/jatras"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false })
 
@@ -68,140 +70,225 @@ const SOLUTIONS = [
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-const HERO_IMAGES = [
-  { src: "/images/hero/silk.png",        alt: "Mysore Silk Weaving" },
-  { src: "/images/hero/farming.png",     alt: "Karnataka Organic Farming" },
-  { src: "/images/hero/ayurveda.png",    alt: "Ayurvedic Heritage" },
-  { src: "/images/hero/handicrafts.png", alt: "Channapatna Handicrafts" },
-  { src: "/images/hero/temple.png",      alt: "Hoysala Temple Architecture" },
+const MONTHS = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
 ]
 
+function getActiveOrUpcomingJatras(): Jatra[] {
+  const currentMonthIdx = new Date().getMonth() // 0-11
+  const currentMonthName = MONTHS[currentMonthIdx]
+  const activeJatras = JATRA_DATA.filter(j => 
+    j.gregorianMonths.includes(currentMonthName)
+  )
+  
+  if (activeJatras.length >= 3) {
+    return activeJatras
+  }
+  
+  const collected = [...activeJatras]
+  const collectedIds = new Set(collected.map(c => c.id))
+  
+  for (let offset = 1; offset < 12; offset++) {
+    const nextMonthIdx = (currentMonthIdx + offset) % 12
+    const nextMonthName = MONTHS[nextMonthIdx]
+    const upcoming = JATRA_DATA.filter(j => 
+      j.gregorianMonths.includes(nextMonthName)
+    )
+    for (const j of upcoming) {
+      if (!collectedIds.has(j.id)) {
+        collected.push(j)
+        collectedIds.add(j.id)
+      }
+    }
+    if (collected.length >= 4) {
+      break
+    }
+  }
+  return collected.slice(0, 4)
+}
+
+const INITIAL_FALLBACK_SLIDES = JATRA_DATA.slice(0, 4)
+
 export default function Hero() {
-  const [currentImage, setCurrentImage] = useState(0)
+  const [slides, setSlides] = useState<Jatra[]>(INITIAL_FALLBACK_SLIDES)
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [updates, setUpdates] = useState<Record<string, any>>({})
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % HERO_IMAGES.length)
-    }, 5000)
-    return () => clearInterval(timer)
+    setSlides(getActiveOrUpcomingJatras())
+    
+    // Fetch live updates from API
+    fetch("/api/jatra-updates")
+      .then((res) => res.json())
+      .then((data) => setUpdates(data))
+      .catch((err) => console.error("Error fetching live updates:", err))
   }, [])
+
+  useEffect(() => {
+    if (slides.length === 0) return
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length)
+    }, 8000)
+    return () => clearInterval(timer)
+  }, [slides.length])
 
   return (
     <div style={{ background: "var(--bg-primary)" }}>
 
       {/* ══ HERO BANNER ══════════════════════════════════════════════════════ */}
-      <section className="hero-banner relative w-full overflow-hidden" style={{ minHeight: "min(650px, 100svh)" }}>
+      <section className="hero-banner relative w-full overflow-hidden" style={{ minHeight: "min(700px, 100svh)" }}>
         
-        {/* Carousel Images */}
-        {HERO_IMAGES.map((img, idx) => (
-          <div
-            key={img.src}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              idx === currentImage ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <Image
-              src={img.src}
-              alt={img.alt}
-              fill
-              priority={idx === 0}
-              className="object-cover object-center"
-              style={{ filter: "brightness(0.65)" }}
-            />
-          </div>
-        ))}
-
-        {/* Enhanced Overlays for Visibility */}
-        <div className="absolute inset-0 bg-black/30 lg:bg-transparent" />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(26,10,0,0.9) 0%, rgba(26,10,0,0.4) 50%, transparent 100%)" }} />
-
-        <div className="absolute inset-0 flex items-center">
-          <div className="content-container w-full">
-            <div className="max-w-2xl py-10 sm:py-20 relative z-10 px-1">
-
-              {/* Kannada morphing text */}
-              <div className="mb-6">
-                <KannadaMorphText />
-              </div>
-
-              <div className="flex items-center gap-3 mb-4">
-                <span className="section-label" style={{ background: "rgba(201,168,76,0.25)", backdropFilter: "blur(4px)" }}>
-                  🌺 Karnataka Heritage Marketplace
-                </span>
-              </div>
-
-              <h1 className="hero-title font-extrabold leading-tight mb-4 sm:mb-6 text-shimmer"
+        {/* Carousel Slides */}
+        {slides.map((jatra, idx) => {
+          const update = updates[jatra.id]
+          const isActive = idx === currentSlide
+          const currentMonthName = MONTHS[new Date().getMonth()]
+          const isJatraActiveThisMonth = jatra.gregorianMonths.includes(currentMonthName)
+          
+          return (
+            <div
+              key={jatra.id}
+              className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+                isActive ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
+              }`}
+            >
+              {/* Background Image */}
+              <Image
+                src={jatra.image}
+                alt={jatra.title}
+                fill
+                priority={idx === 0}
+                className="object-cover object-center transition-transform duration-[8000ms] ease-linear"
                 style={{ 
-                  fontFamily: "'Baloo 2', sans-serif", 
-                  fontSize: "clamp(1.8rem, 6vw, 4.2rem)", 
-                  textShadow: "0 4px 12px rgba(0,0,0,0.5)",
-                  lineHeight: 1.1
-                }}>
-                Go Back to Your<br />Roots. Live Better.
-              </h1>
+                  filter: "brightness(0.35) contrast(1.05)",
+                  transform: isActive ? "scale(1.08)" : "scale(1.0)"
+                }}
+              />
+              
+              {/* Devotional Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#120500] via-[#120500]/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#1E0900]/90 via-[#1E0900]/40 to-transparent" />
 
-              <p className="hero-body text-sm sm:text-xl leading-relaxed mb-6 sm:mb-10"
-                style={{ 
-                  color: "rgba(255,248,231,0.95)", 
-                  maxWidth: 540, 
-                  fontFamily: "'Hind', sans-serif",
-                  textShadow: "0 2px 4px rgba(0,0,0,0.3)"
-                }}>
-                Discover the ancient wisdom of Karnataka — organic superfoods, handwoven silks,
-                Ayurvedic remedies and heritage crafts.
-                <strong style={{ color: "var(--gold-bright)", marginLeft: "6px" }}>Straight from farmer to your door.</strong>
-              </p>
+              {/* Slide Content */}
+              <div className="absolute inset-0 flex items-center">
+                <div className="content-container w-full">
+                  <div className="max-w-3xl py-10 sm:py-20 relative z-10 px-4">
+                    
+                    {/* Badge showing Active or Upcoming Status */}
+                    <div className="flex flex-wrap items-center gap-3 mb-4">
+                      {isJatraActiveThisMonth ? (
+                        <span className="flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full bg-gradient-to-r from-red-600 to-orange-500 text-white border border-red-400 shadow-[0_0_10px_rgba(239,68,68,0.5)] animate-pulse">
+                          <span>✨</span> ACTIVE JATRA OF THE MONTH ({currentMonthName})
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full bg-gradient-to-r from-amber-600/60 to-yellow-500/60 text-[#FFF8E7] border border-amber-500/40 backdrop-blur-sm">
+                          <span>📅</span> UPCOMING JATRA — {jatra.gregorianMonths.join(" / ")}
+                        </span>
+                      )}
+                      
+                      <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-black/40 border border-[#C9A84C]/30 text-[#FFD700]">
+                        📍 {jatra.place}
+                      </span>
+                    </div>
 
-              {/* HERO SEARCH BAR */}
-              <div className="w-full max-w-md mb-6 sm:mb-10">
-                <form action="/store" method="GET" className="relative flex items-center">
-                  <input 
-                    type="text" 
-                    name="q"
-                    placeholder="Search products..." 
-                    className="hero-search-input w-full pl-10 pr-24 py-3.5 rounded-xl text-sm outline-none transition-all duration-300"
-                    style={{ 
-                      background: "rgba(255,255,255,0.1)", 
-                      backdropFilter: "blur(12px)",
-                      border: "2px solid rgba(201,168,76,0.3)",
-                      color: "#FFF8E7"
-                    }}
-                  />
-                  <div className="absolute left-3 pointer-events-none">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2.5">
-                      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-                    </svg>
+                    {/* Kannada Title (Traditional glow) */}
+                    <p className="text-xl sm:text-3xl text-amber-400 font-bold mb-3 tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] filter brightness-110" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
+                      {jatra.titleKannada}
+                    </p>
+
+                    {/* Main English Title */}
+                    <h1 className="font-extrabold leading-tight mb-4 sm:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-[#FFD700] via-[#FFEBB3] to-[#FF8C00] drop-shadow-[0_4px_12px_rgba(255,140,0,0.35)]"
+                      style={{ 
+                        fontFamily: "'Baloo 2', sans-serif", 
+                        fontSize: "clamp(1.8rem, 5.5vw, 3.8rem)", 
+                        lineHeight: 1.15
+                      }}>
+                      {jatra.title}
+                    </h1>
+
+                    {/* Summary / Description */}
+                    <p className="text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 text-[#FFF8E7]/90 max-w-xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
+                      style={{ fontFamily: "'Hind', sans-serif" }}>
+                      {jatra.summary}
+                    </p>
+
+                    {/* 🔱 Dynamic Live Updates Box (Important Alerts on Main Banner) */}
+                    <div className="mb-6 sm:mb-8 max-w-xl rounded-2xl border border-[#FF8C00]/40 bg-gradient-to-br from-[#2D0F00]/95 to-[#1A0600]/95 p-4 sm:p-5 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.5),_0_0_15px_rgba(255,111,0,0.15)] transform transition-all duration-500 hover:scale-[1.01] hover:border-[#FF8C00]/70">
+                      <div className="flex items-center justify-between mb-3 border-b border-[#C9A84C]/20 pb-2">
+                        <span className="flex items-center gap-2 text-[#FF8C00] font-bold text-xs sm:text-sm tracking-wider uppercase">
+                          <span className="animate-spin text-sm" style={{ animationDuration: "3s" }}>🔱</span> LIVE DEVOTIONAL UPDATES
+                        </span>
+                        {update?.lastUpdated && (
+                          <span className="text-[10px] text-amber-200/50">
+                            Updated: {new Date(update.lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </span>
+                        )}
+                      </div>
+                      
+                      {update ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-[#FFF8E7]/90">
+                          <div className="space-y-2">
+                            <p className="flex items-center gap-2">
+                              <span className="text-[#FFD700]">👥 Crowd:</span>
+                              <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                                update.crowdStatus === 'Peak' || update.crowdStatus === 'VVIP'
+                                  ? 'bg-red-950/80 text-red-400 border border-red-800'
+                                  : 'bg-green-950/80 text-green-400 border border-green-800'
+                              }`}>
+                                {update.crowdStatus}
+                              </span>
+                            </p>
+                            <p className="line-clamp-1"><span className="text-[#FFD700]">🙏 Ritual:</span> {update.currentRitual}</p>
+                          </div>
+                          <div className="space-y-2">
+                            <p className="line-clamp-1"><span className="text-[#FFD700]">☁️ Weather:</span> {update.weather}</p>
+                            <p className="line-clamp-1"><span className="text-[#FFD700]">🚨 Alert:</span> <span className="text-orange-300 font-medium">{update.liveAlert || update.parkingAlert}</span></p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-center py-2 text-xs text-amber-200/40">
+                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-[#FF8C00]" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                          </svg>
+                          Connecting to temple live feeds...
+                        </div>
+                      )}
+                    </div>
+
+                    {/* CTAs */}
+                    <div className="flex flex-wrap gap-4">
+                      <LocalizedClientLink href={`/jatras/${jatra.handle}`}>
+                        <button className="btn-gold px-8 py-3.5 text-base shadow-[0_4px_20px_rgba(201,168,76,0.35)] font-bold flex items-center gap-2 hover:scale-105 transition-transform">
+                          <span>🛕 View Sacred Details</span>
+                          <span className="text-[14px]">→</span>
+                        </button>
+                      </LocalizedClientLink>
+                      
+                      <LocalizedClientLink href="/jatras">
+                        <button className="btn-ghost px-8 py-3.5 text-base border border-[#C9A84C]/50 hover:bg-[#C9A84C]/10 text-[#FFF8E7] backdrop-blur-sm hover:scale-105 transition-transform">
+                          Explore All Fairs
+                        </button>
+                      </LocalizedClientLink>
+                    </div>
+
                   </div>
-                  <button type="submit" className="absolute right-2 btn-gold px-3 py-2 text-xs rounded-lg">
-                    Search
-                  </button>
-                </form>
-                <div className="mt-2 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                  {["Silk", "Ragi", "Honey", "Ayurveda"].map(tag => (
-                    <Link key={tag} href={`/store?q=${tag.toLowerCase()}`} 
-                      className="flex-shrink-0 text-[10px] font-bold px-2 py-1 rounded bg-white/5 border border-white/10 text-white/60 hover:text-gold transition-colors">
-                      #{tag}
-                    </Link>
-                  ))}
                 </div>
               </div>
 
-              <div className="hero-cta-row flex flex-wrap gap-3">
-                <Link href="/store" className="flex-shrink-0"><button className="btn-gold w-full sm:w-auto px-8 py-3.5 text-base shadow-lg">🛍️ Shop Now</button></Link>
-                <Link href="/about" className="flex-shrink-0"><button className="btn-ghost w-full sm:w-auto px-8 py-3.5 text-base backdrop-blur-sm">Our Story →</button></Link>
-              </div>
             </div>
-          </div>
-        </div>
+          )
+        })}
 
         {/* Carousel Indicators */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-          {HERO_IMAGES.map((_, idx) => (
+          {slides.map((_, idx) => (
             <button
               key={idx}
-              onClick={() => setCurrentImage(idx)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                idx === currentImage ? "bg-gold w-6" : "bg-white/30"
+              onClick={() => setCurrentSlide(idx)}
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                idx === currentSlide ? "bg-[#FF8C00] w-8 shadow-[0_0_8px_#FF8C00]" : "bg-white/30"
               }`}
             />
           ))}

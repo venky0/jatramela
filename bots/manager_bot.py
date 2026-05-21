@@ -75,6 +75,13 @@ BOTS = {
         "priority":      6,
         "emoji":         "📁",
     },
+    "realtime_bot": {
+        "script":        "bots/realtime_bot.py",
+        "desc":          "Simulate live temple updates (crowd, weather, rituals)",
+        "schedule_type": "daily",
+        "priority":      7,
+        "emoji":         "🔱",
+    },
 }
 
 # ─── Auth ─────────────────────────────────────────────────────────────────────

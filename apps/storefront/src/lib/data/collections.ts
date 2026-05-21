@@ -23,23 +23,28 @@ export const retrieveCollection = async (id: string) => {
 export const listCollections = async (
   queryParams: Record<string, string> = {}
 ): Promise<{ collections: HttpTypes.StoreCollection[]; count: number }> => {
-  const next = {
-    ...(await getCacheOptions("collections")),
+  try {
+    const next = {
+      ...(await getCacheOptions("collections")),
+    }
+
+    queryParams.limit = queryParams.limit || "100"
+    queryParams.offset = queryParams.offset || "0"
+
+    return await sdk.client
+      .fetch<{ collections: HttpTypes.StoreCollection[]; count: number }>(
+        "/store/collections",
+        {
+          query: queryParams,
+          next,
+          cache: "force-cache",
+        }
+      )
+      .then(({ collections }) => ({ collections, count: collections.length }))
+  } catch (error) {
+    console.warn("Failed to fetch collections from backend, returning empty list:", error)
+    return { collections: [], count: 0 }
   }
-
-  queryParams.limit = queryParams.limit || "100"
-  queryParams.offset = queryParams.offset || "0"
-
-  return await sdk.client
-    .fetch<{ collections: HttpTypes.StoreCollection[]; count: number }>(
-      "/store/collections",
-      {
-        query: queryParams,
-        next,
-        cache: "force-cache",
-      }
-    )
-    .then(({ collections }) => ({ collections, count: collections.length }))
 }
 
 export const getCollectionByHandle = async (

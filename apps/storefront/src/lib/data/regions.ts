@@ -5,17 +5,22 @@ import { HttpTypes } from "@medusajs/types"
 import { getCacheOptions } from "./cookies"
 
 export const listRegions = async () => {
-  const next = {
-    ...(await getCacheOptions("regions")),
-  }
+  try {
+    const next = {
+      ...(await getCacheOptions("regions")),
+    }
 
-  return await sdk.client
-    .fetch<{ regions: HttpTypes.StoreRegion[] }>(`/store/regions`, {
-      method: "GET",
-      next,
-      cache: "no-store",
-    })
-    .then(({ regions }) => regions)
+    return await sdk.client
+      .fetch<{ regions: HttpTypes.StoreRegion[] }>(`/store/regions`, {
+        method: "GET",
+        next,
+        cache: "no-store",
+      })
+      .then(({ regions }) => regions)
+  } catch (error) {
+    console.warn("Failed to fetch regions from backend, returning empty list:", error)
+    return []
+  }
 }
 
 export const retrieveRegion = async (id: string) => {

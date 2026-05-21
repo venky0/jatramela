@@ -4,6 +4,11 @@ import { sdk } from "@lib/config"
 import { HttpTypes } from "@medusajs/types"
 import { getCacheOptions } from "./cookies"
 
+// Re-throw Next.js internal errors (e.g. DYNAMIC_SERVER_USAGE) so that
+// Next.js can properly fall back to dynamic rendering instead of crashing.
+const isNextInternalError = (e: unknown): boolean =>
+  typeof (e as any)?.digest === "string"
+
 const getFallbackRegion = (idOrCountryCode: string): HttpTypes.StoreRegion => {
   const code = idOrCountryCode.startsWith("reg_")
     ? idOrCountryCode.substring(4)
@@ -45,6 +50,7 @@ export const listRegions = async () => {
       })
       .then(({ regions }) => regions)
   } catch (error) {
+    if (isNextInternalError(error)) throw error
     console.warn("Failed to fetch regions from backend, returning empty list:", error)
     return []
   }
@@ -64,6 +70,7 @@ export const retrieveRegion = async (id: string) => {
       })
       .then(({ region }) => region)
   } catch (error) {
+    if (isNextInternalError(error)) throw error
     console.warn(`Failed to retrieve region ${id} from backend, returning fallback:`, error)
     return getFallbackRegion(id)
   }

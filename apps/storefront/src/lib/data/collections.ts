@@ -4,6 +4,11 @@ import { sdk } from "@lib/config"
 import { HttpTypes } from "@medusajs/types"
 import { getCacheOptions } from "./cookies"
 
+// Re-throw Next.js internal errors (e.g. DYNAMIC_SERVER_USAGE) so that
+// Next.js can properly fall back to dynamic rendering instead of crashing.
+const isNextInternalError = (e: unknown): boolean =>
+  typeof (e as any)?.digest === "string"
+
 export const retrieveCollection = async (id: string) => {
   try {
     const next = {
@@ -20,6 +25,7 @@ export const retrieveCollection = async (id: string) => {
       )
       .then(({ collection }) => collection)
   } catch (error) {
+    if (isNextInternalError(error)) throw error
     console.warn(`Failed to retrieve collection ${id} from backend, returning null:`, error)
     return null
   }
@@ -61,6 +67,7 @@ export const listCollections = async (
     }
     return res
   } catch (error) {
+    if (isNextInternalError(error)) throw error
     console.warn("Failed to fetch collections from backend, returning empty list:", error)
     return { collections: MOCK_COLLECTIONS, count: MOCK_COLLECTIONS.length }
   }
@@ -88,6 +95,7 @@ export const getCollectionByHandle = async (
 
     return res || getMockCollection()
   } catch (error) {
+    if (isNextInternalError(error)) throw error
     console.warn(`Failed to get collection by handle ${handle} from backend, returning null:`, error)
     return getMockCollection()
   }

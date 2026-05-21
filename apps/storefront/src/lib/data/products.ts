@@ -7,6 +7,11 @@ import { SortOptions } from "@modules/store/components/refinement-list/sort-prod
 import { getAuthHeaders, getCacheOptions } from "./cookies"
 import { getRegion, retrieveRegion } from "./regions"
 
+// Re-throw Next.js internal errors (e.g. DYNAMIC_SERVER_USAGE) so that
+// Next.js can properly fall back to dynamic rendering instead of crashing.
+const isNextInternalError = (e: unknown): boolean =>
+  typeof (e as any)?.digest === "string"
+
 const MOCK_PRODUCTS: HttpTypes.StoreProduct[] = [
   {
     id: "prod_mysore_silk",
@@ -338,6 +343,7 @@ export const listProducts = async ({
     }
     return res
   } catch (error) {
+    if (isNextInternalError(error)) throw error
     console.warn("Failed to fetch products from backend, returning empty list:", error)
     return getMockProductsResponse()
   }

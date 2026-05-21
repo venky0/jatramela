@@ -5,6 +5,11 @@ import { getRegion, listRegions } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
 import { HttpTypes } from "@medusajs/types"
 
+// Force dynamic rendering so product pages always render on-demand.
+// This prevents conflicts between cache: "no-store" fetches and SSG,
+// which caused 500 errors when product paths weren't pre-generated.
+export const dynamic = "force-dynamic"
+
 type Props = {
   params: Promise<{ countryCode: string; handle: string }>
   searchParams: Promise<{ v_id?: string }>

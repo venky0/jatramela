@@ -10,7 +10,8 @@ import sys
 import os
 import json
 import random
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+import urllib.request
 
 # Configure Paths
 CWD = os.getcwd()
@@ -30,301 +31,753 @@ for p in POSSIBLE_JSON_PATHS:
         break
 
 if not JSON_PATH:
-    # If not found, use a fallback path
     JSON_PATH = os.path.join(CWD, "apps/storefront/src/lib/data/jatra-updates.json")
 
-# Contextual Jatra Update Databases
-JATRA_LIVE_DATA = {
+# Coordinates of the 12 Jatras for accurate weather lookup
+COORDINATES = {
+    "jatra_mysuru_dasara": {"lat": 12.3087, "lon": 76.6547, "city": "Mysuru"},
+    "jatra_sharanabasaveshwara": {"lat": 17.3297, "lon": 76.8343, "city": "Kalaburagi"},
+    "jatra_hampi_utsav": {"lat": 15.3350, "lon": 76.4600, "city": "Hampi"},
+    "jatra_kadalekai_parishe": {"lat": 12.9428, "lon": 77.5682, "city": "Bengaluru"},
+    "jatra_banashankari_devi": {"lat": 15.9181, "lon": 75.6798, "city": "Badami"},
+    "jatra_suttur_mahotsav": {"lat": 12.1465, "lon": 76.8165, "city": "Suttur"},
+    "jatra_ghati_subrahmanya": {"lat": 13.4326, "lon": 77.5186, "city": "Doddaballapur"},
+    "jatra_udupi_paryaya": {"lat": 13.3409, "lon": 74.7473, "city": "Udupi"},
+    "jatra_mailara_lingeshwara": {"lat": 14.9392, "lon": 75.7336, "city": "Mylara"},
+    "jatra_sirsi_marikamba": {"lat": 14.6195, "lon": 74.8441, "city": "Sirsi"},
+    "jatra_saundatte_yellamma": {"lat": 15.7766, "lon": 75.1166, "city": "Saundatti"},
+    "jatra_gokarna_mahashivaratri": {"lat": 14.5479, "lon": 74.3188, "city": "Gokarna"}
+}
+
+# Rich contextual Jatra period data
+JATRA_PERIOD_DATA = {
     "jatra_mysuru_dasara": {
-        "rituals": [
-            "Special Maha Mangalarathi at Chamundeshwari Temple",
-            "Kala-karshana and royal weapon worship (Aayudha Pooja)",
-            "Chinnada Ambari sacred decoration",
-            "Teppotsava floating festival prep in Devikere tank"
-        ],
-        "events": [
-            "Jumboo Savari Elephant Procession final inspection",
-            "Torchlight Parade rehearsal at Bannimantap grounds",
-            "Royal Durbar assembly by descendants of the Wadiyar family"
-        ],
-        "parking": [
-            "Parking available at Bannimantap Ground. Flow is normal.",
-            "Heavy traffic on hill road. Use city parking and KSRTC shuttle service.",
-            "Hill road entry restricted. Multi-level parking at Chamundi hill base is full."
-        ],
-        "alerts": [
-            "Special senior citizen direct entry active at North Gate.",
-            "Teppotsava evening entry passes available at counter 4.",
-            "Queue lines moving smoothly. Average wait time: 45 minutes."
-        ]
+        "Morning": {
+            "rituals": [
+                "Special Pratah Kala Abhisheka & Kumkumarchana at Chamundeshwari Temple",
+                "Suprabhatha Seva and morning queue alignments atop Chamundi Hills"
+            ],
+            "events": [
+                "Morning darshana queues open for devotees",
+                "Chinnada Ambari (Golden Howdah) morning preparation inspection"
+            ],
+            "parking": "Parking at Chamundi Hills base is open. Hills road traffic is moderate.",
+            "alerts": "Warm morning weather. Separate senior citizen lines active at North Gate."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Shodashopachara Pooja and Maha Mangalarathi",
+                "Offering of royal Naivedya to Goddess Chamundeshwari"
+            ],
+            "events": [
+                "Mahaprasada mass feeding starting at the temple dining hall",
+                "Dasoha dining halls fully operational"
+            ],
+            "parking": "Parking at Chamundi Hills base is 80% full. Use KSRTC shuttle bus services.",
+            "alerts": "Afternoon queues are moderate. Keep hydrated. Drinking water spots active."
+        },
+        "Evening": {
+            "rituals": [
+                "Pradosha Pooja and lighting of golden chandeliers",
+                "Kala-karshana and royal weapon worship (Aayudha Pooja) evening rituals"
+            ],
+            "events": [
+                "Jumboo Savari Procession passing through historical gates",
+                "Torchlight Parade cultural rehearsals at Bannimantap grounds"
+            ],
+            "parking": "Bannimantap and Chamundi hills road entry restricted. Use city parking lots.",
+            "alerts": "Very heavy crowds gathered. High security presence active. Keep children close."
+        },
+        "Night": {
+            "rituals": [
+                "Ekantha Seva (Deity retires for the night)",
+                "Sanctum doors closed. Preparation for tomorrow morning's pooja"
+            ],
+            "events": [
+                "Teppotsava floating festival in Devikere tank",
+                "Mysore Palace illumination and dynamic light & sound show"
+            ],
+            "parking": "City parking areas clear. Traffic flowing normally.",
+            "alerts": "Temple doors closed for the night. Darshana resumes at 05:30 AM tomorrow."
+        }
     },
     "jatra_sharanabasaveshwara": {
-        "rituals": [
-            "Pooja at the sacred Samadhi shrine",
-            "Special Panchamrutha Abhisheka",
-            "Siddhalinga Pooja at the inner sanctum"
-        ],
-        "events": [
-            "Mass feeding (Dasoha) at noon in main hall",
-            "Maha Rathotsava wooden chariot assembly",
-            "Devotional music concerts by local artists"
-        ],
-        "parking": [
-            "No delays. Main temple parking is open and clear.",
-            "Traffic slow near temple road. Park at public layout ground."
-        ],
-        "alerts": [
-            "Drinking water stations placed along the queue lines.",
-            "Free medical camp active near the main temple arch.",
-            "Rathotsava ropes setup complete. Chariot pulling starts at 5 PM."
-        ]
+        "Morning": {
+            "rituals": [
+                "Siddhalinga Pooja & Panchamrutha Abhisheka at the Samadhi shrine",
+                "Uchchayi flag raising ceremony prayers"
+            ],
+            "events": [
+                "Morning queue alignments and devotional singing in outer courtyard",
+                "Rathotsava chariot assembly inspection by temple trustees"
+            ],
+            "parking": "Main temple parking is open and clear. No delays.",
+            "alerts": "Queue moving smoothly. Drinking water stations placed along the lines."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Madhyahna Pooja & Karpura Mangalarathi",
+                "Offering of holy Prasadam at the main altar"
+            ],
+            "events": [
+                "Mass feeding (Dasoha) starting at noon in the main dining hall",
+                "Spiritual discourses by visiting saints and scholars"
+            ],
+            "parking": "Temple road parking is 60% full. Traffic volunteers guiding.",
+            "alerts": "Dasoha mass feeding active. Free medical camp active near main arch."
+        },
+        "Evening": {
+            "rituals": [
+                "Maha Mangalarathi and throwing of vermilion (Kumkum) and turmeric dust",
+                "Evening Pradosha worship at the Samadhi"
+            ],
+            "events": [
+                "Maha Rathotsava (Chariot Procession) where lakhs pull the wooden chariot",
+                "Devotional music concerts by traditional North Karnataka artists"
+            ],
+            "parking": "Heavy traffic near temple road. Park at public layout grounds.",
+            "alerts": "Rathotsava ropes setup complete. Chariot pulling starts now. Keep distance."
+        },
+        "Night": {
+            "rituals": [
+                "Ekantha Seva and Sharanabasaveshwara Samadhi closing prayers",
+                "Temple sanctum doors locked for the night"
+            ],
+            "events": [
+                "Late night bhajan mandali gatherings in temple corridor",
+                "Clean-up drive of temple courtyard by youth volunteers"
+            ],
+            "parking": "Main roads clear. Parking congestion resolved.",
+            "alerts": "Darshana closed for the night. Main gates close at 10:00 PM."
+        }
     },
     "jatra_hampi_utsav": {
-        "rituals": [
-            "Virupaksha Temple special Abhisheka",
-            "Deepotsava illumination prep at Tungabhadra banks",
-            "Shobha Yatra cultural parade planning"
-        ],
-        "events": [
-            "Light & Sound show at Virupaksha Temple",
-            "Janapada folk art performances on stone stage",
-            "Maha Rathotsava chariot pulling on Hampi Bazaar street"
-        ],
-        "parking": [
-            "Traffic diverted near Hampi Bazaar. Use Hampi bypass parking.",
-            "Free shuttle service running from Hosapete bypass parking zone."
-        ],
-        "alerts": [
-            "KSRTC running special shuttle buses from Hosapete central station.",
-            "Laser projection show starts at 7 PM. Entry is free.",
-            "Helpdesk setup near the Virupaksha temple entrance."
-        ]
+        "Morning": {
+            "rituals": [
+                "Virupaksha Temple special Abhisheka with Tungabhadra water",
+                "Sacred chanting of Rudra Chamaka at sanctum"
+            ],
+            "events": [
+                "Devotees queueing for morning Virupaksha darshana",
+                "Shobha Yatra cultural parade setup at Hampi Bazaar street"
+            ],
+            "parking": "Hampi bypass parking open. KSRTC shuttle service starting.",
+            "alerts": "Morning breeze is pleasant. Helpdesk active near temple entrance."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Mahapuja and offering of sweet Anna Prasada",
+                "Special prayers to Goddess Pampa"
+            ],
+            "events": [
+                "Traditional Janapada folk art performances on stone stages",
+                "Exhibition of Vijayanagara historical coins and art"
+            ],
+            "parking": "Traffic diverted near Hampi Bazaar. Use Hampi bypass parking.",
+            "alerts": "Sunny afternoon. Keep hydrated. Mass Prasada served at Bhojana Hall."
+        },
+        "Evening": {
+            "rituals": [
+                "Deepotsava - illumination of the Tungabhadra river banks with oil lamps",
+                "Sandhya Mangalarathi and Pancha Ratha pooja"
+            ],
+            "events": [
+                "Maha Rathotsava chariot pulling on Hampi Bazaar street",
+                "Laser projection show and light-and-sound show on stone monuments"
+            ],
+            "parking": "Heavy congestion on bypass. Use designated parking zones.",
+            "alerts": "Laser show starts at 7 PM. Entry is free. Stand in designated safe areas."
+        },
+        "Night": {
+            "rituals": [
+                "Sayana Pooja and Virupaksha Temple closing rituals",
+                "Sanctum locked for the night"
+            ],
+            "events": [
+                "Illuminated monuments photography sessions open",
+                "Grand cultural music concerts under the starry Hampi sky"
+            ],
+            "parking": "Bypass roads clear. Traffic flowing smoothly.",
+            "alerts": "Darshana closed for the night. Monument lighting shuts off at 11:00 PM."
+        }
     },
     "jatra_kadalekai_parishe": {
-        "rituals": [
-            "Nandi Monolith Milk Abhisheka",
-            "Sacred Kadalekai (groundnut) offering to Nandi",
-            "Maha Alankara of Nandi with fresh peanut garlands"
-        ],
-        "events": [
-            "Groundnut market fair opening ceremony",
-            "Deepotsava at adjacent Dodda Ganesha Temple",
-            "Folk singing performances near monolithic Nandi"
-        ],
-        "parking": [
-            "Bull Temple Road closed. Park near National College grounds.",
-            "Heavy parking congestion. Use public transit to reach Basavanagudi."
-        ],
-        "alerts": [
-            "Plastic bag ban strictly enforced. Eco-friendly bags available.",
-            "Over 500 farmer stalls set up on Bull Temple Road.",
-            "Special evening queue lines open for Nandi darshana."
-        ]
+        "Morning": {
+            "rituals": [
+                "Maha Abhisheka of monolithic Nandi with milk, honey, and ghee",
+                "Inauguration pooja at Dodda Ganesha Temple"
+            ],
+            "events": [
+                "Groundnut market fair opening ceremony",
+                "Farmers from across South India setting up groundnut stalls"
+            ],
+            "parking": "Bull Temple Road closed. Park near National College grounds.",
+            "alerts": "Eco-friendly bags distributed. Plastic bag ban strictly enforced."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Offering of first-harvest Kadalekai (groundnuts) to Nandi",
+                "Nandi alankara with fresh peanut garlands"
+            ],
+            "events": [
+                "Devotees exploring peanut market stalls, buying fresh harvest",
+                "Traditional folk music and street plays near the park"
+            ],
+            "parking": "Heavy parking congestion. Use public transit (Metro to National College).",
+            "alerts": "Stall count exceeds 600. Crowd flowing steadily. Keep purses safe."
+        },
+        "Evening": {
+            "rituals": [
+                "Karthika Deepotsava - lighting of hundreds of clay lamps in courtyard",
+                "Laksha Deepotsava at Dodda Ganesha Temple"
+            ],
+            "events": [
+                "Grand street fair, cultural walk, and peanut tasting tours",
+                "Veeragase and Dollu Kunitha folk dances in front of temple"
+            ],
+            "parking": "Roads fully blocked. Traffic police diverting near Bugle Rock.",
+            "alerts": "Extreme peak crowd. Special evening queue lines open for Nandi darshana."
+        },
+        "Night": {
+            "rituals": [
+                "Nandi Shanti Pooja and closing prayers",
+                "Temple doors locked"
+            ],
+            "events": [
+                "Stalls remain active for late-night buyers",
+                "Street cleanup volunteers beginning work"
+            ],
+            "parking": "National college parking open. Traffic clearing slowly.",
+            "alerts": "Temple closed. Peanut fair stalls remain open until midnight."
+        }
     },
     "jatra_banashankari_devi": {
-        "rituals": [
-            "Alankara of Shakambhari Devi with green vegetables",
-            "Panchamrutha Abhisheka and floral decoration",
-            "Kumkumarchane by women devotees in outer hall"
-        ],
-        "events": [
-            "Rathotsava chariot procession through Sirsi-Badami road",
-            "Teppotsava floating festival in Haridra Tirtha pond",
-            "Mass Prasada distribution at temple kitchen"
-        ],
-        "parking": [
-            "Cholachagudda road clear. Free parking near temple pond.",
-            "Parking filled at Main gate. Use secondary parking at high school ground."
-        ],
-        "alerts": [
-            "Teppotsava scheduled for tomorrow night. Safety barriers installed.",
-            "Special queue passes available for vegetable alankara darshana."
-        ]
+        "Morning": {
+            "rituals": [
+                "Panchamrutha Abhisheka and floral decoration of Goddess Banashankari",
+                "Sahasranama Kumkumarchana for women devotees"
+            ],
+            "events": [
+                "Morning darshana lines forming in front of Badami temple",
+                "Teppotsava floating raft setup in Haridra Tirtha"
+            ],
+            "parking": "Cholachagudda road clear. Free parking near temple pond.",
+            "alerts": "Cool weather. Queue lines moving smoothly."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Offering 108 varieties of local dishes (Bhandara) to Shakambhari Devi",
+                "Maha Naivedya and Alankara Pooja"
+            ],
+            "events": [
+                "Mass Prasada distribution at the community kitchen",
+                "Badami agricultural expo and local crafts fair"
+            ],
+            "parking": "Parking filled at Main gate. Use secondary high school ground parking.",
+            "alerts": "Afternoon temperature rising. Prasada halls are fully active."
+        },
+        "Evening": {
+            "rituals": [
+                "Evening Arathi and special vegetable decoration (Alankara) darshana",
+                "Pradosha Pooja with sacred chants"
+            ],
+            "events": [
+                "Rathotsava chariot procession through Sirsi-Badami road",
+                "Traditional North Karnataka drama shows on temple plains"
+            ],
+            "parking": "Heavy traffic on Badami-Sirsi highway. Drive slowly.",
+            "alerts": "Peak crowd for Rathotsava. Follow instructions from security volunteers."
+        },
+        "Night": {
+            "rituals": [
+                "Sayana Pooja and Shakambhari Devi temple closing prayers",
+                "Deity sanctum closed for the night"
+            ],
+            "events": [
+                "Teppotsava (Floating Festival) procession in Haridra Tirtha pond",
+                "Devotional singing and local drama plays active until late night"
+            ],
+            "parking": "Highway traffic clearing. Parking zones opening up.",
+            "alerts": "Temple doors closed. Teppotsava safety barriers active around the pond."
+        }
     },
     "jatra_suttur_mahotsav": {
-        "rituals": [
-            "Inauguration of Krishi Mela (Agricultural Expo)",
-            "Adi Jagadguru Smaranotsava and sacred chants",
-            "Kapila River Ganga Pooja and deepotsava"
-        ],
-        "events": [
-            "Mass marriage ceremonies (Uchita Vivaha) in main hall",
-            "Maharathotsava grand chariot pulling across the village",
-            "Educational seminar on natural farming methods"
-        ],
-        "parking": [
-            "Designated parking zones A & B are 60% full.",
-            "Clear flow. Traffic volunteers guiding vehicles at Suttur bypass."
-        ],
-        "alerts": [
-            "Free buttermilk distribution center active near Kapila bridge.",
-            "Exhibition stalls open till 9 PM. Over 200 stalls active."
-        ]
+        "Morning": {
+            "rituals": [
+                "Prabhat Pheri morning devotional walk with temple chants",
+                "Suttur Math founder Smaranotsava and guru pooja"
+            ],
+            "events": [
+                "Inauguration of Krishi Mela (Agricultural Exhibition)",
+                "Cattle show and organic produce displays open"
+            ],
+            "parking": "Designated parking zones A & B are open. 20% full.",
+            "alerts": "Exhibition stalls open at 09:00 AM. Free entry for farmers."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Madhyahna Puja and offering of Kapila river holy water",
+                "Prasada offering at Guru Shrine"
+            ],
+            "events": [
+                "Mass marriage ceremonies (Uchita Vivaha) in the main hall",
+                "Educational seminar on natural farming and rural development"
+            ],
+            "parking": "Parking zones A & B are 65% full. Traffic volunteers guiding.",
+            "alerts": "Free buttermilk distribution center active near Kapila bridge."
+        },
+        "Evening": {
+            "rituals": [
+                "Deepotsava - lighting of thousands of oil lamps on Kapila banks",
+                "Sandhya Mangalarathi and traditional Vachana chanting"
+            ],
+            "events": [
+                "Maharathotsava grand chariot pulling across the village",
+                "Cultural music concerts and folk arts on the main stage"
+            ],
+            "parking": "Heavy traffic on Suttur bypass road. Follow diversions.",
+            "alerts": "Very high crowd near chariot street. Cooperate with volunteers."
+        },
+        "Night": {
+            "rituals": [
+                "Ekantha Seva and Guru Samadhi closing prayers",
+                "Math inner sanctum doors locked"
+            ],
+            "events": [
+                "Kapila river light reflections and floating lamps",
+                "Exhibition stalls winding down for the night"
+            ],
+            "parking": "Bypass traffic flowing smoothly. Parking clearing.",
+            "alerts": "Main spiritual events completed. Exhibition stalls close at 09:30 PM."
+        }
     },
     "jatra_ghati_subrahmanya": {
-        "rituals": [
-            "Ksheerabhisheka for swayambhu Naga deity",
-            "Naga Pratishte sacred pooja and prayers",
-            "Sarpa Samskara rituals in the inner shrine"
-        ],
-        "events": [
-            "Pushya Rathotsava chariot pulling by devotees",
-            "Maha Mangalarathi at outer shrine by chief priests",
-            "Cattle fair inauguration and cattle parade"
-        ],
-        "parking": [
-            "Heavy delays on Doddaballapur highway. Traffic police coordinating.",
-            "Open field parking zone C is clear. Use Ghati bypass road."
-        ],
-        "alerts": [
-            "Cattle fair grounds open. Special veterinary check post active.",
-            "Special direct entry ticket counters open near North gate."
-        ]
+        "Morning": {
+            "rituals": [
+                "Ksheerabhisheka for swayambhu Naga Subrahmanya deity",
+                "Naga Pratishte sacred pooja and prayers"
+            ],
+            "events": [
+                "Devotees queuing for Naga Darshana through the mirror structure",
+                "Doddaballapur cattle fair morning arrival of livestock"
+            ],
+            "parking": "Open field parking zone C is clear. Use Ghati bypass road.",
+            "alerts": "Early morning fog. Drive with fog lamps on highway."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Mahapuja and offering of sweet Panchamrutha prasada",
+                "Special prayers to Lord Lakshmi Narasimha"
+            ],
+            "events": [
+                "Ghati Cattle Fair inauguration and cattle parade",
+                "Mass feeding program at the temple community dining hall"
+            ],
+            "parking": "Heavy delays on Doddaballapur highway. Parking C is 80% full.",
+            "alerts": "Average wait time in queue: 1.5 hours. Keep children hydrated."
+        },
+        "Evening": {
+            "rituals": [
+                "Evening Arathi and Maha Alankara of Naga deity",
+                "Pushya Shashti special chariot prayers"
+            ],
+            "events": [
+                "Pushya Rathotsava chariot pulling by lakhs of devotees",
+                "Devotional folk music near the temple arch"
+            ],
+            "parking": "Highway congestion at peak. Traffic police coordinating.",
+            "alerts": "Peak crowd for chariot pull. Stand in designated safe zones."
+        },
+        "Night": {
+            "rituals": [
+                "Ekantha Seva and temple closing prayers",
+                "Sanctum locked for the night"
+            ],
+            "events": [
+                "Cattle fair grounds campfire gatherings",
+                "Clean-up of chariot path"
+            ],
+            "parking": "Traffic clearing slowly. High police presence.",
+            "alerts": "Temple closed. Darshana resumes tomorrow morning at 06:00 AM."
+        }
     },
     "jatra_udupi_paryaya": {
-        "rituals": [
-            "Paryaya Darbar and handover rituals in progress",
-            "Madhwa Sarovara Ganga Pooja",
-            "Kanakana Kindi special temple offering"
-        ],
-        "events": [
-            "Lord Krishna temple car street procession",
-            "Biennial Paryaya Peetha ascendancy ceremony at Udupi Math",
-            "Anna Prasad mass feeding setup"
-        ],
-        "parking": [
-            "City center closed for vehicles. Use parking at Kalsanka.",
-            "Parking filled at Car Street. Park near City Bus Stand."
-        ],
-        "alerts": [
-            "Anna Prasad (mass meals) starts at 11:30 AM at Bhojana Shala.",
-            "Grand procession featuring 50+ cultural troupes starts at 3 AM."
-        ]
+        "Morning": {
+            "rituals": [
+                "Madhwa Sarovara Ganga Pooja and sacred morning bath",
+                "Kanakana Kindi special temple offering and prayers"
+            ],
+            "events": [
+                "Pura Pravesha - ceremonial entry of the incoming Swamiji into Udupi",
+                "Grand procession featuring 50+ cultural troupes"
+            ],
+            "parking": "City center closed. Park at Kalsanka or city bus stand.",
+            "alerts": "Procession active since 3 AM. Udupi city center fully decorated."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Paryaya Peetha ascendancy ceremony at Udupi Krishna Math",
+                "Transfer of the historic Akshaya Patra and temple keys"
+            ],
+            "events": [
+                "Anna Prasad (mass meals) starting at the Bhojana Shala",
+                "Paryaya Darbar - assembly of saints, scholars, and dignitaries"
+            ],
+            "parking": "Parking filled at city bus stand. Use secondary school ground parking.",
+            "alerts": "Anna Prasada active. Volunteers guiding dining hall entries."
+        },
+        "Evening": {
+            "rituals": [
+                "Sandhya Mangalarathi and special oil lamp lighting of Krishna shrine",
+                "Madhwa Sarovara deepotsava"
+            ],
+            "events": [
+                "Lord Krishna temple car street procession with multiple chariots",
+                "Devotional music and classical dance programs at Car Street"
+            ],
+            "parking": "Car Street fully closed. Kalsanka road congested.",
+            "alerts": "Spectacular chariot procession in progress. Use pedestrian paths."
+        },
+        "Night": {
+            "rituals": [
+                "Ekantha Seva and Krishna Math closing prayers",
+                "Temple gates close for the night"
+            ],
+            "events": [
+                "Late-night Teppotsava floating festival in Madhwa Sarovara",
+                "Paryaya cultural seminars in Math courtyard"
+            ],
+            "parking": "Roads opening up. Parking clearing.",
+            "alerts": "Temple doors closed. Teppotsava floating festival ongoing."
+        }
     },
     "jatra_mailara_lingeshwara": {
-        "rituals": [
-            "Goravara Kunitha ritual dance on temple plains",
-            "Mailara Lingeshwara sacred Abhisheka",
-            "Breaking of heavy iron chains by Gorava devotees"
-        ],
-        "events": [
-            "Karnika Utsava (divine prophecy prediction)",
-            "Maha Rathotsava chariot pulling across Mylara plains",
-            "Bhandara (turmeric) offering and tossing ceremony"
-        ],
-        "parking": [
-            "Open field parking near Mylara plains is clear.",
-            "Heavy dust. Drive slowly on approach roads near temple grounds."
-        ],
-        "alerts": [
-            "Devotees advised to be careful during turmeric (Bhandara) tossing.",
-            "Karnika prophecy bow setup complete on the plains."
-        ]
+        "Morning": {
+            "rituals": [
+                "Mailara Lingeshwara sacred morning Abhisheka",
+                "Goravara Kunitha ritual dance on temple plains"
+            ],
+            "events": [
+                "Devotees gathering on the plain grounds",
+                "Goravas in black woolen blankets blowing brass horns"
+            ],
+            "parking": "Open field parking near Mylara plains is clear.",
+            "alerts": "Dusty environment. Wearing face covers recommended."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Offering of Bhandara (turmeric powder) to the Lord",
+                "Maha Prasada distribution on the plains"
+            ],
+            "events": [
+                "Devotees tossing turmeric powder, coloring the plains yellow",
+                "Rural wrestling matches (Kusthi) in designated ring"
+            ],
+            "parking": "Plains parking 50% full. Drive slowly due to low visibility from dust.",
+            "alerts": "Turmeric tossing active. Protect eyes and electronic items."
+        },
+        "Evening": {
+            "rituals": [
+                "Karnika Utsava - chief priest climbs 20-foot bow for prophecy",
+                "Sandhya Arathi and bowing rituals"
+            ],
+            "events": [
+                "Maha Rathotsava chariot pulling across Mylara plains",
+                "Divine prophecy delivered by the priest, predictions for agriculture"
+            ],
+            "parking": "High congestion. Parking volunteers active with torches.",
+            "alerts": "Karnika prophecy bow setup complete. Quiet silence requested during prophecy."
+        },
+        "Night": {
+            "rituals": [
+                "Ekantha Seva and breaking of heavy iron chains by Goravas",
+                "Sanctum closed"
+            ],
+            "events": [
+                "Campfires and folk singing across the Mylara plains",
+                "Folk drama shows (Bayalata) starting"
+            ],
+            "parking": "Plains parking clearing. Expect delay at highway entry.",
+            "alerts": "Temple closed. Cultural drama shows active throughout the night."
+        }
     },
     "jatra_sirsi_marikamba": {
-        "rituals": [
-            "Kalyanotsava sacred marriage preparations for the Goddess",
-            "Maha Alankara of 8-foot wooden Goddess Renuka",
-            "Devi Abhisheka with sacred water"
-        ],
-        "events": [
-            "Marikamba Shobha Yatra tomorrow morning",
-            "Rathotsava chariot pulling through Sirsi main streets",
-            "Goddess procession to local fair grounds"
-        ],
-        "parking": [
-            "Sirsi town parking slots clear. Shuttles running every 15 min.",
-            "Car street is closed to private vehicles. Use Yellapur road parking."
-        ],
-        "alerts": [
-            "Massive 8-wheeled chariot assembly completed at car street.",
-            "Saree offerings counter active at the administration office."
-        ]
+        "Morning": {
+            "rituals": [
+                "Maha Alankara of the colossal 8-foot wooden Goddess Marikamba",
+                "Devi Abhisheka with sacred herbal water"
+            ],
+            "events": [
+                "Marikamba Shobha Yatra procession starting through Sirsi main streets",
+                "Thousands of women carrying sacred Kalashas"
+            ],
+            "parking": "Sirsi town parking slots open. Shuttles starting.",
+            "alerts": "Procession routes closed to vehicles. Use bypass parking."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Kalyanotsava - sacred marriage rituals of the Goddess",
+                "Offering of sarees and gold ornaments to the deity"
+            ],
+            "events": [
+                "Mass Prasada distribution at the temple dining courtyard",
+                "Local forest-produce and spice market fair opening"
+            ],
+            "parking": "Car street closed. Use secondary parking at Yellapur road.",
+            "alerts": "Saree offerings counter active. Average queue time: 1 hour."
+        },
+        "Evening": {
+            "rituals": [
+                "Evening Arathi and Maha Mangalarathi on the chariot",
+                "Pradosha Pooja with instrumental music"
+            ],
+            "events": [
+                "Rathotsava - pulling of the massive, colorful 8-wheeled chariot",
+                "Cultural folk performances (Dollu Kunitha) along the path"
+            ],
+            "parking": "Town roads fully congested. Walking is fastest option.",
+            "alerts": "Massive crowd for Rathotsava. Keep away from chariot wheels."
+        },
+        "Night": {
+            "rituals": [
+                "Sayana Pooja and Goddess Marikamba temple closing prayers",
+                "Inner sanctum locked"
+            ],
+            "events": [
+                "Goddess procession arriving at the local fair grounds",
+                "Cultural plays and drama shows active at the fair"
+            ],
+            "parking": "Shuttle services running until midnight. Parking clearing.",
+            "alerts": "Temple closed. Fair and cultural programs open until late night."
+        }
     },
     "jatra_saundatte_yellamma": {
-        "rituals": [
-            "Holy dip at Jogulabhavi sacred pond",
-            "Chowdaki Pada singing praising Goddess Yellamma",
-            "Maha Mangalarathi on hilltop shrine"
-        ],
-        "events": [
-            "Rathotsava on the hilltop shrine in progress",
-            "Sacred vessel 'Jag' carrying procession by devotees",
-            "Midnight devotional vigil and singing assembly"
-        ],
-        "parking": [
-            "Hill road blocked. Park at foothills and use official jeeps.",
-            "Foothill parking is 80% full. Expect delay in getting jeeps."
-        ],
-        "alerts": [
-            "Devotional singing (Chowdaki Pada) active throughout the night.",
-            "Special medical tents set up at every 500 meters on the hill road."
-        ]
+        "Morning": {
+            "rituals": [
+                "Holy dip at Jogulabhavi sacred pond by lakhs of pilgrims",
+                "Ksheerabhisheka for Goddess Renuka Yellamma"
+            ],
+            "events": [
+                "Pilgrims walking up Yellammagudda hill chanting 'Udu Udu'",
+                "Devotees carrying the 'Jag' sacred vessel on their heads"
+            ],
+            "parking": "Hill road blocked. Park at foothills and use official jeeps.",
+            "alerts": "Heavy crowds at Jogulabhavi pond. Use caution near steps."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Mahapuja and offering of traditional neem leaf garlands",
+                "Offering of turmeric and vermilion (Kumkum) to the deity"
+            ],
+            "events": [
+                "Mass prasada distribution on the hilltop plains",
+                "Chowdaki Pada folk singing assemblies in outer circle"
+            ],
+            "parking": "Foothill parking is 90% full. Expect 45-min delay for jeeps.",
+            "alerts": "Warm afternoon. Drinking water and medical camps fully active."
+        },
+        "Evening": {
+            "rituals": [
+                "Yellamma Devi Rathotsava chariot prayers on hilltop",
+                "Maha Mangalarathi and lighting of hill lamps"
+            ],
+            "events": [
+                "Rathotsava (Chariot Procession) on the hilltop plains",
+                "Massive yellow cloud of turmeric powder tossed in devotion"
+            ],
+            "parking": "Foothills traffic slow. Police managing Belagavi highway.",
+            "alerts": "Peak hilltop density. Follow designated path. Keep children safe."
+        },
+        "Night": {
+            "rituals": [
+                "Sayana Pooja and Yellamma temple closing prayers",
+                "Sanctum locked for the night"
+            ],
+            "events": [
+                "Midnight devotional vigil (Jaagarane) and Chowdaki singing",
+                "Hilltop illuminated under moonlight and clay lamps"
+            ],
+            "parking": "Jeep services active all night. Parking clearing slowly.",
+            "alerts": "Temple closed. Hilltop remains alive with devotional singing all night."
+        }
     },
     "jatra_gokarna_mahashivaratri": {
-        "rituals": [
-            "Atmalinga Sparsha Pooja & Samudra Snana by pilgrims",
-            "Maha Rudrabhisheka at inner sanctum",
-            "Biligiri Ratha deepotsava ceremony"
-        ],
-        "events": [
-            "Maha Ratha sea-side chariot pulling along narrow streets",
-            "Midnight Jaagarane bhajan vigil at beach temple",
-            "Sea beach Deepotsava with hundreds of oil lamps"
-        ],
-        "parking": [
-            "Gokarna main road closed. Park near bus stand parking area.",
-            "Beach road parking is full. Use temple school ground parking."
-        ],
-        "alerts": [
-            "Special security arrangements on beach. Lifeguards on high alert.",
-            "Queue for Sparsha Darshana of Atmalinga is about 1.5 hours wait."
-        ]
+        "Morning": {
+            "rituals": [
+                "Samudra Snana beach bathing by thousands of pilgrims",
+                "Atmalinga Sparsha Pooja in the inner sanctum"
+            ],
+            "events": [
+                "Devotees queuing up along Car Street for Atmalinga darshana",
+                "Maha Ratha chariot final decoration check"
+            ],
+            "parking": "Gokarna main road closed. Park near bus stand parking area.",
+            "alerts": "Pleasant sea breeze. Queue wait time for Sparsha Darshana: 2 hours."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Maha Rudrabhisheka at inner sanctum by Vedic priests",
+                "Offerings of Bilva leaves to the Atmalinga"
+            ],
+            "events": [
+                "Mass feeding program at temple school grounds",
+                "Devotional lectures and Vedic chanting in temple corridors"
+            ],
+            "parking": "Beach road parking is full. Use bus stand parking.",
+            "alerts": "Warm temperature. Separate queues active for women and senior citizens."
+        },
+        "Evening": {
+            "rituals": [
+                "Sandhya Pooja and Biligiri Ratha deepotsava ceremony",
+                "Pooja to Lord Mahabaleshwara on the chariot"
+            ],
+            "events": [
+                "Maha Ratha seaside chariot pulling along narrow streets by lakhs of devotees",
+                "Dollu Kunitha and traditional drums leading the chariot path"
+            ],
+            "parking": "All town roads closed. Heavy pedestrian flow. Park outside city limits.",
+            "alerts": "Peak devotional crowd. Keep safe distance from moving giant chariot."
+        },
+        "Night": {
+            "rituals": [
+                "Ekantha Seva and Mahabaleshwara closing prayers",
+                "Temple gates close for the night"
+            ],
+            "events": [
+                "Midnight Jaagarane bhajan vigil at the beach temple",
+                "Sea beach Deepotsava with hundreds of floating oil lamps"
+            ],
+            "parking": "Town roads opening slowly. Traffic clearing towards highway.",
+            "alerts": "Temple closed. Special beach security and lifeguards on high alert."
+        }
     }
 }
 
-CROWD_STATUSES = ["Calm", "Normal", "Moderate", "Peak", "VVIP"]
+def get_ist_time():
+    """Get the current time in India Standard Time (UTC + 5:30)"""
+    utc_now = datetime.now(timezone.utc)
+    ist_now = utc_now + timedelta(hours=5, minutes=30)
+    return ist_now
 
-WEATHER_TEMPS = [22, 24, 25, 27, 28, 30, 32, 34]
-WEATHER_DESC = ["Clear Sky", "Pleasant Breeze", "Light Drizzle", "Warm Sunshine", "Cloud Cover", "Morning Fog"]
+def fetch_weather(lat, lon, city):
+    """Fetch live weather from Open-Meteo API or fallback to seasonal simulation"""
+    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=temperature_2m,weather_code&timezone=auto"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "JatramelaBot/1.0"})
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode())
+            current = data.get("current", {})
+            temp = round(current.get("temperature_2m", 28))
+            code = current.get("weather_code", 0)
+            
+            wmo_map = {
+                0: "Clear Sky",
+                1: "Mainly Clear", 2: "Partly Cloudy", 3: "Overcast",
+                45: "Foggy", 48: "Depositing Rime Fog",
+                51: "Light Drizzle", 53: "Moderate Drizzle", 55: "Dense Drizzle",
+                61: "Slight Rain", 63: "Moderate Rain", 65: "Heavy Rain",
+                80: "Slight Rain Showers", 81: "Moderate Rain Showers", 82: "Violent Rain Showers",
+                95: "Thunderstorm", 96: "Thunderstorm with Hail", 99: "Severe Thunderstorm"
+            }
+            desc = wmo_map.get(code, "Pleasant")
+            return f"{temp}°C, {desc}"
+    except Exception as e:
+        print(f"⚠️ Weather API fetch failed for {city}: {e}. Using seasonal simulation.")
+        ist = get_ist_time()
+        month = ist.month
+        hour = ist.hour
+        
+        # Simple seasonal model for Karnataka
+        if 3 <= month <= 5: # Summer
+            base_temp = 32 if 10 <= hour <= 17 else 25
+            desc = random.choice(["Sunny Day", "Warm Sunshine", "Clear Sky"])
+        elif 6 <= month <= 9: # Monsoon
+            base_temp = 26 if 10 <= hour <= 17 else 22
+            desc = random.choice(["Cloud Cover", "Light Drizzle", "Rain Showers", "Overcast"])
+        else: # Winter/Cool season
+            base_temp = 28 if 10 <= hour <= 17 else 20
+            desc = random.choice(["Clear Sky", "Pleasant Breeze", "Morning Fog", "Mainly Clear"])
+            
+        temp = base_temp + random.randint(-2, 2)
+        return f"{temp}°C, {desc}"
 
-def generate_update(jatra_id):
-    """Generate a realistic, contextual update object for a given Jatra ID."""
-    jatra_data = JATRA_LIVE_DATA.get(jatra_id)
+def get_time_based_metrics(hour):
+    """Determine period, crowd status, and realistic crowd count based on the IST hour"""
+    if 22 <= hour or hour <= 4:
+        status = "Calm"
+        count = f"{random.randint(50, 450):,} devotees present (Quiet hours)"
+        period = "Night"
+    elif 5 <= hour <= 7:
+        status = random.choice(["Normal", "Moderate"])
+        count = f"{random.randint(2500, 7500):,} devotees present"
+        period = "Morning"
+    elif 8 <= hour <= 11:
+        status = random.choice(["Moderate", "Peak"])
+        count = f"{random.randint(15000, 45000):,} devotees present"
+        period = "Morning"
+    elif 12 <= hour <= 15:
+        status = random.choice(["Normal", "Moderate"])
+        count = f"{random.randint(6000, 18000):,} devotees present"
+        period = "Afternoon"
+    elif 16 <= hour <= 20:
+        status = random.choice(["Peak", "VVIP"])
+        count = f"{random.randint(45000, 125000):,}+ devotees & pilgrims"
+        period = "Evening"
+    else: # 21:00 to 21:59
+        status = "Moderate"
+        count = f"{random.randint(8000, 22000):,} devotees present"
+        period = "Evening"
+        
+    return period, status, count
+
+def generate_update(jatra_id, ist_now):
+    """Generate dynamic timezone-aware update for a Jatra"""
+    jatra_data = JATRA_PERIOD_DATA.get(jatra_id)
     if not jatra_data:
-        # Generic backup data
+        # Fallback period data
         jatra_data = {
-            "rituals": ["Maha Mangalarathi and Abhisheka", "Special temple alankara", "Teppotsava preparations"],
-            "events": ["Rathotsava grand chariot pulling", "Dasoha mass feeding", "Cultural assembly"],
-            "parking": ["Temple parking is clear.", "Park at the designated public parking slots."],
-            "alerts": ["Queue moving steadily. Expected wait: 30 mins.", "Please cooperate with security."]
+            "Morning": {
+                "rituals": ["Maha Mangalarathi and Abhisheka"],
+                "events": ["Suprabhatha Darshana"],
+                "parking": "Temple parking is clear.",
+                "alerts": "Morning darshana active."
+            },
+            "Afternoon": {
+                "rituals": ["Madhyahna Pooja"],
+                "events": ["Prasada mass feeding"],
+                "parking": "Parking is clear.",
+                "alerts": "Prasada feeding active."
+            },
+            "Evening": {
+                "rituals": ["Sandhya Mangalarathi"],
+                "events": ["Rathotsava chariot procession"],
+                "parking": "Heavy traffic. Use designated parking slots.",
+                "alerts": "Rathotsava active."
+            },
+            "Night": {
+                "rituals": ["Ekantha Seva"],
+                "events": ["Bhajan mandali gatherings"],
+                "parking": "Parking is clear.",
+                "alerts": "Temple is closed."
+            }
         }
 
-    crowd_status = random.choice(CROWD_STATUSES)
+    period, status, count = get_time_based_metrics(ist_now.hour)
+    period_info = jatra_data.get(period, jatra_data["Morning"])
     
-    # Generate crowd count matching the status
-    if crowd_status == "Calm":
-        crowd_count = f"{random.randint(1500, 5000):,} devotees present"
-    elif crowd_status == "Normal":
-        crowd_count = f"{random.randint(6000, 15000):,} devotees present"
-    elif crowd_status == "Moderate":
-        crowd_count = f"{random.randint(16000, 40000):,} devotees present"
-    elif crowd_status == "Peak":
-        crowd_count = f"{random.randint(41000, 85000):,} devotees present"
-    else: # VVIP
-        crowd_count = f"{random.randint(90000, 130000):,}+ devotees & VIPs present"
-
-    weather_str = f"{random.choice(WEATHER_TEMPS)}°C, {random.choice(WEATHER_DESC)}"
+    # Get weather
+    coord = COORDINATES.get(jatra_id, {"lat": 12.9716, "lon": 77.5946, "city": "Bengaluru"})
+    weather_str = fetch_weather(coord["lat"], coord["lon"], coord["city"])
     
     return {
-        "crowdStatus": crowd_status,
-        "crowdCount": crowd_count,
-        "currentRitual": random.choice(jatra_data["rituals"]),
-        "nextEvent": random.choice(jatra_data["events"]),
+        "crowdStatus": status,
+        "crowdCount": count,
+        "currentRitual": random.choice(period_info["rituals"]),
+        "nextEvent": random.choice(period_info["events"]),
         "weather": weather_str,
-        "parkingAlert": random.choice(jatra_data["parking"]),
-        "liveAlert": random.choice(jatra_data["alerts"]),
-        "lastUpdated": datetime.utcnow().isoformat() + "Z"
+        "parkingAlert": period_info["parking"],
+        "liveAlert": period_info["alerts"],
+        "lastUpdated": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     }
 
 def main():
@@ -341,14 +794,17 @@ def main():
         except Exception as e:
             print(f"⚠️ Error loading updates file, generating fresh: {e}")
 
+    # Get IST Time
+    ist_now = get_ist_time()
+    print(f"⏰ India Standard Time (IST) Current: {ist_now.strftime('%Y-%m-%d %H:%M:%S')} (Hour: {ist_now.hour})")
+
     # Update all 12 major Jatra updates
-    all_jatra_ids = list(JATRA_LIVE_DATA.keys())
+    all_jatra_ids = list(JATRA_PERIOD_DATA.keys())
     for jatra_id in all_jatra_ids:
-        existing_updates[jatra_id] = generate_update(jatra_id)
+        existing_updates[jatra_id] = generate_update(jatra_id, ist_now)
 
     # Save to disk
     try:
-        # Create directories if they don't exist
         os.makedirs(os.path.dirname(JSON_PATH), exist_ok=True)
         with open(JSON_PATH, "w") as f:
             json.dump(existing_updates, f, indent=2)

@@ -120,7 +120,7 @@ export const JATRA_DATA: Jatra[] = [
     kannadaMonth: "Pushya (January - February)",
     gregorianMonths: ["January", "February"],
     timing: "Pushya Shuddha Poornima",
-    image: "/images/jatras/mysuru-dasara.png",
+    image: "/images/jatras/banashankari-devi.png",
     summary: "A vibrant annual temple fair in the historic town of Badami, drawing lakhs of devotees to worship Goddess Banashankari, known as the goddess of forests and vegetation.",
     history: "The temple was originally constructed by the Chalukyas of Badami in the 7th century. According to the Skanda Purana, the goddess slayed a demon named Durgamasura here, who had caused a severe drought. The goddess saved the people by providing food (vegetables and herbs), earning her the name Shakambhari (or Banashankari, goddess of the forest). The annual Jatre marks this divine event of sustenance and survival.",
     rituals: [
@@ -143,7 +143,7 @@ export const JATRA_DATA: Jatra[] = [
     kannadaMonth: "Pushya (January)",
     gregorianMonths: ["January"],
     timing: "A 6-day multi-dimensional cultural and spiritual festival in the month of Pushya",
-    image: "/images/jatras/hampi-utsav.png",
+    image: "/images/jatras/suttur-mahotsav.png",
     summary: "A massive six-day socio-religious event on the banks of the Kapila River, blending spiritual rituals, agricultural expos, mass marriages, and educational seminars.",
     history: "Established by the Suttur Math, which has a legacy of over a thousand years starting from Adi Jagadguru Sri Shivarathreeshwara Shivayogi. The Jatra is held to commemorate the divine wisdom and social service of the founder saint, serving as a platform for rural development, spiritual growth, and community welfare.",
     rituals: [
@@ -166,7 +166,7 @@ export const JATRA_DATA: Jatra[] = [
     kannadaMonth: "Pushya (December - January)",
     gregorianMonths: ["December", "January"],
     timing: "Pushya Shuddha Shashti",
-    image: "/images/jatras/sharanabasaveshwara.png",
+    image: "/images/jatras/ghati-subrahmanya.png",
     summary: "A highly revered chariot festival dedicated to the snake deity Lord Subrahmanya, featuring unique snake-worship rituals and one of the largest cattle fairs in Southern India.",
     history: "The deity of Ghati Subrahmanya is self-manifested (Swayambhu), carved on a single stone representing Lord Subrahmanya facing east and Lord Lakshmi Narasimha facing west, visible through a strategically placed mirror. The Rathotsava marks the divine triumph of Lord Subrahmanya and has been a pilgrimage center for snake-worship (Naga Aradhane) for several centuries.",
     rituals: [
@@ -189,7 +189,7 @@ export const JATRA_DATA: Jatra[] = [
     kannadaMonth: "Makara (January)",
     gregorianMonths: ["January"],
     timing: "Biennial (once every two years) on January 18th",
-    image: "/images/jatras/hampi-utsav.png",
+    image: "/images/jatras/udupi-paryaya.png",
     summary: "A grand biennial ceremony where the administration of the historic Udupi Sri Krishna Math is handed over to the next of the Ashta Mathas (Eight Monasteries) founded by Sri Madhvacharya.",
     history: "Initiated by Sri Madhvacharya in the 13th century and later reformed by Sri Vadiraja Teertha in the 16th century, the Paryaya festival marks the formal transfer of worship rights and administration. The incoming Swamiji is handed the Akshaya Patra and keys to the shrine, symbolizing the sacred trust to run the temple and feed thousands of devotees daily.",
     rituals: [
@@ -212,7 +212,7 @@ export const JATRA_DATA: Jatra[] = [
     kannadaMonth: "Magha (February)",
     gregorianMonths: ["February"],
     timing: "Bharati Hunnime (Full Moon day of Magha month)",
-    image: "/images/jatras/sharanabasaveshwara.png",
+    image: "/images/jatras/mailara-lingeshwara.png",
     summary: "A unique folk-spiritual fair famous for the 'Goravara Kunitha' dance and the 'Karnika Utsava' (divine prophecy of agricultural and political fortunes) delivered by a dedicated priest.",
     history: "According to legend, Lord Shiva took the form of Mailara (Martanda Bhairava) to defeat the demons Mallasura and Manikasura. The annual Jatra celebrates this victory. The devotees (Goravas) dress in black woolen blankets and tiger-skin attire, carrying brass bowls and damarugis, representing the army of Shiva.",
     rituals: [
@@ -235,7 +235,7 @@ export const JATRA_DATA: Jatra[] = [
     kannadaMonth: "Phalguna (March)",
     gregorianMonths: ["March"],
     timing: "Held once every two years (biennial) for 9 days in March",
-    image: "/images/jatras/mysuru-dasara.png",
+    image: "/images/jatras/sirsi-marikamba.png",
     summary: "One of the largest goddess festivals in Karnataka, famous for its massive eight-wheeled chariot and the magnificent processional wooden idol of Goddess Marikamba.",
     history: "Established in the 17th century (1689), the temple enshrines an 8-foot-tall wooden idol of Goddess Marikamba. The biennial Jatra is organized to ward off diseases and invite prosperity for the forest-dwelling communities of the Western Ghats. The Goddess is treated as the daughter of the town, returning home during the festival.",
     rituals: [
@@ -258,7 +258,7 @@ export const JATRA_DATA: Jatra[] = [
     kannadaMonth: "Margashirsha / Pushya (December - January)",
     gregorianMonths: ["December", "January"],
     timing: "Margashirsha Poornima (Bharat Hunnime)",
-    image: "/images/jatras/mysuru-dasara.png",
+    image: "/images/jatras/saundatte-yellamma.png",
     summary: "A massive pilgrimage festival on the hill of Yellammagudda, drawing millions of devotees who worship Goddess Renuka, performing unique ritualistic baths and carrying sacred pots.",
     history: "The shrine is dedicated to Renuka, the wife of Sage Jamadagni and mother of Lord Parashurama. According to legend, Renuka was beheaded by her son Parashurama on his father's orders but was later resurrected with divine powers, becoming the mother goddess Yellamma (mother of all). The temple has a rich history from the Rashtrakuta and Chalukya eras.",
     rituals: [
@@ -281,7 +281,7 @@ export const JATRA_DATA: Jatra[] = [
     kannadaMonth: "Magha / Phalguna (February - March)",
     gregorianMonths: ["February", "March"],
     timing: "Mahashivaratri festival (Chaturdashi of Magha Krishna Paksha)",
-    image: "/images/jatras/sharanabasaveshwara.png",
+    image: "/images/jatras/gokarna-mahashivaratri.png",
     summary: "A majestic seaside chariot festival where two massive chariots (Maha Ratha) are pulled along the narrow beach-town streets to honor the sacred Atmalinga of Lord Shiva.",
     history: "Gokarna is the holy place where Ravana was tricked by Ganesha into placing the Atmalinga (obtained from Shiva) on the ground, which then became fixed (Mahabaleshwar). The Jatre commemorates this epic Ramayana legend. The main chariot, Maha Ratha, stands over 40 feet tall and is built fresh every year using traditional woodcarving techniques.",
     rituals: [

@@ -5,19 +5,24 @@ import { HttpTypes } from "@medusajs/types"
 import { getCacheOptions } from "./cookies"
 
 export const retrieveCollection = async (id: string) => {
-  const next = {
-    ...(await getCacheOptions("collections")),
-  }
+  try {
+    const next = {
+      ...(await getCacheOptions("collections")),
+    }
 
-  return await sdk.client
-    .fetch<{ collection: HttpTypes.StoreCollection }>(
-      `/store/collections/${id}`,
-      {
-        next,
-        cache: "force-cache",
-      }
-    )
-    .then(({ collection }) => collection)
+    return await sdk.client
+      .fetch<{ collection: HttpTypes.StoreCollection }>(
+        `/store/collections/${id}`,
+        {
+          next,
+          cache: "force-cache",
+        }
+      )
+      .then(({ collection }) => collection)
+  } catch (error) {
+    console.warn(`Failed to retrieve collection ${id} from backend, returning null:`, error)
+    return null
+  }
 }
 
 export const listCollections = async (
@@ -50,15 +55,20 @@ export const listCollections = async (
 export const getCollectionByHandle = async (
   handle: string
 ): Promise<HttpTypes.StoreCollection | null> => {
-  const next = {
-    ...(await getCacheOptions("collections")),
-  }
+  try {
+    const next = {
+      ...(await getCacheOptions("collections")),
+    }
 
-  return await sdk.client
-    .fetch<HttpTypes.StoreCollectionListResponse>(`/store/collections`, {
-      query: { handle, fields: "*products" },
-      next,
-      cache: "force-cache",
-    })
-    .then(({ collections }) => collections[0] || null)
+    return await sdk.client
+      .fetch<HttpTypes.StoreCollectionListResponse>(`/store/collections`, {
+        query: { handle, fields: "*products" },
+        next,
+        cache: "force-cache",
+      })
+      .then(({ collections }) => collections[0] || null)
+  } catch (error) {
+    console.warn(`Failed to get collection by handle ${handle} from backend, returning null:`, error)
+    return null
+  }
 }

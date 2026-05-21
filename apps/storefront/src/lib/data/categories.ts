@@ -32,23 +32,28 @@ export const listCategories = async (query?: Record<string, unknown>) => {
 }
 
 export const getCategoryByHandle = async (categoryHandle: string[]) => {
-  const handle = `${categoryHandle.join("/")}`
+  try {
+    const handle = `${categoryHandle.join("/")}`
 
-  const next = {
-    ...(await getCacheOptions("categories")),
+    const next = {
+      ...(await getCacheOptions("categories")),
+    }
+
+    return await sdk.client
+      .fetch<HttpTypes.StoreProductCategoryListResponse>(
+        `/store/product-categories`,
+        {
+          query: {
+            fields: "*category_children, *products",
+            handle,
+          },
+          next,
+          cache: "force-cache",
+        }
+      )
+      .then(({ product_categories }) => product_categories[0] || null)
+  } catch (error) {
+    console.warn(`Failed to get category by handle ${categoryHandle.join("/")} from backend, returning null:`, error)
+    return null
   }
-
-  return sdk.client
-    .fetch<HttpTypes.StoreProductCategoryListResponse>(
-      `/store/product-categories`,
-      {
-        query: {
-          fields: "*category_children, *products",
-          handle,
-        },
-        next,
-        cache: "force-cache",
-      }
-    )
-    .then(({ product_categories }) => product_categories[0])
 }

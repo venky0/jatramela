@@ -4,6 +4,33 @@ import { sdk } from "@lib/config"
 import { HttpTypes } from "@medusajs/types"
 import { getCacheOptions } from "./cookies"
 
+const getFallbackRegion = (idOrCountryCode: string): HttpTypes.StoreRegion => {
+  const code = idOrCountryCode.startsWith("reg_")
+    ? idOrCountryCode.substring(4)
+    : idOrCountryCode.length === 2
+      ? idOrCountryCode
+      : "in"
+
+  const name = code === "in" ? "India" : code === "us" ? "United States" : "Denmark"
+  const currency = code === "in" ? "inr" : code === "us" ? "usd" : "dkk"
+
+  return {
+    id: `reg_${code}`,
+    name,
+    currency_code: currency,
+    countries: [
+      {
+        id: `c_${code}`,
+        iso_2: code,
+        name,
+        display_name: name,
+      } as any
+    ],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  } as any
+}
+
 export const listRegions = async () => {
   try {
     const next = {
@@ -24,17 +51,22 @@ export const listRegions = async () => {
 }
 
 export const retrieveRegion = async (id: string) => {
-  const next = {
-    ...(await getCacheOptions(["regions", id].join("-"))),
-  }
+  try {
+    const next = {
+      ...(await getCacheOptions(["regions", id].join("-"))),
+    }
 
-  return await sdk.client
-    .fetch<{ region: HttpTypes.StoreRegion }>(`/store/regions/${id}`, {
-      method: "GET",
-      next,
-      cache: "no-store",
-    })
-    .then(({ region }) => region)
+    return await sdk.client
+      .fetch<{ region: HttpTypes.StoreRegion }>(`/store/regions/${id}`, {
+        method: "GET",
+        next,
+        cache: "no-store",
+      })
+      .then(({ region }) => region)
+  } catch (error) {
+    console.warn(`Failed to retrieve region ${id} from backend, returning fallback:`, error)
+    return getFallbackRegion(id)
+  }
 }
 
 const regionMap = new Map<string, HttpTypes.StoreRegion>()
@@ -46,8 +78,8 @@ export const getRegion = async (countryCode: string) => {
 
   const regions = await listRegions()
 
-  if (!regions) {
-    return null
+  if (!regions || regions.length === 0) {
+    return getFallbackRegion(countryCode)
   }
 
   regions.forEach((region) => {
@@ -60,5 +92,6 @@ export const getRegion = async (countryCode: string) => {
     ? regionMap.get(countryCode)
     : regionMap.get("us")
 
-  return region
+  return region || getFallbackRegion(countryCode)
 }
+

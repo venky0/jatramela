@@ -1,6 +1,11 @@
 import "server-only"
 import { cookies as nextCookies } from "next/headers"
 
+// Re-throw Next.js internal errors (e.g. DYNAMIC_SERVER_USAGE) so that
+// Next.js can properly fall back to dynamic rendering instead of crashing.
+const isNextInternalError = (e: unknown): boolean =>
+  typeof (e as any)?.digest === "string"
+
 export const getAuthHeaders = async (): Promise<
   { authorization: string } | Record<string, never>
 > => {
@@ -13,7 +18,8 @@ export const getAuthHeaders = async (): Promise<
     }
 
     return { authorization: `Bearer ${token}` }
-  } catch {
+  } catch (e) {
+    if (isNextInternalError(e)) throw e
     return {}
   }
 }
@@ -28,7 +34,8 @@ export const getCacheTag = async (tag: string): Promise<string> => {
     }
 
     return `${tag}-${cacheId}`
-  } catch {
+  } catch (e) {
+    if (isNextInternalError(e)) throw e
     return ""
   }
 }

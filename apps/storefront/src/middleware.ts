@@ -13,10 +13,16 @@ const regionMapCache = {
 async function getRegionMap(cacheId: string) {
   const { regionMap, regionMapUpdated } = regionMapCache
 
+  // If no backend URL configured, return fallback map immediately — don't crash
   if (!BACKEND_URL) {
-    throw new Error(
-      "Middleware.ts: Error fetching regions. Did you set up regions in your Medusa Admin and define a NEXT_PUBLIC_MEDUSA_BACKEND_URL environment variable."
-    )
+    console.warn("Middleware: NEXT_PUBLIC_MEDUSA_BACKEND_URL not set. Using fallback region map.")
+    const fallbackMap = new Map<string, any>()
+    fallbackMap.set("in", 1)
+    fallbackMap.set("us", 1)
+    fallbackMap.set("dk", 1)
+    const defaultReg = (DEFAULT_REGION || "in").toLowerCase()
+    fallbackMap.set(defaultReg, 1)
+    return fallbackMap
   }
 
   if (

@@ -46,7 +46,19 @@ COORDINATES = {
     "jatra_mailara_lingeshwara": {"lat": 14.9392, "lon": 75.7336, "city": "Mylara"},
     "jatra_sirsi_marikamba": {"lat": 14.6195, "lon": 74.8441, "city": "Sirsi"},
     "jatra_saundatte_yellamma": {"lat": 15.7766, "lon": 75.1166, "city": "Saundatti"},
-    "jatra_gokarna_mahashivaratri": {"lat": 14.5479, "lon": 74.3188, "city": "Gokarna"}
+    "jatra_gokarna_mahashivaratri": {"lat": 14.5479, "lon": 74.3188, "city": "Gokarna"},
+    "jatra_siddheshwara": {"lat": 16.8244, "lon": 75.7139, "city": "Vijayapura"},
+    "jatra_huskur_madduramma": {"lat": 12.8021, "lon": 77.7082, "city": "Huskur"},
+    "jatra_veerabhadreshwara": {"lat": 17.7707, "lon": 77.1293, "city": "Humnabad"},
+    "jatra_siddaganga": {"lat": 13.3229, "lon": 77.1262, "city": "Tumakuru"},
+    "jatra_gavisiddeshwara": {"lat": 15.3467, "lon": 76.1554, "city": "Koppal"},
+    "jatra_bengaluru_karaga": {"lat": 12.9644, "lon": 77.5852, "city": "Bengaluru"},
+    "jatra_nanjangud_srikanteshwara": {"lat": 12.1192, "lon": 76.6803, "city": "Nanjangud"},
+    "jatra_yadiyur_siddhalingeshwara": {"lat": 12.9814, "lon": 76.8973, "city": "Yadiyur"},
+    "jatra_nayakanahatti_thipperudra": {"lat": 14.4447, "lon": 76.5367, "city": "Challakere"},
+    "jatra_viduraswatha": {"lat": 13.6847, "lon": 77.4006, "city": "Gauribidanur"},
+    "jatra_kar_hunnive": {"lat": 15.8497, "lon": 74.4977, "city": "Belagavi"},
+    "jatra_kambala": {"lat": 12.9141, "lon": 74.8560, "city": "Mangaluru"}
 }
 
 # Rich contextual Jatra period data
@@ -649,6 +661,606 @@ JATRA_PERIOD_DATA = {
             ],
             "parking": "Town roads opening slowly. Traffic clearing towards highway.",
             "alerts": "Temple closed. Special beach security and lifeguards on high alert."
+        }
+    },
+    "jatra_siddheshwara": {
+        "Morning": {
+            "rituals": [
+                "Siddheshwara Swamy Pratah Kala Abhisheka",
+                "Devotional singing of Shiva Bhajans in sanctum"
+            ],
+            "events": [
+                "Cattle market gates open for farmers",
+                "Street vendor stalls setup inspection"
+            ],
+            "parking": "Parking near city stadium is open. Free shuttle to temple.",
+            "alerts": "Mild weather. Cattle market active at North grounds."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Maha Mangalarathi and sweet offering",
+                "Special Bilva Patra Pooja"
+            ],
+            "events": [
+                "Mass feeding (Dasoha) starts at the community hall",
+                "Sweet stalls selling Karadantu and Pedha fully active"
+            ],
+            "parking": "Stadium parking 70% full. Expect brief delays on main road.",
+            "alerts": "Dasoha halls are busy. Queue wait time: 30 minutes."
+        },
+        "Evening": {
+            "rituals": [
+                "Pradosha Pooja and lighting of temple chandeliers",
+                "Procession deity decoration"
+            ],
+            "events": [
+                "Chariot procession starts through City streets",
+                "Ferris wheels and giant carnival rides opening in fairgrounds"
+            ],
+            "parking": "City center roads closed. Park at base layout zones.",
+            "alerts": "Extreme crowd for evening Chariot festival. Stay in safe spectator areas."
+        },
+        "Night": {
+            "rituals": [
+                "Ekantha Seva and deity sleep prayers",
+                "Sanctum doors closed for the night"
+            ],
+            "events": [
+                "North Karnataka folklore drama (Bayalata) starting at open stage",
+                "Night market operating until midnight"
+            ],
+            "parking": "Traffic dispersing. Stadium parking lanes clear.",
+            "alerts": "Temple closed. Fair remains open until midnight."
+        }
+    },
+    "jatra_huskur_madduramma": {
+        "Morning": {
+            "rituals": [
+                "Goddess Madduramma morning Alankara and Pooja",
+                "Holy water sprinkler blessings"
+            ],
+            "events": [
+                "Arrival of majestic white bullock pairs from neighboring villages",
+                "Bamboo Kurju frame final alignments"
+            ],
+            "parking": "Village entrance fields converted to parking zones. Clear.",
+            "alerts": "Foggy morning. Bullock processions starting on Anekal highway."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Special Kumkumarchana for women devotees",
+                "Sree Bali offering"
+            ],
+            "events": [
+                "Traditional music bands (Nadaswaram) playing in courtyard",
+                "Rural sports activities setup"
+            ],
+            "parking": "Village entry parking zones 60% full. Use public transport.",
+            "alerts": "Sunny weather. Free water distribution booths active."
+        },
+        "Evening": {
+            "rituals": [
+                "Pooja to the processional Goddess Madduramma on the Kurju",
+                "Maha Mangalarathi"
+            ],
+            "events": [
+                "Pulling of the mind-boggling 80-100 feet tall Kurju by bullock pairs",
+                "Traditional folk dances including Dollu Kunitha"
+            ],
+            "parking": "Anekal-Huskur road fully blocked. Parking restricted to foothills.",
+            "alerts": "Chariot heights reach 90+ feet. Devotees are requested to keep safe clearance distance."
+        },
+        "Night": {
+            "rituals": [
+                "Deity returns to the temple inner sanctum",
+                "Shanti Pooja"
+            ],
+            "events": [
+                "Folk drama performances and fireworks display on fields",
+                "Midnight community feast"
+            ],
+            "parking": "Bypass roads clear. Bullock teams returning home.",
+            "alerts": "Fair events ending. Main gates close at 11:30 PM."
+        }
+    },
+    "jatra_veerabhadreshwara": {
+        "Morning": {
+            "rituals": [
+                "Lord Veerabhadra Rudrabhisheka",
+                "Panchamrutha Abhishek prayers"
+            ],
+            "events": [
+                "Devotees arriving for moving pillar observation",
+                "Main temple gates open"
+            ],
+            "parking": "Humnabad town parking lots are open and clear.",
+            "alerts": "Cool weather. High devotee flow from Maharashtra border."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Maha Mangalarathi with camphor",
+                "Deity alankara with royal weapons"
+            ],
+            "events": [
+                "Mass feeding prasada distribution in mutt hall",
+                "Devotional speech by chief pontiff"
+            ],
+            "parking": "Town parking 75% full. Walk from highway recommended.",
+            "alerts": "Wait time for moving pillar darshana: 45 minutes."
+        },
+        "Evening": {
+            "rituals": [
+                "Evening Aarti with traditional horns and drums",
+                "Pradosha Puja"
+            ],
+            "events": [
+                "Rathotsava cart-pulling ceremony through market street",
+                "Folk art presentations by Bidar artists"
+            ],
+            "parking": "Market street closed for all vehicles. Use highway parking.",
+            "alerts": "Heavy crowd gathered. Keep personal items safe."
+        },
+        "Night": {
+            "rituals": [
+                "Shayana Seva and sanctum doors lock",
+                "Pooja to Veerabhadra weapons"
+            ],
+            "events": [
+                "Devotional bhajan gatherings in mandapa",
+                "Light show on temple towers"
+            ],
+            "parking": "Highway traffic flowing smoothly. Parking lots clearing.",
+            "alerts": "Darshana closed. Reopens at 6:00 AM tomorrow."
+        }
+    },
+    "jatra_siddaganga": {
+        "Morning": {
+            "rituals": [
+                "Siddhalingeshwara Linga Pooja at hill shrine",
+                "Guru Shivakumar Swamiji Gadduge Pooja"
+            ],
+            "events": [
+                "Krishi Mela (Agricultural Fair) gates open",
+                "Volunteers coordinate student prayer rows"
+            ],
+            "parking": "Mutt ground parking zones A, B, C open. Clear.",
+            "alerts": "Crisp weather. Free transport buses active from Tumakuru station."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Pooja at the community dining sanctum",
+                "Maha Naivedya"
+            ],
+            "events": [
+                "Trivida Dasoha mass feeding serving over 100,000 pilgrims",
+                "Farming equipment live demonstrations at Krishi Mela"
+            ],
+            "parking": "Mutt parking 80% full. Follow traffic volunteer signals.",
+            "alerts": "Extreme crowd at dining halls. Queue moving systematically."
+        },
+        "Evening": {
+            "rituals": [
+                "Mahashivaratri special Sandhya Pooja",
+                "Deepotsava at Mutt pond"
+            ],
+            "events": [
+                "Maharathotsava chariot festival pull on main ring road",
+                "Vachana pravachana music program on main stage"
+            ],
+            "parking": "Tumakuru highway junction restricted. Use mutt outer parking.",
+            "alerts": "Peak crowd for chariot pull. Keep kids close."
+        },
+        "Night": {
+            "rituals": [
+                "Mahashivaratri Jagaran night-long Abhisheka",
+                "Midnight Bilva Pooja"
+            ],
+            "events": [
+                "Night-long spiritual lectures and classical music recital",
+                "Krishi Mela stalls close"
+            ],
+            "parking": "Outer parking areas clear. Traffic smooth.",
+            "alerts": "Shivaratri vigil active all night. Dasoha dining active."
+        }
+    },
+    "jatra_gavisiddeshwara": {
+        "Morning": {
+            "rituals": [
+                "Gavisiddeshwara Swamy cave temple special Abhisheka",
+                "Flag raising rituals"
+            ],
+            "events": [
+                "Opening of South India's largest temporary fairground market",
+                "Pontiff morning blessings"
+            ],
+            "parking": "Koppal bypass layout parking open. Free shuttles active.",
+            "alerts": "Pleasant morning. Millions of pilgrims arriving by trains."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Maha Mangalarathi in cave sanctum",
+                "Offering of sweet Prasad"
+            ],
+            "events": [
+                "Mass feeding Dasoha serving regional sweets (Jalebi/Holige)",
+                "Religious and social discourse sessions"
+            ],
+            "parking": "Bypass parking is 90% full. Expect delay at highway.",
+            "alerts": "Very hot weather. Stay under tents and drink water."
+        },
+        "Evening": {
+            "rituals": [
+                "Lord Gavisiddeshwara chariot climbing rituals",
+                "Sandhya Aarti"
+            ],
+            "events": [
+                "Maha Rathotsava (Car Festival) pulled by over 500,000 devotees",
+                "Spectacular fireworks and folk dance (Veeragase)"
+            ],
+            "parking": "All city roads fully blocked. Access only by walk.",
+            "alerts": "Peak crowd density. Keep children safe and follow barricades."
+        },
+        "Night": {
+            "rituals": [
+                "Cave temple inner sanctum closing prayers",
+                "Ekantha Seva"
+            ],
+            "events": [
+                "Traditional drama shows and bhajan mandalis active",
+                "Fairground shopping open late night"
+            ],
+            "parking": "Shuttles running. Bypass traffic clearing slowly.",
+            "alerts": "Cave temple closed. Fairground active until midnight."
+        }
+    },
+    "jatra_bengaluru_karaga": {
+        "Morning": {
+            "rituals": [
+                "Goddess Draupadi special Alankara at Dharmaraya Temple",
+                "Homa rituals"
+            ],
+            "events": [
+                "Decoration of temple with millions of fresh jasmine flowers",
+                "Security review"
+            ],
+            "parking": "SP Road and Town Hall parking closed. Use Corporation parking.",
+            "alerts": "Traffic diversions in place around Kalasipalya and Halasuru."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Maha Mangalarathi and sacred pot purification",
+                "Kumkumarchana"
+            ],
+            "events": [
+                "Devotees arriving for darshana",
+                "Gathering of Veerakumaras with swords"
+            ],
+            "parking": "Corporation parking full. Use public transit (Metro to Chickpet).",
+            "alerts": "Chickpet streets are crowded. Walk with care."
+        },
+        "Evening": {
+            "rituals": [
+                "Jasmine flower chariot (Muthyala Pallakki) procession pooja",
+                "Aarti"
+            ],
+            "events": [
+                "Sword play (Alagu Seva) by Veerakumaras in temple yard",
+                "Midnight procession final preparations"
+            ],
+            "parking": "Old Bengaluru streets fully barricaded. Walking is recommended.",
+            "alerts": "Extreme crowd gathering. Police deployed. Stay alert."
+        },
+        "Night": {
+            "rituals": [
+                "Karaga bearer carrying flower pyramid in trance through streets",
+                "Offering at Hazrat Tawkal Mastan Shah Dargah"
+            ],
+            "events": [
+                "Midnight to dawn street procession with drum beats and chants",
+                "Muthyala Pallakki moves through city"
+            ],
+            "parking": "City roads closed. Metro running special midnight services.",
+            "alerts": "Trance procession active. Spectators requested to respect barricades."
+        }
+    },
+    "jatra_nanjangud_srikanteshwara": {
+        "Morning": {
+            "rituals": [
+                "Kapila River holy water Abhisheka for Srikanteshwara",
+                "Gautama Ratha pooja"
+            ],
+            "events": [
+                "Devotees taking holy bath in Kapila River",
+                "Lineup of 5 massive chariots"
+            ],
+            "parking": "River bank parking grounds are open and clear.",
+            "alerts": "Cool morning. Separate queues active for Kapila holy bath."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Madhyahna Pooja & Alankara with gold ornaments",
+                "Naivedya"
+            ],
+            "events": [
+                "Mass feeding at temple dining hall",
+                "Teppotsava floating raft setup"
+            ],
+            "parking": "River bank parking 70% full. Volunteer guides active.",
+            "alerts": "Wait time in queue: 2 hours. Keep hydrated."
+        },
+        "Evening": {
+            "rituals": [
+                "Dodda Garudotsava five chariot festival launch rituals",
+                "Aarti"
+            ],
+            "events": [
+                "Pulling of five giant chariots by hand along the river banks",
+                "Dollu Kunitha folk dances along the chariot street"
+            ],
+            "parking": "Nanjangud town roads closed. Park at bypass layouts.",
+            "alerts": "Massive crowd for chariot pull. Avoid standing close to ropes."
+        },
+        "Night": {
+            "rituals": [
+                "Sayana Pooja and temple closing rituals",
+                "Sanctum locked"
+            ],
+            "events": [
+                "Teppotsava (Floating festival) in the Kapila River under spotlights",
+                "Classical musical concert in temple courtyard"
+            ],
+            "parking": "Town bypass roads clear. Normal flow.",
+            "alerts": "Temple closed. River bank Teppotsava continues until 11 PM."
+        }
+    },
+    "jatra_yadiyur_siddhalingeshwara": {
+        "Morning": {
+            "rituals": [
+                "Siddhalingeshwara Samadhi Panchamrutha Abhisheka",
+                "Flag hoisting"
+            ],
+            "events": [
+                "Devotees queuing up in temple corridor",
+                "Chariot assembly check"
+            ],
+            "parking": "Temple bypass field parking is open. Clear.",
+            "alerts": "Warm morning. Clean drinking water stations active."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Maha Pooja and offering of Holige Naivedya",
+                "Siddhalinga Sahasranama"
+            ],
+            "events": [
+                "Mass feeding (Dasoha) at Mutt kitchen",
+                "Discourse on saint teachings"
+            ],
+            "parking": "Bypass parking 65% full. Traffic smooth.",
+            "alerts": "Queue wait time: 1 hour. Prasada served continuously."
+        },
+        "Evening": {
+            "rituals": [
+                "Evening Pradosha Pooja and lighting of chariot lamps",
+                "Aarti"
+            ],
+            "events": [
+                "Rathotsava night chariot procession under colorful neon lights",
+                "Traditional Veeragase dance performance"
+            ],
+            "parking": "Kunigal-Yadiyur highway exit busy. Expect delays.",
+            "alerts": "Night chariot pulling starts now. Keep distance from wheels."
+        },
+        "Night": {
+            "rituals": [
+                "Samadhi closing prayers",
+                "Sanctum locked for the night"
+            ],
+            "events": [
+                "Bhajan mandali gatherings singing Shiva vachanas",
+                "Fairground stalls active"
+            ],
+            "parking": "Highway exit clear. Town roads clearing slowly.",
+            "alerts": "Temple closed. Fair stalls remain open until midnight."
+        }
+    },
+    "jatra_nayakanahatti_thipperudra": {
+        "Morning": {
+            "rituals": [
+                "Thipperudra Swamy Samadhi Abhisheka with coconut water",
+                "Pooja"
+            ],
+            "events": [
+                "Devotees arriving with bags of dry coconut pieces (Koppari)",
+                "Chariot decoration"
+            ],
+            "parking": "Challakere road open field parking is clear.",
+            "alerts": "Dry, breezy weather. Goggles recommended due to wind."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Madhyahna Pooja and special coconut offering",
+                "Naivedya"
+            ],
+            "events": [
+                "Dasoha mass feeding starts",
+                "Rural agricultural and cattle show opens"
+            ],
+            "parking": "Field parking 60% full. Expect slow traffic.",
+            "alerts": "Farming tools exhibition active. Free entry."
+        },
+        "Evening": {
+            "rituals": [
+                "Rathotsava launch rituals and offering of Koppari",
+                "Aarti"
+            ],
+            "events": [
+                "Maha Rathotsava where lakhs throw dry coconut pieces (Koppari) at the moving chariot",
+                "Spectacular sight of cascading coconuts"
+            ],
+            "parking": "Temple zone closed. Use Challakere highway layout parking.",
+            "alerts": "Devotees are requested to throw coconut pieces safely. Wear hats."
+        },
+        "Night": {
+            "rituals": [
+                "Sayana Pooja and Samadhi shrine closing prayers",
+                "Doors locked"
+            ],
+            "events": [
+                "Folk drama and puppet shows in temple ground",
+                "Clean-up drive to collect coconuts"
+            ],
+            "parking": "Town exit roads clear. Traffic flowing.",
+            "alerts": "Temple closed. Folk drama runs all night."
+        }
+    },
+    "jatra_viduraswatha": {
+        "Morning": {
+            "rituals": [
+                "Vidurnarayana Swamy Abhisheka",
+                "Pooja to ancient Peepal tree"
+            ],
+            "events": [
+                "Devotees performing pradakshina around Peepal tree",
+                "Market stalls opening"
+            ],
+            "parking": "Riverside field parking is open and clear.",
+            "alerts": "Sunny weather. Helpdesk active near National Memorial."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Maha Pooja and offering of sweet pongal Naivedya",
+                "Aarti"
+            ],
+            "events": [
+                "Riverside market active with clay pottery and wooden toys",
+                "Devotional speech on freedom history"
+            ],
+            "parking": "Riverside parking 70% full. Expect brief delays.",
+            "alerts": "Queue for Peepal tree pradakshina moving steadily."
+        },
+        "Evening": {
+            "rituals": [
+                "Rathotsava chariot puja",
+                "Sandhya Aarti on river banks"
+            ],
+            "events": [
+                "Lord Vidurnarayana Chariot procession through riverside road",
+                "Folk art dollu kunitha by local teams"
+            ],
+            "parking": "Gauribidanur road traffic slow. Follow diversions.",
+            "alerts": "Enjoy the riverside sunset. Keep away from deep river spots."
+        },
+        "Night": {
+            "rituals": [
+                "Sayana Seva and temple closing prayers",
+                "Sanctum closed"
+            ],
+            "events": [
+                "Deepotsava floating lamps in Uttara Pinakini river",
+                "Folk plays near memorial"
+            ],
+            "parking": "Riverside parking clearing. Traffic normal.",
+            "alerts": "Temple closed. Floating lamps event visible from bridge."
+        }
+    },
+    "jatra_kar_hunnive": {
+        "Morning": {
+            "rituals": [
+                "Worshipping and bathing of bullocks in local temple lakes",
+                "Basaveshwara Pooja"
+            ],
+            "events": [
+                "Farmers painting bullock horns with bright paints",
+                "Decoration with brass bells and fabrics"
+            ],
+            "parking": "Village common grounds open for parking. No delays.",
+            "alerts": "Sunny morning. Bullock processions active in villages."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Naivedya offering to Lord Basaveshwara and decorated bullocks",
+                "Aarti"
+            ],
+            "events": [
+                "Village-wide festive lunch (Sajje Rotti and Ennegayi)",
+                "Bullock parade in village square"
+            ],
+            "parking": "Village square closed. Park at village entrance fields.",
+            "alerts": "Festive meals served at all houses. Guests welcome."
+        },
+        "Evening": {
+            "rituals": [
+                "Village temple deity chariot pull and bullock blessings",
+                "Aarti"
+            ],
+            "events": [
+                "High-energy bullock cart races (Karihariyodu) through muddy tracks",
+                "Excited crowds cheering"
+            ],
+            "parking": "Bypass mud roads congested. Expect delays.",
+            "alerts": "Race tracks are active. Stand behind safety wooden logs."
+        },
+        "Night": {
+            "rituals": [
+                "Shanti Pooja at village temple",
+                "Sanctum closed"
+            ],
+            "events": [
+                "Folk singing (Jogi Pada) and drama shows in open theater",
+                "Community dinner"
+            ],
+            "parking": "Village entrance parking clearing. Traffic smooth.",
+            "alerts": "Races completed. Folk dramas active all night."
+        }
+    },
+    "jatra_kambala": {
+        "Morning": {
+            "rituals": [
+                "Traditional prayers to Lord Manjunatha and Nagaraja for crop safety",
+                "Pooja"
+            ],
+            "events": [
+                "Arrival of racing buffaloes and trainers",
+                "Slushy paddy field track inspection"
+            ],
+            "parking": "Open field parking next to track is clear.",
+            "alerts": "Sunny morning. Veterinary doctor camps checking buffalo fitness."
+        },
+        "Afternoon": {
+            "rituals": [
+                "Maha Arathi at track entrance deity",
+                "Pooja to race track"
+            ],
+            "events": [
+                "Inaugural buffalo sprint runs in parallel muddy tracks",
+                "Commentary starts"
+            ],
+            "parking": "Track field parking 75% full. Walk to track gallery.",
+            "alerts": "Sunny afternoon. Stand in gallery to avoid slush splashes."
+        },
+        "Evening": {
+            "rituals": [
+                "Track deepotsava lamp lighting",
+                "Special evening Arathi"
+            ],
+            "events": [
+                "High-octane sprint races under floodlights",
+                "Coastal food stalls active (Neer Dosa/Fish fry)"
+            ],
+            "parking": "Heavy traffic on coastal highway near track. Slow down.",
+            "alerts": "Extreme speed runs. Keep cameras protected from mud splashes."
+        },
+        "Night": {
+            "rituals": [
+                "Final champion trophy offering prayers to Manjunatha",
+                "Shanti Puja"
+            ],
+            "events": [
+                "Midnight final races and prize distribution ceremony",
+                "Yakshagana night play starting near temple"
+            ],
+            "parking": "Track parking clearing slowly. High pedestrian flow.",
+            "alerts": "Races continue until late night. Yakshagana active till sunrise."
         }
     }
 }

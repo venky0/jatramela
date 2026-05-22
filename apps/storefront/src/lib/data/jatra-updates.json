@@ -1,122 +1,242 @@
 {
   "jatra_mysuru_dasara": {
     "crowdStatus": "Normal",
-    "crowdCount": "5,704 devotees present",
-    "currentRitual": "Special Pratah Kala Abhisheka & Kumkumarchana at Chamundeshwari Temple",
-    "nextEvent": "Morning darshana queues open for devotees",
+    "crowdCount": "7,285 devotees present",
+    "currentRitual": "Suprabhatha Seva and morning queue alignments atop Chamundi Hills",
+    "nextEvent": "Chinnada Ambari (Golden Howdah) morning preparation inspection",
     "weather": "24\u00b0C, Sunny Day",
     "parkingAlert": "Parking at Chamundi Hills base is open. Hills road traffic is moderate.",
     "liveAlert": "Warm morning weather. Separate senior citizen lines active at North Gate.",
-    "lastUpdated": "2026-05-22T01:24:20.577913Z"
+    "lastUpdated": "2026-05-22T01:43:23.512793Z"
   },
   "jatra_sharanabasaveshwara": {
     "crowdStatus": "Normal",
-    "crowdCount": "5,397 devotees present",
-    "currentRitual": "Uchchayi flag raising ceremony prayers",
-    "nextEvent": "Morning queue alignments and devotional singing in outer courtyard",
-    "weather": "26\u00b0C, Clear Sky",
+    "crowdCount": "3,472 devotees present",
+    "currentRitual": "Siddhalinga Pooja & Panchamrutha Abhisheka at the Samadhi shrine",
+    "nextEvent": "Rathotsava chariot assembly inspection by temple trustees",
+    "weather": "26\u00b0C, Warm Sunshine",
     "parkingAlert": "Main temple parking is open and clear. No delays.",
     "liveAlert": "Queue moving smoothly. Drinking water stations placed along the lines.",
-    "lastUpdated": "2026-05-22T01:24:21.102502Z"
+    "lastUpdated": "2026-05-22T01:43:24.046394Z"
   },
   "jatra_hampi_utsav": {
     "crowdStatus": "Normal",
-    "crowdCount": "4,011 devotees present",
+    "crowdCount": "5,480 devotees present",
     "currentRitual": "Sacred chanting of Rudra Chamaka at sanctum",
     "nextEvent": "Shobha Yatra cultural parade setup at Hampi Bazaar street",
-    "weather": "24\u00b0C, Warm Sunshine",
+    "weather": "23\u00b0C, Sunny Day",
     "parkingAlert": "Hampi bypass parking open. KSRTC shuttle service starting.",
     "liveAlert": "Morning breeze is pleasant. Helpdesk active near temple entrance.",
-    "lastUpdated": "2026-05-22T01:24:21.627789Z"
+    "lastUpdated": "2026-05-22T01:43:24.570535Z"
   },
   "jatra_kadalekai_parishe": {
-    "crowdStatus": "Normal",
-    "crowdCount": "2,798 devotees present",
-    "currentRitual": "Maha Abhisheka of monolithic Nandi with milk, honey, and ghee",
-    "nextEvent": "Groundnut market fair opening ceremony",
-    "weather": "26\u00b0C, Sunny Day",
+    "crowdStatus": "Moderate",
+    "crowdCount": "2,644 devotees present",
+    "currentRitual": "Inauguration pooja at Dodda Ganesha Temple",
+    "nextEvent": "Farmers from across South India setting up groundnut stalls",
+    "weather": "23\u00b0C, Warm Sunshine",
     "parkingAlert": "Bull Temple Road closed. Park near National College grounds.",
     "liveAlert": "Eco-friendly bags distributed. Plastic bag ban strictly enforced.",
-    "lastUpdated": "2026-05-22T01:24:22.150202Z"
+    "lastUpdated": "2026-05-22T01:43:25.115413Z"
   },
   "jatra_banashankari_devi": {
-    "crowdStatus": "Moderate",
-    "crowdCount": "2,829 devotees present",
-    "currentRitual": "Panchamrutha Abhisheka and floral decoration of Goddess Banashankari",
-    "nextEvent": "Teppotsava floating raft setup in Haridra Tirtha",
+    "crowdStatus": "Normal",
+    "crowdCount": "7,499 devotees present",
+    "currentRitual": "Sahasranama Kumkumarchana for women devotees",
+    "nextEvent": "Morning darshana lines forming in front of Badami temple",
     "weather": "25\u00b0C, Sunny Day",
     "parkingAlert": "Cholachagudda road clear. Free parking near temple pond.",
     "liveAlert": "Cool weather. Queue lines moving smoothly.",
-    "lastUpdated": "2026-05-22T01:24:22.671131Z"
+    "lastUpdated": "2026-05-22T01:43:25.619194Z"
   },
   "jatra_suttur_mahotsav": {
     "crowdStatus": "Moderate",
-    "crowdCount": "7,414 devotees present",
-    "currentRitual": "Prabhat Pheri morning devotional walk with temple chants",
-    "nextEvent": "Cattle show and organic produce displays open",
-    "weather": "24\u00b0C, Sunny Day",
+    "crowdCount": "2,573 devotees present",
+    "currentRitual": "Suttur Math founder Smaranotsava and guru pooja",
+    "nextEvent": "Inauguration of Krishi Mela (Agricultural Exhibition)",
+    "weather": "25\u00b0C, Sunny Day",
     "parkingAlert": "Designated parking zones A & B are open. 20% full.",
     "liveAlert": "Exhibition stalls open at 09:00 AM. Free entry for farmers.",
-    "lastUpdated": "2026-05-22T01:24:23.199461Z"
+    "lastUpdated": "2026-05-22T01:43:26.142180Z"
   },
   "jatra_ghati_subrahmanya": {
     "crowdStatus": "Normal",
-    "crowdCount": "4,906 devotees present",
+    "crowdCount": "6,903 devotees present",
     "currentRitual": "Ksheerabhisheka for swayambhu Naga Subrahmanya deity",
     "nextEvent": "Doddaballapur cattle fair morning arrival of livestock",
-    "weather": "27\u00b0C, Clear Sky",
+    "weather": "27\u00b0C, Warm Sunshine",
     "parkingAlert": "Open field parking zone C is clear. Use Ghati bypass road.",
     "liveAlert": "Early morning fog. Drive with fog lamps on highway.",
-    "lastUpdated": "2026-05-22T01:24:23.724979Z"
+    "lastUpdated": "2026-05-22T01:43:26.676129Z"
   },
   "jatra_udupi_paryaya": {
-    "crowdStatus": "Normal",
-    "crowdCount": "6,381 devotees present",
+    "crowdStatus": "Moderate",
+    "crowdCount": "4,892 devotees present",
     "currentRitual": "Kanakana Kindi special temple offering and prayers",
-    "nextEvent": "Pura Pravesha - ceremonial entry of the incoming Swamiji into Udupi",
+    "nextEvent": "Grand procession featuring 50+ cultural troupes",
     "weather": "23\u00b0C, Clear Sky",
     "parkingAlert": "City center closed. Park at Kalsanka or city bus stand.",
     "liveAlert": "Procession active since 3 AM. Udupi city center fully decorated.",
-    "lastUpdated": "2026-05-22T01:24:24.245684Z"
+    "lastUpdated": "2026-05-22T01:43:27.188512Z"
   },
   "jatra_mailara_lingeshwara": {
     "crowdStatus": "Normal",
-    "crowdCount": "6,424 devotees present",
-    "currentRitual": "Mailara Lingeshwara sacred morning Abhisheka",
-    "nextEvent": "Goravas in black woolen blankets blowing brass horns",
-    "weather": "23\u00b0C, Warm Sunshine",
+    "crowdCount": "4,197 devotees present",
+    "currentRitual": "Goravara Kunitha ritual dance on temple plains",
+    "nextEvent": "Devotees gathering on the plain grounds",
+    "weather": "24\u00b0C, Warm Sunshine",
     "parkingAlert": "Open field parking near Mylara plains is clear.",
     "liveAlert": "Dusty environment. Wearing face covers recommended.",
-    "lastUpdated": "2026-05-22T01:24:24.783337Z"
+    "lastUpdated": "2026-05-22T01:43:27.712312Z"
   },
   "jatra_sirsi_marikamba": {
     "crowdStatus": "Moderate",
-    "crowdCount": "2,699 devotees present",
-    "currentRitual": "Devi Abhisheka with sacred herbal water",
-    "nextEvent": "Marikamba Shobha Yatra procession starting through Sirsi main streets",
-    "weather": "23\u00b0C, Clear Sky",
+    "crowdCount": "5,105 devotees present",
+    "currentRitual": "Maha Alankara of the colossal 8-foot wooden Goddess Marikamba",
+    "nextEvent": "Thousands of women carrying sacred Kalashas",
+    "weather": "27\u00b0C, Warm Sunshine",
     "parkingAlert": "Sirsi town parking slots open. Shuttles starting.",
     "liveAlert": "Procession routes closed to vehicles. Use bypass parking.",
-    "lastUpdated": "2026-05-22T01:24:25.296466Z"
+    "lastUpdated": "2026-05-22T01:43:28.316644Z"
   },
   "jatra_saundatte_yellamma": {
-    "crowdStatus": "Normal",
-    "crowdCount": "4,792 devotees present",
+    "crowdStatus": "Moderate",
+    "crowdCount": "4,318 devotees present",
     "currentRitual": "Holy dip at Jogulabhavi sacred pond by lakhs of pilgrims",
     "nextEvent": "Devotees carrying the 'Jag' sacred vessel on their heads",
-    "weather": "23\u00b0C, Clear Sky",
+    "weather": "23\u00b0C, Sunny Day",
     "parkingAlert": "Hill road blocked. Park at foothills and use official jeeps.",
     "liveAlert": "Heavy crowds at Jogulabhavi pond. Use caution near steps.",
-    "lastUpdated": "2026-05-22T01:24:25.821202Z"
+    "lastUpdated": "2026-05-22T01:43:29.041241Z"
   },
   "jatra_gokarna_mahashivaratri": {
-    "crowdStatus": "Normal",
-    "crowdCount": "7,477 devotees present",
+    "crowdStatus": "Moderate",
+    "crowdCount": "4,277 devotees present",
     "currentRitual": "Samudra Snana beach bathing by thousands of pilgrims",
-    "nextEvent": "Devotees queuing up along Car Street for Atmalinga darshana",
-    "weather": "23\u00b0C, Sunny Day",
+    "nextEvent": "Maha Ratha chariot final decoration check",
+    "weather": "23\u00b0C, Warm Sunshine",
     "parkingAlert": "Gokarna main road closed. Park near bus stand parking area.",
     "liveAlert": "Pleasant sea breeze. Queue wait time for Sparsha Darshana: 2 hours.",
-    "lastUpdated": "2026-05-22T01:24:26.347496Z"
+    "lastUpdated": "2026-05-22T01:43:29.611965Z"
+  },
+  "jatra_siddheshwara": {
+    "crowdStatus": "Moderate",
+    "crowdCount": "3,482 devotees present",
+    "currentRitual": "Siddheshwara Swamy Pratah Kala Abhisheka",
+    "nextEvent": "Cattle market gates open for farmers",
+    "weather": "23\u00b0C, Warm Sunshine",
+    "parkingAlert": "Parking near city stadium is open. Free shuttle to temple.",
+    "liveAlert": "Mild weather. Cattle market active at North grounds.",
+    "lastUpdated": "2026-05-22T01:43:30.163048Z"
+  },
+  "jatra_huskur_madduramma": {
+    "crowdStatus": "Normal",
+    "crowdCount": "6,054 devotees present",
+    "currentRitual": "Holy water sprinkler blessings",
+    "nextEvent": "Bamboo Kurju frame final alignments",
+    "weather": "25\u00b0C, Clear Sky",
+    "parkingAlert": "Village entrance fields converted to parking zones. Clear.",
+    "liveAlert": "Foggy morning. Bullock processions starting on Anekal highway.",
+    "lastUpdated": "2026-05-22T01:43:30.662160Z"
+  },
+  "jatra_veerabhadreshwara": {
+    "crowdStatus": "Moderate",
+    "crowdCount": "4,061 devotees present",
+    "currentRitual": "Panchamrutha Abhishek prayers",
+    "nextEvent": "Devotees arriving for moving pillar observation",
+    "weather": "24\u00b0C, Clear Sky",
+    "parkingAlert": "Humnabad town parking lots are open and clear.",
+    "liveAlert": "Cool weather. High devotee flow from Maharashtra border.",
+    "lastUpdated": "2026-05-22T01:43:31.215446Z"
+  },
+  "jatra_siddaganga": {
+    "crowdStatus": "Normal",
+    "crowdCount": "6,481 devotees present",
+    "currentRitual": "Guru Shivakumar Swamiji Gadduge Pooja",
+    "nextEvent": "Volunteers coordinate student prayer rows",
+    "weather": "27\u00b0C, Sunny Day",
+    "parkingAlert": "Mutt ground parking zones A, B, C open. Clear.",
+    "liveAlert": "Crisp weather. Free transport buses active from Tumakuru station.",
+    "lastUpdated": "2026-05-22T01:43:31.791531Z"
+  },
+  "jatra_gavisiddeshwara": {
+    "crowdStatus": "Normal",
+    "crowdCount": "4,368 devotees present",
+    "currentRitual": "Flag raising rituals",
+    "nextEvent": "Opening of South India's largest temporary fairground market",
+    "weather": "26\u00b0C, Warm Sunshine",
+    "parkingAlert": "Koppal bypass layout parking open. Free shuttles active.",
+    "liveAlert": "Pleasant morning. Millions of pilgrims arriving by trains.",
+    "lastUpdated": "2026-05-22T01:43:32.520936Z"
+  },
+  "jatra_bengaluru_karaga": {
+    "crowdStatus": "Moderate",
+    "crowdCount": "3,754 devotees present",
+    "currentRitual": "Goddess Draupadi special Alankara at Dharmaraya Temple",
+    "nextEvent": "Decoration of temple with millions of fresh jasmine flowers",
+    "weather": "26\u00b0C, Sunny Day",
+    "parkingAlert": "SP Road and Town Hall parking closed. Use Corporation parking.",
+    "liveAlert": "Traffic diversions in place around Kalasipalya and Halasuru.",
+    "lastUpdated": "2026-05-22T01:43:33.016731Z"
+  },
+  "jatra_nanjangud_srikanteshwara": {
+    "crowdStatus": "Moderate",
+    "crowdCount": "3,663 devotees present",
+    "currentRitual": "Kapila River holy water Abhisheka for Srikanteshwara",
+    "nextEvent": "Lineup of 5 massive chariots",
+    "weather": "25\u00b0C, Sunny Day",
+    "parkingAlert": "River bank parking grounds are open and clear.",
+    "liveAlert": "Cool morning. Separate queues active for Kapila holy bath.",
+    "lastUpdated": "2026-05-22T01:43:33.547446Z"
+  },
+  "jatra_yadiyur_siddhalingeshwara": {
+    "crowdStatus": "Normal",
+    "crowdCount": "4,585 devotees present",
+    "currentRitual": "Siddhalingeshwara Samadhi Panchamrutha Abhisheka",
+    "nextEvent": "Devotees queuing up in temple corridor",
+    "weather": "26\u00b0C, Sunny Day",
+    "parkingAlert": "Temple bypass field parking is open. Clear.",
+    "liveAlert": "Warm morning. Clean drinking water stations active.",
+    "lastUpdated": "2026-05-22T01:43:34.027343Z"
+  },
+  "jatra_nayakanahatti_thipperudra": {
+    "crowdStatus": "Moderate",
+    "crowdCount": "6,968 devotees present",
+    "currentRitual": "Thipperudra Swamy Samadhi Abhisheka with coconut water",
+    "nextEvent": "Devotees arriving with bags of dry coconut pieces (Koppari)",
+    "weather": "24\u00b0C, Clear Sky",
+    "parkingAlert": "Challakere road open field parking is clear.",
+    "liveAlert": "Dry, breezy weather. Goggles recommended due to wind.",
+    "lastUpdated": "2026-05-22T01:43:34.532409Z"
+  },
+  "jatra_viduraswatha": {
+    "crowdStatus": "Moderate",
+    "crowdCount": "5,914 devotees present",
+    "currentRitual": "Vidurnarayana Swamy Abhisheka",
+    "nextEvent": "Market stalls opening",
+    "weather": "26\u00b0C, Sunny Day",
+    "parkingAlert": "Riverside field parking is open and clear.",
+    "liveAlert": "Sunny weather. Helpdesk active near National Memorial.",
+    "lastUpdated": "2026-05-22T01:43:35.057382Z"
+  },
+  "jatra_kar_hunnive": {
+    "crowdStatus": "Moderate",
+    "crowdCount": "5,355 devotees present",
+    "currentRitual": "Basaveshwara Pooja",
+    "nextEvent": "Farmers painting bullock horns with bright paints",
+    "weather": "27\u00b0C, Sunny Day",
+    "parkingAlert": "Village common grounds open for parking. No delays.",
+    "liveAlert": "Sunny morning. Bullock processions active in villages.",
+    "lastUpdated": "2026-05-22T01:43:35.606540Z"
+  },
+  "jatra_kambala": {
+    "crowdStatus": "Normal",
+    "crowdCount": "3,536 devotees present",
+    "currentRitual": "Traditional prayers to Lord Manjunatha and Nagaraja for crop safety",
+    "nextEvent": "Arrival of racing buffaloes and trainers",
+    "weather": "23\u00b0C, Warm Sunshine",
+    "parkingAlert": "Open field parking next to track is clear.",
+    "liveAlert": "Sunny morning. Veterinary doctor camps checking buffalo fitness.",
+    "lastUpdated": "2026-05-22T01:43:36.140474Z"
   }
 }

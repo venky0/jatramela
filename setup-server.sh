@@ -6,7 +6,7 @@
 # ═══════════════════════════════════════════════════════════════
 
 set -e  # Exit on any error
-DOMAIN=${1:-"jatramela.in"}
+DOMAIN=${1:-"jatramela.com"}
 API_DOMAIN="api.$DOMAIN"
 APP_DIR="/var/www/jatramela"
 DB_NAME="jatramela"

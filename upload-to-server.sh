@@ -6,7 +6,7 @@
 # ═══════════════════════════════════════════════════════════════
 
 VPS_IP=${1:-"YOUR_MILESWEB_VPS_IP"}
-DOMAIN=${2:-"jatramela.in"}
+DOMAIN=${2:-"jatramela.com"}
 APP_DIR="/var/www/jatramela"
 
 echo ""

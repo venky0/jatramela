@@ -49,7 +49,7 @@ export const JATRA_DATA: Jatra[] = [
     place: "Sri Sharanabasaveshwara Temple, Kalaburagi",
     district: "Kalaburagi",
     kannadaMonth: "Chaitra (March - April)",
-    gregorianMonths: ["March", "April"],
+    gregorianMonths: ["March", "April", "May"],
     timing: "Chaitra Bahula Panchami (20 days after Yugadi)",
     image: "/images/jatras/sharanabasaveshwara.png",
     summary: "A massive, spiritually charged chariot festival (Rathotsava) attracting lakhs of devotees, honoring the great Veerashaiva saint who preached charity and selfless work.",

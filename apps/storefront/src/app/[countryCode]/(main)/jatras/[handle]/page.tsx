@@ -150,7 +150,7 @@ export default async function JatraDetailPage(props: Props) {
         {/* Live Devotional Updates section */}
         {jatraUpdate && (
           <div className="mb-12">
-            <LiveJatraUpdates jatraId={jatra.id} initialData={jatraUpdate} />
+            <LiveJatraUpdates jatraId={jatra.id} initialData={jatraUpdate} gregorianMonths={jatra.gregorianMonths} />
           </div>
         )}
 

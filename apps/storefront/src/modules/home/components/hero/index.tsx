@@ -217,7 +217,8 @@ export default function Hero() {
                     <div className="mb-6 sm:mb-8 max-w-xl rounded-2xl border border-[#FF8C00]/40 bg-gradient-to-br from-[#2D0F00]/95 to-[#1A0600]/95 p-4 sm:p-5 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.5),_0_0_15px_rgba(255,111,0,0.15)] transform transition-all duration-500 hover:scale-[1.01] hover:border-[#FF8C00]/70">
                       <div className="flex items-center justify-between mb-3 border-b border-[#C9A84C]/20 pb-2">
                         <span className="flex items-center gap-2 text-[#FF8C00] font-bold text-xs sm:text-sm tracking-wider uppercase">
-                          <span className="animate-spin text-sm" style={{ animationDuration: "3s" }}>🔱</span> LIVE DEVOTIONAL UPDATES
+                          <span className="animate-spin text-sm" style={{ animationDuration: "3s" }}>🔱</span> 
+                          {update?.isActive === false ? "DEVOTIONAL FEED OFFLINE" : "LIVE DEVOTIONAL UPDATES"}
                         </span>
                         {update?.lastUpdated && (
                           <span className="text-[10px] text-amber-200/50">
@@ -227,25 +228,53 @@ export default function Hero() {
                       </div>
                       
                       {update ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-[#FFF8E7]/90">
-                          <div className="space-y-2">
-                            <p className="flex items-center gap-2">
-                              <span className="text-[#FFD700]">👥 Crowd:</span>
-                              <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
-                                update.crowdStatus === 'Peak' || update.crowdStatus === 'VVIP'
-                                  ? 'bg-red-950/80 text-red-400 border border-red-800'
-                                  : 'bg-green-950/80 text-green-400 border border-green-800'
-                              }`}>
-                                {update.crowdStatus}
-                              </span>
-                            </p>
-                            <p className="line-clamp-1"><span className="text-[#FFD700]">🙏 Ritual:</span> {update.currentRitual}</p>
+                        update.isActive === false ? (
+                          <div className="text-xs sm:text-sm text-[#FFF8E7]/90 space-y-2">
+                            <div className="flex items-center gap-2 text-orange-400 font-bold">
+                              <span>🔔</span> Temple Darshana Open (No Live Festival)
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                              <div>
+                                <p className="mb-1">
+                                  <span className="text-[#FFD700]">📅 Next Festival:</span>{" "}
+                                  <span className="text-orange-300 font-semibold">{update.nextEvent}</span>
+                                </p>
+                                <p>
+                                  <span className="text-[#FFD700]">🕒 Timings:</span>{" "}
+                                  <span>6:00 AM - 9:00 PM</span>
+                                </p>
+                              </div>
+                              <div>
+                                <p className="mb-1">
+                                  <span className="text-[#FFD700]">☁️ Weather:</span> {update.weather}
+                                </p>
+                                <p className="line-clamp-1">
+                                  <span className="text-[#FFD700]">🚨 Status:</span> <span className="text-amber-200/70">{update.liveAlert}</span>
+                                </p>
+                              </div>
+                            </div>
                           </div>
-                          <div className="space-y-2">
-                            <p className="line-clamp-1"><span className="text-[#FFD700]">☁️ Weather:</span> {update.weather}</p>
-                            <p className="line-clamp-1"><span className="text-[#FFD700]">🚨 Alert:</span> <span className="text-orange-300 font-medium">{update.liveAlert || update.parkingAlert}</span></p>
+                        ) : (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-[#FFF8E7]/90">
+                            <div className="space-y-2">
+                              <p className="flex items-center gap-2">
+                                <span className="text-[#FFD700]">👥 Crowd:</span>
+                                <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                                  update.crowdStatus === 'Peak' || update.crowdStatus === 'VVIP'
+                                    ? 'bg-red-950/80 text-red-400 border border-red-800'
+                                    : 'bg-green-950/80 text-green-400 border border-green-800'
+                                }`}>
+                                  {update.crowdStatus}
+                                </span>
+                              </p>
+                              <p className="line-clamp-1"><span className="text-[#FFD700]">🙏 Ritual:</span> {update.currentRitual}</p>
+                            </div>
+                            <div className="space-y-2">
+                              <p className="line-clamp-1"><span className="text-[#FFD700]">☁️ Weather:</span> {update.weather}</p>
+                              <p className="line-clamp-1"><span className="text-[#FFD700]">🚨 Alert:</span> <span className="text-orange-300 font-medium">{update.liveAlert || update.parkingAlert}</span></p>
+                            </div>
                           </div>
-                        </div>
+                        )
                       ) : (
                         <div className="flex items-center justify-center py-2 text-xs text-amber-200/40">
                           <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-[#FF8C00]" fill="none" viewBox="0 0 24 24">

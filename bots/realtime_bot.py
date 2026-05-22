@@ -1342,8 +1342,54 @@ def get_time_based_metrics(hour):
         
     return period, status, count
 
+ACTIVE_MONTHS = {
+    "jatra_mysuru_dasara": ["October"],
+    "jatra_sharanabasaveshwara": ["March"],
+    "jatra_hampi_utsav": ["February", "April"],
+    "jatra_kadalekai_parishe": ["December"],
+    "jatra_banashankari_devi": ["January"],
+    "jatra_suttur_mahotsav": ["January"],
+    "jatra_ghati_subrahmanya": ["December"],
+    "jatra_udupi_paryaya": ["January"],
+    "jatra_mailara_lingeshwara": ["February"],
+    "jatra_sirsi_marikamba": ["February", "March"],
+    "jatra_saundatte_yellamma": ["December", "January"],
+    "jatra_gokarna_mahashivaratri": ["February"],
+    "jatra_siddheshwara": ["January"],
+    "jatra_huskur_madduramma": ["March"],
+    "jatra_veerabhadreshwara": ["January"],
+    "jatra_siddaganga": ["February"],
+    "jatra_gavisiddeshwara": ["January"],
+    "jatra_bengaluru_karaga": ["March", "April"],
+    "jatra_nanjangud_srikanteshwara": ["March"],
+    "jatra_yadiyur_siddhalingeshwara": ["March", "April"],
+    "jatra_nayakanahatti_thipperudra": ["March"],
+    "jatra_viduraswatha": ["March", "April"],
+    "jatra_kar_hunnive": ["June"],
+    "jatra_kambala": ["November", "December", "January", "February", "March"]
+}
+
 def generate_update(jatra_id, ist_now):
-    """Generate dynamic timezone-aware update for a Jatra"""
+    """Generate dynamic timezone-aware update for a Jatra, checking active Gregorian month"""
+    coord = COORDINATES.get(jatra_id, {"lat": 12.9716, "lon": 77.5946, "city": "Bengaluru"})
+    weather_str = fetch_weather(coord["lat"], coord["lon"], coord["city"])
+    current_month = ist_now.strftime('%B')
+    active_months = ACTIVE_MONTHS.get(jatra_id, [])
+
+    if current_month not in active_months:
+        months_str = ", ".join(active_months)
+        return {
+            "isActive": False,
+            "crowdStatus": "Offline",
+            "crowdCount": "N/A (Feed Offline)",
+            "currentRitual": "Daily Nitya Pooja & Aarti",
+            "nextEvent": f"Next festival in {months_str}",
+            "weather": weather_str,
+            "parkingAlert": "Main temple parking is open and clear. Normal flow of local visitors.",
+            "liveAlert": "No live festival events currently active. Daily darshana is open from 06:00 AM to 09:00 PM.",
+            "lastUpdated": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        }
+
     jatra_data = JATRA_PERIOD_DATA.get(jatra_id)
     if not jatra_data:
         # Fallback period data
@@ -1377,11 +1423,8 @@ def generate_update(jatra_id, ist_now):
     period, status, count = get_time_based_metrics(ist_now.hour)
     period_info = jatra_data.get(period, jatra_data["Morning"])
     
-    # Get weather
-    coord = COORDINATES.get(jatra_id, {"lat": 12.9716, "lon": 77.5946, "city": "Bengaluru"})
-    weather_str = fetch_weather(coord["lat"], coord["lon"], coord["city"])
-    
     return {
+        "isActive": True,
         "crowdStatus": status,
         "crowdCount": count,
         "currentRitual": random.choice(period_info["rituals"]),

@@ -23,6 +23,7 @@ const MENU_SECTIONS = [
   {
     label: "Explore",
     items: [
+      { name: "Converters", href: "/converters", icon: "⚡" },
       { name: "Blog",    href: "/blog",    icon: "📖" },
       { name: "FAQ",     href: "/faq",     icon: "💬" },
       { name: "About",   href: "/about",   icon: "🌺" },

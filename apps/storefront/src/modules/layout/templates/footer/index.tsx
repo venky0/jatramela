@@ -79,6 +79,7 @@ export default async function Footer() {
             <FH>Help</FH>
             <ul className="space-y-2">
               <FL href="/about">About Jatramela</FL>
+              <FL href="/converters">⚡ Online Converters</FL>
               <FL href="/contact">Contact Us</FL>
               <FL href="/account/orders">Track Your Order</FL>
               <FL href="/account">My Account</FL>

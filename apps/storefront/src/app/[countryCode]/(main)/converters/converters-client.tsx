@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import Link from "next/link"
 
 interface Point {
   x: number
@@ -23,8 +22,6 @@ interface Pixel {
   a: number
 }
 
-const MAX_TRACE_SIZE = 400
-
 export default function ConvertersClient() {
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [originalUrl, setOriginalUrl] = useState<string | null>(null)
@@ -36,25 +33,29 @@ export default function ConvertersClient() {
   const [traceWidth, setTraceWidth] = useState<number>(0)
   const [traceHeight, setTraceHeight] = useState<number>(0)
 
-  // Parameters
-  const [colorCount, setColorCount] = useState<number>(5)
-  const [rdpThreshold, setRdpThreshold] = useState<number>(1.0)
-  const [smoothing, setSmoothing] = useState<number>(0.3)
+  // Advanced Designer Parameters
+  const [colorCount, setColorCount] = useState<number>(6)
+  const [traceDetail, setTraceDetail] = useState<number>(800) // 400 | 800 | 1200 | 1600
+  const [rdpThreshold, setRdpThreshold] = useState<number>(0.8) // Simplification Epsilon
+  const [smoothing, setSmoothing] = useState<number>(0.4) // Bezier Factor
+  const [laplacianSmooth, setLaplacianSmooth] = useState<number>(4) // Coordinate Smoothing Iterations
+  const [noiseThreshold, setNoiseThreshold] = useState<number>(5) // Ignore paths smaller than X pixels area
   const [viewMode, setViewMode] = useState<"both" | "vector" | "outline">("both")
   
   // Color palette management
   const [extractedColors, setExtractedColors] = useState<string[]>([])
   const [excludedColors, setExcludedColors] = useState<Set<string>>(new Set())
   const [pixelsData, setPixelsData] = useState<Pixel[]>([])
-
-  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const [originalPixels, setOriginalPixels] = useState<Pixel[]>([])
+  const [orgW, setOrgW] = useState<number>(0)
+  const [orgH, setOrgH] = useState<number>(0)
 
   // Trigger vectorization when parameters change
   useEffect(() => {
-    if (originalUrl && pixelsData.length > 0) {
-      vectorize()
+    if (originalUrl && originalPixels.length > 0) {
+      reprocessWithParams()
     }
-  }, [colorCount, rdpThreshold, smoothing, excludedColors])
+  }, [colorCount, rdpThreshold, smoothing, laplacianSmooth, noiseThreshold, excludedColors, traceDetail])
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
@@ -70,35 +71,23 @@ export default function ConvertersClient() {
       const url = reader.result as string
       setOriginalUrl(url)
       
-      // Load image to compute size and downsample for tracing
       const img = new Image()
       img.onload = () => {
-        setOriginalWidth(img.naturalWidth || img.width)
-        setOriginalHeight(img.naturalHeight || img.height)
-        
-        // Determine trace dimensions (preserving aspect ratio)
-        let w = img.naturalWidth || img.width
-        let h = img.naturalHeight || img.height
-        if (w > MAX_TRACE_SIZE || h > MAX_TRACE_SIZE) {
-          if (w > h) {
-            h = Math.round((h * MAX_TRACE_SIZE) / w)
-            w = MAX_TRACE_SIZE
-          } else {
-            w = Math.round((w * MAX_TRACE_SIZE) / h)
-            h = MAX_TRACE_SIZE
-          }
-        }
-        setTraceWidth(w)
-        setTraceHeight(h)
+        const width = img.naturalWidth || img.width
+        const height = img.naturalHeight || img.height
+        setOriginalWidth(width)
+        setOriginalHeight(height)
+        setOrgW(width)
+        setOrgH(height)
 
-        // Draw onto offscreen canvas to get pixel data
+        // Capture original high-res pixels
         const canvas = document.createElement("canvas")
-        canvas.width = w
-        canvas.height = h
+        canvas.width = width
+        canvas.height = height
         const ctx = canvas.getContext("2d")
         if (ctx) {
-          ctx.drawImage(img, 0, 0, w, h)
-          const imgData = ctx.getImageData(0, 0, w, h)
+          ctx.drawImage(img, 0, 0, width, height)
+          const imgData = ctx.getImageData(0, 0, width, height)
           const pixels: Pixel[] = []
           for (let i = 0; i < imgData.data.length; i += 4) {
             pixels.push({
@@ -108,10 +97,10 @@ export default function ConvertersClient() {
               a: imgData.data[i + 3],
             })
           }
-          setPixelsData(pixels)
+          setOriginalPixels(pixels)
           
-          // Initial run
-          extractPaletteAndVectorize(pixels, w, h)
+          // Trigger first quantization & vectorize
+          runPipeline(pixels, width, height, traceDetail)
         }
       }
       img.src = url
@@ -119,43 +108,65 @@ export default function ConvertersClient() {
     reader.readAsDataURL(file)
   }
 
-  // Quantize colors using K-Means and initiate tracing
-  const extractPaletteAndVectorize = (pixels: Pixel[], w: number, h: number) => {
+  const reprocessWithParams = () => {
+    if (originalPixels.length === 0) return
+    runPipeline(originalPixels, orgW, orgH, traceDetail)
+  }
+
+  const runPipeline = (pixels: Pixel[], w: number, h: number, maxDim: number) => {
     setIsProcessing(true)
     setTimeout(() => {
-      // Sample pixels for fast K-Means
-      const sampleSize = 3000
-      const sampled: Pixel[] = []
-      const step = Math.max(1, Math.floor(pixels.length / sampleSize))
-      for (let i = 0; i < pixels.length; i += step) {
-        if (pixels[i].a >= 100) { // Keep solid pixels
-          sampled.push(pixels[i])
+      // 1. Calculate downsampled dimensions for tracing
+      let tw = w
+      let th = h
+      if (w > maxDim || h > maxDim) {
+        if (w > h) {
+          th = Math.round((h * maxDim) / w)
+          tw = maxDim
+        } else {
+          tw = Math.round((w * maxDim) / h)
+          th = maxDim
         }
       }
-      
-      if (sampled.length === 0) {
+      setTraceWidth(tw)
+      setTraceHeight(th)
+
+      // Create downsampled pixels
+      const downsampleCanvas = document.createElement("canvas")
+      downsampleCanvas.width = tw
+      downsampleCanvas.height = th
+      const ctx = downsampleCanvas.getContext("2d")
+      if (!ctx) {
         setIsProcessing(false)
         return
       }
 
-      // K-Means clustering
-      const centroids = runKMeans(sampled, colorCount)
-      const colors = centroids.map(c => rgbToHex(c.r, c.g, c.b))
-      
-      setExtractedColors(colors)
-      setExcludedColors(new Set()) // Reset exclusions
-      
-      // Perform vectorization with these colors
-      runVectorizer(pixels, w, h, colors, new Set())
-    }, 50)
-  }
+      // Draw original image scaled down to offscreen canvas
+      const tempImg = new Image()
+      tempImg.onload = () => {
+        ctx.drawImage(tempImg, 0, 0, tw, th)
+        const imgData = ctx.getImageData(0, 0, tw, th)
+        const tracePixels: Pixel[] = []
+        for (let i = 0; i < imgData.data.length; i += 4) {
+          tracePixels.push({
+            r: imgData.data[i],
+            g: imgData.data[i + 1],
+            b: imgData.data[i + 2],
+            a: imgData.data[i + 3],
+          })
+        }
+        setPixelsData(tracePixels)
 
-  const vectorize = () => {
-    if (pixelsData.length === 0) return
-    setIsProcessing(true)
-    setTimeout(() => {
-      runVectorizer(pixelsData, traceWidth, traceHeight, extractedColors, excludedColors)
-    }, 50)
+        // 2. Quantize Colors using K-Means++
+        const centroids = runKMeansPlusPlus(tracePixels, colorCount)
+        const colors = centroids.map(c => rgbToHex(c.r, c.g, c.b))
+        setExtractedColors(colors)
+
+        // 3. Trace and fit curves
+        runVectorizer(tracePixels, tw, th, colors, excludedColors)
+      }
+      tempImg.src = originalUrl!
+    }, 30)
   }
 
   const runVectorizer = (
@@ -168,11 +179,11 @@ export default function ConvertersClient() {
     const scale = originalWidth / w
     const centroidRGBs = colors.map(hexToRgb)
     
-    // 1. Map every pixel to its nearest color centroid
+    // Pixel to centroid assignment
     const pixelAssignments = new Uint8Array(pixels.length)
     for (let i = 0; i < pixels.length; i++) {
       const p = pixels[i]
-      if (p.a < 50) {
+      if (p.a < 35) {
         pixelAssignments[i] = 255 // Transparent
         continue
       }
@@ -190,14 +201,12 @@ export default function ConvertersClient() {
       pixelAssignments[i] = minIdx
     }
 
-    // 2. Trace contours for each color channel
     const allPaths: PathData[] = []
     
     for (let c = 0; c < colors.length; c++) {
       const colorHex = colors[c]
-      if (exclusions.has(colorHex)) continue // Skip background / excluded colors
+      if (exclusions.has(colorHex)) continue
       
-      // Create binary grid
       const grid = Array.from({ length: h }, () => new Array(w).fill(false))
       for (let y = 0; y < h; y++) {
         for (let x = 0; x < w; x++) {
@@ -205,41 +214,25 @@ export default function ConvertersClient() {
         }
       }
 
-      // Smooth the grid to reduce raster jaggedness (median filter)
-      const smoothedGrid = Array.from({ length: h }, () => new Array(w).fill(false))
-      for (let y = 0; y < h; y++) {
-        for (let x = 0; x < w; x++) {
-          if (x === 0 || x === w - 1 || y === 0 || y === h - 1) {
-            smoothedGrid[y][x] = grid[y][x]
-            continue
-          }
-          // Sum 3x3 window
-          let count = 0
-          for (let wy = -1; wy <= 1; wy++) {
-            for (let wx = -1; wx <= 1; wx++) {
-              if (grid[y + wy][x + wx]) count++
-            }
-          }
-          smoothedGrid[y][x] = count >= 5
-        }
-      }
-
-      // Find contours using boundary follower
-      const contours = findContours(smoothedGrid)
+      // Find boundaries
+      const contours = findContours(grid)
       
-      // Simplify & smooth each contour
       for (const contour of contours) {
-        // scale points up to original resolution
+        // scale to original dimensions
         const scaledContour = contour.map(p => ({ x: p.x * scale, y: p.y * scale }))
         
+        // Laplacian Smoothing to eliminate staircases (jagged pixels)
+        const smoothed = smoothContour(scaledContour, laplacianSmooth)
+        
         // Ramer-Douglas-Peucker simplification
-        const simplified = simplifyRDP(scaledContour, rdpThreshold * scale)
+        const simplified = simplifyRDP(smoothed, rdpThreshold * scale)
         if (simplified.length < 3) continue
 
-        // Shoelace polygon area
+        // Ignore small noise elements
         const area = getPolygonArea(simplified)
+        if (area < noiseThreshold * scale * scale) continue
         
-        // Generate cubic Bezier SVG path
+        // Fit normalized segment-length Bezier curves
         const d = fitBezier(simplified, smoothing)
         
         allPaths.push({
@@ -252,14 +245,14 @@ export default function ConvertersClient() {
       }
     }
 
-    // 3. Stacking sort: Sort paths globally (largest area at bottom, smallest details on top)
+    // Stack paths: Largest shapes at bottom, smaller detail shapes on top
     allPaths.sort((a, b) => b.area - a.area)
 
-    // 4. Generate SVG String
+    // Generate Even-Odd grouped SVG
     let svgStr = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${originalWidth} ${originalHeight}" width="100%" height="100%">\n`
     svgStr += `  <g id="Layer_Background_Placeholder" />\n`
     
-    // Group by color for layered SVG organization
+    // Group paths by color to make clean layers
     const colorGroups: { [color: string]: PathData[] } = {}
     for (const p of allPaths) {
       if (!colorGroups[p.color]) {
@@ -270,36 +263,63 @@ export default function ConvertersClient() {
 
     let layerIdx = 1
     for (const color in colorGroups) {
-      svgStr += `  <g id="Layer_${layerIdx}_${color.replace("#", "")}" fill="${color}">\n`
-      for (const path of colorGroups[color]) {
-        svgStr += `    <path d="${path.d.trim()}" />\n`
-      }
-      svgStr += `  </g>\n`
+      // Combine all paths of this color into a single `<path>` element with fill-rule="evenodd"
+      // This automatically cuts out holes in letters (O, A, P) and logo circles
+      const combinedD = colorGroups[color].map(p => p.d.trim()).join(" ")
+      svgStr += `  <path id="Layer_${layerIdx}_${color.replace("#", "")}" fill="${color}" fill-rule="evenodd" d="${combinedD}" />\n`
       layerIdx++
     }
     svgStr += `</svg>`
     
     setVectorSvg(svgStr)
 
-    // 5. Generate layered EPS document (Illustrator compliant)
+    // Generate Illustrator-compliant Even-Odd EPS using `eofill`
     const epsStr = compileEPS(originalWidth, originalHeight, allPaths)
     setEpsContent(epsStr)
 
     setIsProcessing(false)
   }
 
-  // K-Means algorithm implementation
-  const runKMeans = (pixels: Pixel[], k: number, maxIterations = 12): Pixel[] => {
-    let centroids: Pixel[] = []
-    const step = Math.floor(pixels.length / k)
-    for (let i = 0; i < k; i++) {
-      centroids.push({ ...pixels[Math.min(pixels.length - 1, i * step + Math.floor(step / 2))] })
+  // K-Means++ algorithm for smart color centroid selection
+  const runKMeansPlusPlus = (pixels: Pixel[], k: number, maxIterations = 15): Pixel[] => {
+    // 1. Filter out transparent pixels
+    const solidPixels = pixels.filter(p => p.a >= 80)
+    if (solidPixels.length === 0) return []
+
+    const centroids: Pixel[] = []
+    
+    // Choose first centroid randomly
+    const firstIdx = Math.floor(Math.random() * solidPixels.length)
+    centroids.push({ ...solidPixels[firstIdx] })
+
+    // Choose remaining centroids furthest from chosen ones
+    for (let i = 1; i < k; i++) {
+      let maxDist = -1
+      let furthestIdx = 0
+      
+      const step = Math.max(1, Math.floor(solidPixels.length / 1000))
+      for (let j = 0; j < solidPixels.length; j += step) {
+        const p = solidPixels[j]
+        let minDist = Infinity
+        for (const c of centroids) {
+          const dist = Math.hypot(p.r - c.r, p.g - c.g, p.b - c.b)
+          if (dist < minDist) {
+            minDist = dist
+          }
+        }
+        if (minDist > maxDist) {
+          maxDist = minDist
+          furthestIdx = j
+        }
+      }
+      centroids.push({ ...solidPixels[furthestIdx] })
     }
 
+    // Standard K-Means assignment iterations
     for (let iter = 0; iter < maxIterations; iter++) {
       const clusters: Pixel[][] = Array.from({ length: k }, () => [])
       
-      for (const p of pixels) {
+      for (const p of solidPixels) {
         let minDist = Infinity
         let minIdx = 0
         for (let c = 0; c < k; c++) {
@@ -329,7 +349,7 @@ export default function ConvertersClient() {
         }
 
         const diff = Math.hypot(newCentroid.r - centroids[c].r, newCentroid.g - centroids[c].g, newCentroid.b - centroids[c].b)
-        if (diff > 1.5) {
+        if (diff > 1.0) {
           centroids[c] = newCentroid
           changed = true
         }
@@ -417,7 +437,30 @@ export default function ConvertersClient() {
     return points
   }
 
-  // Ramer-Douglas-Peucker simplification algorithm
+  // Laplacian Coordinate Smoothing to dissolve jagged staircase pixel edges
+  const smoothContour = (points: Point[], iterations: number): Point[] => {
+    if (points.length < 5 || iterations === 0) return points
+    let current = [...points]
+    const n = current.length
+
+    for (let iter = 0; iter < iterations; iter++) {
+      const nextList: Point[] = []
+      for (let i = 0; i < n; i++) {
+        const prev = current[(i - 1 + n) % n]
+        const curr = current[i]
+        const next = current[(i + 1) % n]
+        
+        nextList.push({
+          x: (prev.x + curr.x * 2 + next.x) / 4,
+          y: (prev.y + curr.y * 2 + next.y) / 4
+        })
+      }
+      current = nextList
+    }
+    return current
+  }
+
+  // Ramer-Douglas-Peucker simplification
   const simplifyRDP = (points: Point[], epsilon: number): Point[] => {
     if (points.length <= 2) return points
     const sqTolerance = epsilon * epsilon
@@ -476,7 +519,7 @@ export default function ConvertersClient() {
     return Math.abs(area) * 0.5
   }
 
-  // Cubic Bezier spline curve calculation
+  // Segment-length normalized cubic Bezier curve fitting
   const fitBezier = (points: Point[], smoothing: number): string => {
     if (points.length < 3) {
       let d = ""
@@ -496,11 +539,28 @@ export default function ConvertersClient() {
       const pPrev = points[(i - 1 + n) % n]
       const pNext2 = points[(i + 2) % n]
       
-      const cp1x = p0.x + (p1.x - pPrev.x) * smoothing * 0.5
-      const cp1y = p0.y + (p1.y - pPrev.y) * smoothing * 0.5
+      // Calculate normalized tangents
+      const t0x = p1.x - pPrev.x
+      const t0y = p1.y - pPrev.y
+      const lenT0 = Math.hypot(t0x, t0y)
+      const t0x_norm = lenT0 > 0 ? t0x / lenT0 : 0
+      const t0y_norm = lenT0 > 0 ? t0y / lenT0 : 0
+
+      const t1x = pNext2.x - p0.x
+      const t1y = pNext2.y - p0.y
+      const lenT1 = Math.hypot(t1x, t1y)
+      const t1x_norm = lenT1 > 0 ? t1x / lenT1 : 0
+      const t1y_norm = lenT1 > 0 ? t1y / lenT1 : 0
+
+      // Calculate distance between p0 and p1
+      const segmentLen = Math.hypot(p1.x - p0.x, p1.y - p0.y)
+
+      // Compute control points scaled by segment length
+      const cp1x = p0.x + t0x_norm * segmentLen * (smoothing / 3)
+      const cp1y = p0.y + t0y_norm * segmentLen * (smoothing / 3)
       
-      const cp2x = p1.x - (pNext2.x - p0.x) * smoothing * 0.5
-      const cp2y = p1.y - (pNext2.y - p0.y) * smoothing * 0.5
+      const cp2x = p1.x - t1x_norm * segmentLen * (smoothing / 3)
+      const cp2y = p1.y - t1y_norm * segmentLen * (smoothing / 3)
       
       d += `C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${p1.x.toFixed(1)} ${p1.y.toFixed(1)} `
     }
@@ -509,7 +569,7 @@ export default function ConvertersClient() {
     return d
   }
 
-  // EPS Compiler
+  // EPS Compiler utilizing the `eofill` operator for cut-out holes
   const compileEPS = (width: number, height: number, paths: PathData[]): string => {
     let eps = `%!PS-Adobe-3.0 EPSF-3.0
 %%Creator: Jatramela Logo Vectorizer
@@ -543,12 +603,14 @@ gsave
       eps += `%%BeginGroup: Layer_${layerIdx}_${color.replace("#", "")}\n`
       eps += `${r} ${g} ${b} setrgbcolor\n`
       
+      // Output all paths of this color within a single path construction
+      // completed with `eofill` to subtract holes automatically.
+      eps += `newpath\n`
       for (const item of colorGroups[color]) {
         const pts = item.points
         const n = pts.length
         if (n < 2) continue
         
-        eps += `newpath\n`
         eps += `  ${pts[0].x.toFixed(1)} ${(height - pts[0].y).toFixed(1)} moveto\n`
         
         if (n < 3 || item.smoothing === 0) {
@@ -562,17 +624,32 @@ gsave
             const pPrev = pts[(i - 1 + n) % n]
             const pNext2 = pts[(i + 2) % n]
             
-            const cp1x = p0.x + (p1.x - pPrev.x) * item.smoothing * 0.5
-            const cp1y = height - (p0.y + (p1.y - pPrev.y) * item.smoothing * 0.5)
+            const t0x = p1.x - pPrev.x
+            const t0y = p1.y - pPrev.y
+            const lenT0 = Math.hypot(t0x, t0y)
+            const t0x_norm = lenT0 > 0 ? t0x / lenT0 : 0
+            const t0y_norm = lenT0 > 0 ? t0y / lenT0 : 0
+
+            const t1x = pNext2.x - p0.x
+            const t1y = pNext2.y - p0.y
+            const lenT1 = Math.hypot(t1x, t1y)
+            const t1x_norm = lenT1 > 0 ? t1x / lenT1 : 0
+            const t1y_norm = lenT1 > 0 ? t1y / lenT1 : 0
+
+            const segmentLen = Math.hypot(p1.x - p0.x, p1.y - p0.y)
+
+            const cp1x = p0.x + t0x_norm * segmentLen * (item.smoothing / 3)
+            const cp1y = height - (p0.y + t0y_norm * segmentLen * (item.smoothing / 3))
             
-            const cp2x = p1.x - (pNext2.x - p0.x) * item.smoothing * 0.5
-            const cp2y = height - (p1.y - (pNext2.y - p0.y) * item.smoothing * 0.5)
+            const cp2x = p1.x - t1x_norm * segmentLen * (item.smoothing / 3)
+            const cp2y = height - (p1.y - t1y_norm * segmentLen * (item.smoothing / 3))
             
             eps += `  ${cp1x.toFixed(1)} ${cp1y.toFixed(1)} ${cp2x.toFixed(1)} ${cp2y.toFixed(1)} ${p1.x.toFixed(1)} ${(height - p1.y).toFixed(1)} curveto\n`
           }
         }
-        eps += `closepath fill\n`
+        eps += `  closepath\n`
       }
+      eps += `eofill\n`
       eps += `%%EndGroup\n`
       eps += `% --- End Layer: Color ${color} ---\n`
       layerIdx++
@@ -717,9 +794,29 @@ gsave
                     setVectorSvg(null)
                     setEpsContent(null)
                     setExtractedColors([])
+                    setOriginalPixels([])
                   }}>
                   ← Reset File
                 </button>
+              </div>
+
+              {/* Selector: Trace Detail */}
+              <div>
+                <label className="field-label flex justify-between">
+                  <span>Tracing Quality</span>
+                  <span className="text-[#C9A84C] font-bold">
+                    {traceDetail === 400 ? "Draft" : traceDetail === 800 ? "Medium" : traceDetail === 1200 ? "High" : "Ultra"} ({traceDetail}px)
+                  </span>
+                </label>
+                <select value={traceDetail} 
+                  onChange={e => setTraceDetail(parseInt(e.target.value))}
+                  className="w-full bg-neutral-900 border border-neutral-700 rounded-xl p-3 text-xs text-neutral-200 outline-none focus:border-amber-500">
+                  <option value="400">Draft (400px)</option>
+                  <option value="800">Medium (800px) - Recommended</option>
+                  <option value="1200">High (1200px) - Best for Text</option>
+                  <option value="1600">Ultra (1600px) - Maximum Detail</option>
+                </select>
+                <p className="text-[10px] mt-1" style={{ color: "var(--text-subtle)" }}>Higher detail captures thin fonts and tiny lines, but requires more CPU.</p>
               </div>
 
               {/* Slider: Color Count */}
@@ -732,33 +829,59 @@ gsave
                   onChange={e => setColorCount(parseInt(e.target.value))}
                   className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-neutral-800"
                   style={{ accentColor: "var(--gold)" }} />
-                <p className="text-[10px] mt-1" style={{ color: "var(--text-subtle)" }}>Clustered segments generated by K-Means algorithm.</p>
+                <p className="text-[10px] mt-1" style={{ color: "var(--text-subtle)" }}>Centroids selected using K-Means++ smart seeding.</p>
+              </div>
+
+              {/* Slider: Laplacian Smoothing */}
+              <div>
+                <label className="field-label flex justify-between">
+                  <span>Staircase Smoothing</span>
+                  <span className="text-[#C9A84C] font-bold">{laplacianSmooth} passes</span>
+                </label>
+                <input type="range" min="0" max="10" value={laplacianSmooth}
+                  onChange={e => setLaplacianSmooth(parseInt(e.target.value))}
+                  className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-neutral-800"
+                  style={{ accentColor: "var(--gold)" }} />
+                <p className="text-[10px] mt-1" style={{ color: "var(--text-subtle)" }}>Laplacian coordinates filter. Smooths jagged pixel blocks on circles.</p>
               </div>
 
               {/* Slider: Path Simplification */}
               <div>
                 <label className="field-label flex justify-between">
                   <span>Path Simplification</span>
-                  <span className="text-[#C9A84C] font-bold">{rdpThreshold.toFixed(1)}px</span>
+                  <span className="text-[#C9A84C] font-bold">{rdpThreshold.toFixed(2)}px</span>
                 </label>
-                <input type="range" min="0.1" max="4.0" step="0.1" value={rdpThreshold}
+                <input type="range" min="0.05" max="3.0" step="0.05" value={rdpThreshold}
                   onChange={e => setRdpThreshold(parseFloat(e.target.value))}
                   className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-neutral-800"
                   style={{ accentColor: "var(--gold)" }} />
-                <p className="text-[10px] mt-1" style={{ color: "var(--text-subtle)" }}>Simplifies curves to reduce nodes (Ramer-Douglas-Peucker epsilon).</p>
+                <p className="text-[10px] mt-1" style={{ color: "var(--text-subtle)" }}>RDP epsilon. Controls point counts. Lower = higher geometric fidelity.</p>
               </div>
 
               {/* Slider: Corner Smoothing */}
               <div>
                 <label className="field-label flex justify-between">
-                  <span>Bezier Curve Smoothing</span>
+                  <span>Bezier Curve Factor</span>
                   <span className="text-[#C9A84C] font-bold">{Math.round(smoothing * 100)}%</span>
                 </label>
                 <input type="range" min="0" max="1" step="0.05" value={smoothing}
                   onChange={e => setSmoothing(parseFloat(e.target.value))}
                   className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-neutral-800"
                   style={{ accentColor: "var(--gold)" }} />
-                <p className="text-[10px] mt-1" style={{ color: "var(--text-subtle)" }}>Applies cubic Bezier curve fitting to corners. 0% is sharp polygon.</p>
+                <p className="text-[10px] mt-1" style={{ color: "var(--text-subtle)" }}>Cubic Bezier control handles length. 0% is sharp polygon corners.</p>
+              </div>
+
+              {/* Slider: Noise Filter */}
+              <div>
+                <label className="field-label flex justify-between">
+                  <span>Noise Filter Area</span>
+                  <span className="text-[#C9A84C] font-bold">{noiseThreshold} px²</span>
+                </label>
+                <input type="range" min="0" max="50" step="1" value={noiseThreshold}
+                  onChange={e => setNoiseThreshold(parseInt(e.target.value))}
+                  className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-neutral-800"
+                  style={{ accentColor: "var(--gold)" }} />
+                <p className="text-[10px] mt-1" style={{ color: "var(--text-subtle)" }}>Ignores traced paths with area below this threshold (cleans artifacts).</p>
               </div>
 
               {/* Interactive Color Palette */}
@@ -890,22 +1013,22 @@ gsave
                   <div>
                     <p style={{ color: "var(--text-subtle)" }}>Vector Layers</p>
                     <p className="font-extrabold text-sm text-[#C9A84C] mt-0.5">
-                      {extractedColors.length - excludedColors.size} Grouped Layers
+                      {extractedColors.length - excludedColors.size} Even-Odd Layers
                     </p>
                   </div>
                   <div>
                     <p style={{ color: "var(--text-subtle)" }}>Active Paths</p>
                     <p className="font-extrabold text-sm text-[#C9A84C] mt-0.5">
-                      {(vectorSvg.match(/<path/g) || []).length} Traced Shapes
+                      {(vectorSvg.match(/d=/g) || []).length} Compound Paths
                     </p>
                   </div>
                   <div>
-                    <p style={{ color: "var(--text-subtle)" }}>EPS Format</p>
-                    <p className="font-extrabold text-sm text-green-500 mt-0.5">EPSF-3.0 Layered</p>
+                    <p style={{ color: "var(--text-subtle)" }}>Holes (Inner)</p>
+                    <p className="font-extrabold text-sm text-green-500 mt-0.5">Auto-Cut eofill</p>
                   </div>
                   <div>
-                    <p style={{ color: "var(--text-subtle)" }}>Vector Engine</p>
-                    <p className="font-extrabold text-sm text-[#C9A84C] mt-0.5">Moore-Neighbor + Bezier</p>
+                    <p style={{ color: "var(--text-subtle)" }}>Curve Fitting</p>
+                    <p className="font-extrabold text-sm text-[#C9A84C] mt-0.5">Normalized Spline</p>
                   </div>
                 </div>
               )}

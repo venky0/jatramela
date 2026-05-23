@@ -252,7 +252,11 @@ export const KANNADA_DICTIONARY: { [key: string]: string[] } = {
   "kannadigaru": ["ಕನ್ನಡಿಗರು", "ಕನ್ನಡಿಗ", "ಕನ್ನಡಿಗರಿಗೆ"],
   "kannadiga": ["ಕನ್ನಡಿಗ", "ಕನ್ನಡಿಗರು", "ಕನ್ನಡಿಗನ"],
   "rajyotsava": ["ರಾಜ್ಯೋತ್ಸವ", "ಕನ್ನಡ ರಾಜ್ಯೋತ್ಸವ", "ಹಬ್ಬ"],
-  "sirigannada": ["ಸಿರಿಗನ್ನಡ", "ಸಿರಿಗನ್ನಡಂ ಗೆಲ್ಗೆ", "ಕನ್ನಡ"]
+  "sirigannada": ["ಸಿರಿಗನ್ನಡ", "ಸಿರಿಗನ್ನಡಂ ಗೆಲ್ಗೆ", "ಕನ್ನಡ"],
+  "nadu": ["ನಾಡು", "ನಾಡಿನ", "ನಾಡುಗಳು"],
+  "naadu": ["ನಾಡು", "ನಾಡಿನ", "ನಾಡುಗಳು"],
+  "venkatesh": ["ವೆಂಕಟೇಶ್", "ವೆಂಕಟೇಶ", "ವೆಂಕಟೇಶನ"],
+  "venkatesha": ["ವೆಂಕಟೇಶ", "ವೆಂಕಟೇಶ್", "ವೆಂಕಟೇಶನ"]
 }
 
 // ── ADVANCED PHONETIC TRANSLITERATION ENGINE ────────────────────────────────
@@ -381,8 +385,12 @@ export function transliterateWord(word: string, overrides: { [key: string]: stri
     }
   }
 
-  // Clean up trailing halant/virama on word boundaries
-  return result.replace(/್$/, "")
+  // Clean up trailing halant/virama on word boundaries, but keep it if original word ends in a consonant
+  const endsWithVowel = /[aeiou]$/i.test(word);
+  if (endsWithVowel) {
+    return result.replace(/್$/, "")
+  }
+  return result;
 }
 
 // ── TRANSLITERATE ENTIRE DOCUMENT ──────────────────────────────────────────
@@ -412,26 +420,43 @@ export function generateSuggestions(word: string, overrides: { [key: string]: st
   }
 
   // 2. Generate phonetic options dynamically
+  // Option A: Standard transliteration (with retroflex and keep virama if ending in consonant)
   const optA = transliterateWord(word, overrides, { useRetroflex: true })
   options.push(optA)
 
-  // Option B: Without retroflex modifications (fallback to dental)
-  const optB = transliterateWord(word, overrides, { useRetroflex: false })
+  // Option B: First vowel lengthened (e.g. nadu -> naadu -> ನಾಡು)
+  let lengthenedFirst = word;
+  const firstVowelMatch = word.match(/[aeiou]/i);
+  if (firstVowelMatch && firstVowelMatch.index !== undefined) {
+    const idx = firstVowelMatch.index;
+    const v = word[idx];
+    if (idx + 1 >= word.length || word[idx + 1].toLowerCase() !== v.toLowerCase()) {
+      lengthenedFirst = word.substring(0, idx) + v + v + word.substring(idx + 1);
+    }
+  }
+  const optB = transliterateWord(lengthenedFirst, overrides, { useRetroflex: true })
   if (optB && optB !== optA) options.push(optB)
 
-  // Option C: Alternate endings / spelling guessers
-  let optC = ""
-  if (lower.endsWith("a")) {
-    const modified = word.slice(0, -1) + "aa"
-    optC = transliterateWord(modified, overrides, { useRetroflex: true })
-  } else if (lower.endsWith("i")) {
-    const modified = word.slice(0, -1) + "ee"
-    optC = transliterateWord(modified, overrides, { useRetroflex: true })
+  // Option C: Treat single 'e' or 'o' as long (e.g. venkatesh -> venkateesh -> ವೆಂಕಟೇಶ್)
+  let eeooWord = word;
+  eeooWord = eeooWord.replace(/e(?!e)/gi, "ee").replace(/o(?!o)/gi, "oo");
+  const optC = transliterateWord(eeooWord, overrides, { useRetroflex: true })
+  if (optC && optC !== optA && optC !== optB) {
+    options.push(optC)
   } else {
-    optC = transliterateWord(word + "a", overrides, { useRetroflex: true })
+    // Alternate ending spelling guesser fallback
+    let fallbackOptC = ""
+    if (lower.endsWith("a")) {
+      const modified = word.slice(0, -1) + "aa"
+      fallbackOptC = transliterateWord(modified, overrides, { useRetroflex: true })
+    } else if (lower.endsWith("i")) {
+      const modified = word.slice(0, -1) + "ee"
+      fallbackOptC = transliterateWord(modified, overrides, { useRetroflex: true })
+    } else {
+      fallbackOptC = transliterateWord(word + "a", overrides, { useRetroflex: true })
+    }
+    if (fallbackOptC && fallbackOptC !== optA && fallbackOptC !== optB) options.push(fallbackOptC)
   }
-  
-  if (optC && optC !== optA && optC !== optB) options.push(optC)
 
   // Final options padding
   if (options.length < 3) {

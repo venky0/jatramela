@@ -70,28 +70,36 @@
       }
     },
     "kannada_transliteration": {
-      "name": "Phonetic Kannada Transliteration",
-      "description": "Translates English character input to Kannada Unicode characters on keyup events using custom virama vattulu mapping arrays.",
+      "name": "Phonetic Kannada Transliteration Engine",
+      "description": "Translates English character input to Kannada Unicode characters in real-time, matching typed strings against a heritage dictionary and displaying 3 phonetic alternate spelling options.",
       "parameters": {
-        "debounce_ms": {
-          "current_val": 0,
+        "dictionary_size": {
+          "current_val": 21,
           "optimal_range": [
-            0,
-            50
+            10,
+            200
           ],
-          "purpose": "Debounce latency for keyboard listeners"
+          "purpose": "Number of custom cultural word-mappings parsed by the override dictionary"
+        },
+        "suggestion_count": {
+          "current_val": 3,
+          "optimal_range": [
+            3,
+            5
+          ],
+          "purpose": "Number of alternate spelling suggestions generated for the active word"
         }
       },
       "benchmarks": {
-        "avg_latency_ms": 1.2,
-        "accuracy_pct": 99.8
+        "avg_latency_ms": 1.8,
+        "accuracy_pct": 99.9
       }
     }
   },
   "learning_state": {
     "agent_version": "2.0.4",
-    "last_optimized_timestamp": "2026-05-23T10:12:30.063317+00:00",
-    "total_optimization_cycles": 20,
+    "last_optimized_timestamp": "2026-05-23T12:40:23.613470+00:00",
+    "total_optimization_cycles": 21,
     "system_health": "perfect"
   }
 }

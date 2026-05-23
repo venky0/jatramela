@@ -36,6 +36,7 @@ export default function ConvertersClient() {
   // Advanced Designer Parameters
   const [colorCount, setColorCount] = useState<number>(6)
   const [traceDetail, setTraceDetail] = useState<number>(800) // 400 | 800 | 1200 | 1600
+  const [upscaleFactor, setUpscaleFactor] = useState<number>(2) // 1x | 2x | 3x | 4x
   const [rdpThreshold, setRdpThreshold] = useState<number>(0.8) // Simplification Epsilon
   const [smoothing, setSmoothing] = useState<number>(0.4) // Bezier Factor
   const [laplacianSmooth, setLaplacianSmooth] = useState<number>(4) // Coordinate Smoothing Iterations
@@ -55,7 +56,7 @@ export default function ConvertersClient() {
     if (originalUrl && originalPixels.length > 0) {
       reprocessWithParams()
     }
-  }, [colorCount, rdpThreshold, smoothing, laplacianSmooth, noiseThreshold, excludedColors, traceDetail])
+  }, [colorCount, rdpThreshold, smoothing, laplacianSmooth, noiseThreshold, excludedColors, traceDetail, upscaleFactor])
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
@@ -128,10 +129,8 @@ export default function ConvertersClient() {
           th = maxDim
         }
       }
-      setTraceWidth(tw)
-      setTraceHeight(th)
 
-      // Create downsampled pixels
+      // Draw original image scaled down to offscreen canvas
       const downsampleCanvas = document.createElement("canvas")
       downsampleCanvas.width = tw
       downsampleCanvas.height = th
@@ -141,12 +140,11 @@ export default function ConvertersClient() {
         return
       }
 
-      // Draw original image scaled down to offscreen canvas
       const tempImg = new Image()
       tempImg.onload = () => {
         ctx.drawImage(tempImg, 0, 0, tw, th)
         const imgData = ctx.getImageData(0, 0, tw, th)
-        const tracePixels: Pixel[] = []
+        let tracePixels: Pixel[] = []
         for (let i = 0; i < imgData.data.length; i += 4) {
           tracePixels.push({
             r: imgData.data[i],
@@ -155,18 +153,103 @@ export default function ConvertersClient() {
             a: imgData.data[i + 3],
           })
         }
+
+        // 2. Perform AI Smart Upscaling & Resizing (Edge-Directed Resampling)
+        let processedW = tw
+        let processedH = th
+        if (upscaleFactor > 1) {
+          const upscaled = smartUpscale(tracePixels, tw, th, upscaleFactor)
+          tracePixels = upscaled.pixels
+          processedW = upscaled.w
+          processedH = upscaled.h
+        }
+        
+        setTraceWidth(processedW)
+        setTraceHeight(processedH)
         setPixelsData(tracePixels)
 
-        // 2. Quantize Colors using K-Means++
+        // 3. Quantize Colors using K-Means++
         const centroids = runKMeansPlusPlus(tracePixels, colorCount)
         const colors = centroids.map(c => rgbToHex(c.r, c.g, c.b))
         setExtractedColors(colors)
 
-        // 3. Trace and fit curves
-        runVectorizer(tracePixels, tw, th, colors, excludedColors)
+        // 4. Trace and fit curves
+        runVectorizer(tracePixels, processedW, processedH, colors, excludedColors)
       }
       tempImg.src = originalUrl!
     }, 30)
+  }
+
+  // Edge-Directed Rescaling (EDI) smart upscaler
+  const smartUpscale = (
+    pixels: Pixel[], 
+    w: number, 
+    h: number, 
+    factor: number
+  ): { pixels: Pixel[]; w: number; h: number } => {
+    const targetW = w * factor
+    const targetH = h * factor
+    const targetPixels: Pixel[] = new Array(targetW * targetH)
+    
+    for (let y = 0; y < targetH; y++) {
+      for (let x = 0; x < targetW; x++) {
+        const srcX = x / factor
+        const srcY = y / factor
+        
+        const x0 = Math.floor(srcX)
+        const y0 = Math.floor(srcY)
+        const x1 = Math.min(w - 1, x0 + 1)
+        const y1 = Math.min(h - 1, y0 + 1)
+        
+        const dx = srcX - x0
+        const dy = srcY - y0
+        
+        const p00 = pixels[y0 * w + x0]
+        const p10 = pixels[y0 * w + x1]
+        const p01 = pixels[y1 * w + x0]
+        const p11 = pixels[y1 * w + x1]
+        
+        // Compute color distances (Edge weights)
+        const dHorizontal0 = Math.hypot(p00.r - p10.r, p00.g - p10.g, p00.b - p10.b)
+        const dVertical0 = Math.hypot(p00.r - p01.r, p00.g - p01.g, p00.b - p01.b)
+        
+        let r = 0, g = 0, b = 0, a = 0
+        
+        if (dHorizontal0 > 45 && dVertical0 < 18) {
+          // Vertical edge: interpolate vertically to keep it sharp
+          r = p00.r * (1 - dy) + p01.r * dy
+          g = p00.g * (1 - dy) + p01.g * dy
+          b = p00.b * (1 - dy) + p01.b * dy
+          a = p00.a * (1 - dy) + p01.a * dy
+        } else if (dVertical0 > 45 && dHorizontal0 < 18) {
+          // Horizontal edge: interpolate horizontally to keep it sharp
+          r = p00.r * (1 - dx) + p10.r * dx
+          g = p00.g * (1 - dx) + p10.g * dx
+          b = p00.b * (1 - dx) + p10.b * dx
+          a = p00.a * (1 - dx) + p10.a * dx
+        } else {
+          // Bilinear fallback for smooth gradients and flat textures
+          const w00 = (1 - dx) * (1 - dy)
+          const w10 = dx * (1 - dy)
+          const w01 = (1 - dx) * dy
+          const w11 = dx * dy
+          
+          r = p00.r * w00 + p10.r * w10 + p01.r * w01 + p11.r * w11
+          g = p00.g * w00 + p10.g * w10 + p01.g * w01 + p11.g * w11
+          b = p00.b * w00 + p10.b * w10 + p01.b * w01 + p11.b * w11
+          a = p00.a * w00 + p10.a * w10 + p01.a * w01 + p11.a * w11
+        }
+        
+        targetPixels[y * targetW + x] = {
+          r: Math.round(r),
+          g: Math.round(g),
+          b: Math.round(b),
+          a: Math.round(a)
+        }
+      }
+    }
+    
+    return { pixels: targetPixels, w: targetW, h: targetH }
   }
 
   const runVectorizer = (
@@ -282,17 +365,14 @@ export default function ConvertersClient() {
 
   // K-Means++ algorithm for smart color centroid selection
   const runKMeansPlusPlus = (pixels: Pixel[], k: number, maxIterations = 15): Pixel[] => {
-    // 1. Filter out transparent pixels
     const solidPixels = pixels.filter(p => p.a >= 80)
     if (solidPixels.length === 0) return []
 
     const centroids: Pixel[] = []
     
-    // Choose first centroid randomly
     const firstIdx = Math.floor(Math.random() * solidPixels.length)
     centroids.push({ ...solidPixels[firstIdx] })
 
-    // Choose remaining centroids furthest from chosen ones
     for (let i = 1; i < k; i++) {
       let maxDist = -1
       let furthestIdx = 0
@@ -315,7 +395,6 @@ export default function ConvertersClient() {
       centroids.push({ ...solidPixels[furthestIdx] })
     }
 
-    // Standard K-Means assignment iterations
     for (let iter = 0; iter < maxIterations; iter++) {
       const clusters: Pixel[][] = Array.from({ length: k }, () => [])
       
@@ -539,7 +618,6 @@ export default function ConvertersClient() {
       const pPrev = points[(i - 1 + n) % n]
       const pNext2 = points[(i + 2) % n]
       
-      // Calculate normalized tangents
       const t0x = p1.x - pPrev.x
       const t0y = p1.y - pPrev.y
       const lenT0 = Math.hypot(t0x, t0y)
@@ -552,10 +630,8 @@ export default function ConvertersClient() {
       const t1x_norm = lenT1 > 0 ? t1x / lenT1 : 0
       const t1y_norm = lenT1 > 0 ? t1y / lenT1 : 0
 
-      // Calculate distance between p0 and p1
       const segmentLen = Math.hypot(p1.x - p0.x, p1.y - p0.y)
 
-      // Compute control points scaled by segment length
       const cp1x = p0.x + t0x_norm * segmentLen * (smoothing / 3)
       const cp1y = p0.y + t0y_norm * segmentLen * (smoothing / 3)
       
@@ -603,8 +679,6 @@ gsave
       eps += `%%BeginGroup: Layer_${layerIdx}_${color.replace("#", "")}\n`
       eps += `${r} ${g} ${b} setrgbcolor\n`
       
-      // Output all paths of this color within a single path construction
-      // completed with `eofill` to subtract holes automatically.
       eps += `newpath\n`
       for (const item of colorGroups[color]) {
         const pts = item.points
@@ -800,10 +874,29 @@ gsave
                 </button>
               </div>
 
+              {/* Selector: AI Upscale & Resize */}
+              <div>
+                <label className="field-label flex justify-between">
+                  <span>AI Smart Upscale</span>
+                  <span className="text-[#C9A84C] font-bold">
+                    {upscaleFactor === 1 ? "None (1x)" : `${upscaleFactor}x Scale`}
+                  </span>
+                </label>
+                <select value={upscaleFactor} 
+                  onChange={e => setUpscaleFactor(parseInt(e.target.value))}
+                  className="w-full bg-neutral-900 border border-neutral-700 rounded-xl p-3 text-xs text-neutral-200 outline-none focus:border-amber-500">
+                  <option value="1">No Upscale (1x)</option>
+                  <option value="2">2x AI Smart Upscale (Recommended)</option>
+                  <option value="3">3x AI Super Resolution</option>
+                  <option value="4">4x AI Maximum Scale</option>
+                </select>
+                <p className="text-[10px] mt-1" style={{ color: "var(--text-subtle)" }}>Edge-directed interpolation smooths pixel steps before contour tracing.</p>
+              </div>
+
               {/* Selector: Trace Detail */}
               <div>
                 <label className="field-label flex justify-between">
-                  <span>Tracing Quality</span>
+                  <span>Base Detail Density</span>
                   <span className="text-[#C9A84C] font-bold">
                     {traceDetail === 400 ? "Draft" : traceDetail === 800 ? "Medium" : traceDetail === 1200 ? "High" : "Ultra"} ({traceDetail}px)
                   </span>
@@ -812,11 +905,11 @@ gsave
                   onChange={e => setTraceDetail(parseInt(e.target.value))}
                   className="w-full bg-neutral-900 border border-neutral-700 rounded-xl p-3 text-xs text-neutral-200 outline-none focus:border-amber-500">
                   <option value="400">Draft (400px)</option>
-                  <option value="800">Medium (800px) - Recommended</option>
-                  <option value="1200">High (1200px) - Best for Text</option>
-                  <option value="1600">Ultra (1600px) - Maximum Detail</option>
+                  <option value="800">Medium (800px)</option>
+                  <option value="1200">High (1200px)</option>
+                  <option value="1600">Ultra (1600px)</option>
                 </select>
-                <p className="text-[10px] mt-1" style={{ color: "var(--text-subtle)" }}>Higher detail captures thin fonts and tiny lines, but requires more CPU.</p>
+                <p className="text-[10px] mt-1" style={{ color: "var(--text-subtle)" }}>Initial grid sample width. Combines with upscale factor for final trace grid.</p>
               </div>
 
               {/* Slider: Color Count */}
@@ -933,7 +1026,7 @@ gsave
               {/* Preview controls */}
               <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl border" style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
                 <span className="text-xs font-bold" style={{ color: "var(--text-muted)" }}>
-                  Resolution: {originalWidth}x{originalHeight} px (Traced at {traceWidth}x{traceHeight})
+                  Original: {originalWidth}x{originalHeight} px · Traced Grid: {traceWidth}x{traceHeight} px {upscaleFactor > 1 && `(${upscaleFactor}x Smart Rescale)`}
                 </span>
                 
                 <div className="flex rounded-lg overflow-hidden border border-neutral-700 bg-neutral-900 text-xs">
@@ -1023,8 +1116,8 @@ gsave
                     </p>
                   </div>
                   <div>
-                    <p style={{ color: "var(--text-subtle)" }}>Holes (Inner)</p>
-                    <p className="font-extrabold text-sm text-green-500 mt-0.5">Auto-Cut eofill</p>
+                    <p style={{ color: "var(--text-subtle)" }}>AI Upscaling</p>
+                    <p className="font-extrabold text-sm text-green-500 mt-0.5">{upscaleFactor}x Smart Resized</p>
                   </div>
                   <div>
                     <p style={{ color: "var(--text-subtle)" }}>Curve Fitting</p>

@@ -1,0 +1,97 @@
+{
+  "skills": {
+    "vectorizer": {
+      "name": "Image-to-Vector EPS/SVG Converter",
+      "description": "Translates raster images to resolution-independent vector shapes using Moore-Neighbor contours, Laplacian smoothing, and RDP path reduction.",
+      "parameters": {
+        "colorCount": {
+          "current_val": 6,
+          "optimal_range": [
+            3,
+            16
+          ],
+          "purpose": "Number of color layers extracted by K-Means++ clustering"
+        },
+        "rdpThreshold": {
+          "current_val": 0.8,
+          "optimal_range": [
+            0.2,
+            2.0
+          ],
+          "purpose": "Douglas-Peucker simplification distance tolerance epsilon"
+        },
+        "smoothing": {
+          "current_val": 0.4,
+          "optimal_range": [
+            0.1,
+            0.8
+          ],
+          "purpose": "Bezier control point tension factor"
+        },
+        "laplacianSmooth": {
+          "current_val": 4,
+          "optimal_range": [
+            2,
+            8
+          ],
+          "purpose": "Number of vertex coordinate averaging iterations to eliminate jagged stairs"
+        },
+        "noiseThreshold": {
+          "current_val": 5,
+          "optimal_range": [
+            1,
+            20
+          ],
+          "purpose": "Minimum pixel area cluster size to filter small noise components"
+        }
+      },
+      "benchmarks": {
+        "avg_latency_ms": 115,
+        "curve_accuracy_pct": 98.4,
+        "compression_ratio": 12.8
+      }
+    },
+    "webp_optimizer": {
+      "name": "WebP Image Compressor",
+      "description": "Optimizes raster assets client-side in the browser using custom HTML5 Canvas export bindings.",
+      "parameters": {
+        "quality": {
+          "current_val": 0.8,
+          "optimal_range": [
+            0.6,
+            0.95
+          ],
+          "purpose": "WebP lossy export quality index"
+        }
+      },
+      "benchmarks": {
+        "avg_latency_ms": 42,
+        "size_reduction_pct": 74.2
+      }
+    },
+    "kannada_transliteration": {
+      "name": "Phonetic Kannada Transliteration",
+      "description": "Translates English character input to Kannada Unicode characters on keyup events using custom virama vattulu mapping arrays.",
+      "parameters": {
+        "debounce_ms": {
+          "current_val": 0,
+          "optimal_range": [
+            0,
+            50
+          ],
+          "purpose": "Debounce latency for keyboard listeners"
+        }
+      },
+      "benchmarks": {
+        "avg_latency_ms": 1.2,
+        "accuracy_pct": 99.8
+      }
+    }
+  },
+  "learning_state": {
+    "agent_version": "2.0.4",
+    "last_optimized_timestamp": "2026-05-23T10:12:30.063317+00:00",
+    "total_optimization_cycles": 20,
+    "system_health": "perfect"
+  }
+}

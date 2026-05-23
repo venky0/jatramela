@@ -1,11 +1,11 @@
 import { Metadata } from "next"
-import ConvertersClient from "./converters-client"
+import ConvertersDashboard from "./converters-dashboard"
 
 export const metadata: Metadata = {
-  title: "AI Vector Logo Converter — Layered EPS & SVG | Jatramela",
-  description: "Convert logo images (PNG, JPEG, WebP) into professional, layered vector EPS and SVG files. Adjust color clustering, simplify paths, toggle Illustrator outlines, and download vector assets.",
+  title: "Online Conversion Tools Suite | Jatramela",
+  description: "Browse our collections of in-browser online utility tools. Optimize images, convert between text formats, transliterate Kannada script, parse JSON, and more.",
 }
 
 export default function ConvertersPage() {
-  return <ConvertersClient />
+  return <ConvertersDashboard />
 }

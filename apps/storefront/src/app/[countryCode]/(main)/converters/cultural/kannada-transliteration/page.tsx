@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import QuickSwitch from "../../components/quick-switch"
 
 // Transliteration Map
 const VOWELS: { [key: string]: string } = {
@@ -154,6 +155,7 @@ export default function TransliterationPage() {
           <p className="text-xs sm:text-sm max-w-lg mx-auto" style={{ color: "rgba(255,248,231,0.75)" }}>
             Type phonetically in English (e.g. <i>Namaskara</i>, <i>kannada</i>) and watch it convert to Kannada Unicode script in real-time.
           </p>
+          <QuickSwitch currentHref="/converters/cultural/kannada-transliteration" />
         </div>
         <div className="temple-border absolute bottom-0 left-0 right-0" />
       </section>

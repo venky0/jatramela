@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import QuickSwitch from "../../components/quick-switch"
 
 interface Pixel {
   r: number
@@ -170,6 +171,7 @@ export default function ColorExtractorPage() {
           <p className="text-xs sm:text-sm max-w-lg mx-auto" style={{ color: "rgba(255,248,231,0.75)" }}>
             Extract professional color schemes, CSS values, and Tailwind configs from any uploaded graphic asset.
           </p>
+          <QuickSwitch currentHref="/converters/graphics/color-extractor" />
         </div>
         <div className="temple-border absolute bottom-0 left-0 right-0" />
       </section>

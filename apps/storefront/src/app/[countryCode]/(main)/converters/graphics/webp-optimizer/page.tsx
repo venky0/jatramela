@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import QuickSwitch from "../../components/quick-switch"
 
 export default function WebPOptimizerPage() {
   const [imageFile, setImageFile] = useState<File | null>(null)
@@ -111,6 +112,7 @@ export default function WebPOptimizerPage() {
           <p className="text-xs sm:text-sm max-w-lg mx-auto" style={{ color: "rgba(255,248,231,0.75)" }}>
             Compress, resize, and optimize PNG or JPEG images to WebP format entirely in your browser.
           </p>
+          <QuickSwitch currentHref="/converters/graphics/webp-optimizer" />
         </div>
         <div className="temple-border absolute bottom-0 left-0 right-0" />
       </section>

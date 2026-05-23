@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import QuickSwitch from "../../components/quick-switch"
 
 // Simple ASCII to Unicode replacement maps for Nudi/Baraha fonts.
 // Legacy fonts use standard English ASCII values to draw Kannada glyphs.
@@ -76,6 +77,7 @@ export default function UnicodeConverterPage() {
           <p className="text-xs sm:text-sm max-w-lg mx-auto" style={{ color: "rgba(255,248,231,0.75)" }}>
             Translate legacy Kannada ASCII text formats typed in Nudi or Baraha fonts into standard Unicode Kannada.
           </p>
+          <QuickSwitch currentHref="/converters/cultural/unicode-converter" />
         </div>
         <div className="temple-border absolute bottom-0 left-0 right-0" />
       </section>

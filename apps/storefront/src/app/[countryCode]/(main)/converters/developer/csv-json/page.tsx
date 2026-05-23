@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import QuickSwitch from "../../components/quick-switch"
 
 export default function CsvJsonPage() {
   const [csvText, setCsvText] = useState<string>(
@@ -170,6 +171,7 @@ export default function CsvJsonPage() {
           <p className="text-xs sm:text-sm max-w-lg mx-auto" style={{ color: "rgba(255,248,231,0.75)" }}>
             Format tabular spreadsheet data into queryable JSON arrays or serialize backend data back to standard CSV files locally.
           </p>
+          <QuickSwitch currentHref="/converters/developer/csv-json" />
         </div>
         <div className="temple-border absolute bottom-0 left-0 right-0" />
       </section>

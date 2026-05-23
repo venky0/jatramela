@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import QuickSwitch from "../../components/quick-switch"
 
 export default function SVGRasterizerPage() {
   const [svgCode, setSvgCode] = useState<string>("")
@@ -96,6 +97,7 @@ export default function SVGRasterizerPage() {
           <p className="text-xs sm:text-sm max-w-lg mx-auto" style={{ color: "rgba(255,248,231,0.75)" }}>
             Convert vector SVG code or files into high-definition raster PNG/JPEG images in-browser.
           </p>
+          <QuickSwitch currentHref="/converters/graphics/svg-rasterizer" />
         </div>
         <div className="temple-border absolute bottom-0 left-0 right-0" />
       </section>

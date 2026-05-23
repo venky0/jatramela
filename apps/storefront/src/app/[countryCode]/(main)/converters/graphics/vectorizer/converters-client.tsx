@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
+import QuickSwitch from "../../components/quick-switch"
 
 interface Point {
   x: number
@@ -811,6 +812,7 @@ gsave
             Convert raster logos (PNG, JPEG, WebP) to professional layered vector EPS and SVG assets.
             Organizes shapes into clean, color-grouped vector layers.
           </p>
+          <QuickSwitch currentHref="/converters/graphics/vectorizer" />
         </div>
         <div className="temple-border absolute bottom-0 left-0 right-0" />
       </section>

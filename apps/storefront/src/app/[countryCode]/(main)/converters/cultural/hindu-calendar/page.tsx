@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import QuickSwitch from "../../components/quick-switch"
 
 const MASAS = [
   "Chaitra (March - April)",
@@ -102,6 +103,7 @@ export default function HinduCalendarPage() {
           <p className="text-xs sm:text-sm max-w-lg mx-auto" style={{ color: "rgba(255,248,231,0.75)" }}>
             Convert standard Gregorian dates into traditional Hindu Panchanga details (Masa, Paksha, Tithi) and corresponding Jatra festivals.
           </p>
+          <QuickSwitch currentHref="/converters/cultural/hindu-calendar" />
         </div>
         <div className="temple-border absolute bottom-0 left-0 right-0" />
       </section>

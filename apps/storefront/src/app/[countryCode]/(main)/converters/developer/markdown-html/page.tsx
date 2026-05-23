@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import QuickSwitch from "../../components/quick-switch"
 
 export default function MarkdownHtmlPage() {
   const [mdText, setMdText] = useState<string>(
@@ -235,6 +236,7 @@ export default function MarkdownHtmlPage() {
           <p className="text-xs sm:text-sm max-w-lg mx-auto" style={{ color: "rgba(255,248,231,0.75)" }}>
             Bidirectionally parse, format, and translate between clean Markdown syntax and valid HTML tag formats locally in your tab.
           </p>
+          <QuickSwitch currentHref="/converters/developer/markdown-html" />
         </div>
         <div className="temple-border absolute bottom-0 left-0 right-0" />
       </section>

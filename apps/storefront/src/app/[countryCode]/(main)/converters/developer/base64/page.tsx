@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import QuickSwitch from "../../components/quick-switch"
 
 export default function Base64ConverterPage() {
   const [inputText, setInputText] = useState<string>("Welcome to Jatramela Jatra Festival!")
@@ -121,6 +122,7 @@ export default function Base64ConverterPage() {
           <p className="text-xs sm:text-sm max-w-lg mx-auto" style={{ color: "rgba(255,248,231,0.75)" }}>
             Encode text and binary files to Base64 format, or decode Base64 back into readable layouts entirely offline.
           </p>
+          <QuickSwitch currentHref="/converters/developer/base64" />
         </div>
         <div className="temple-border absolute bottom-0 left-0 right-0" />
       </section>

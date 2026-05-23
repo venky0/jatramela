@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import QuickSwitch from "../../components/quick-switch"
 
 export default function JsonYamlPage() {
   const [jsonText, setJsonText] = useState<string>('{\n  "store": "Jatramela",\n  "location": "Karnataka",\n  "active": true,\n  "categories": [\n    "Clothing",\n    "Organic Food",\n    "Handicrafts"\n  ]\n}')
@@ -164,6 +165,7 @@ export default function JsonYamlPage() {
           <p className="text-xs sm:text-sm max-w-lg mx-auto" style={{ color: "rgba(255,248,231,0.75)" }}>
             Format and translate data layouts between JSON and YAML syntax structures instantly.
           </p>
+          <QuickSwitch currentHref="/converters/developer/json-yaml" />
         </div>
         <div className="temple-border absolute bottom-0 left-0 right-0" />
       </section>

@@ -18,6 +18,7 @@ export const NAV_LINKS = [
   { label: "Wellness",    href: "/categories/wellness", emoji: "🌿" },
   { label: "Handicrafts", href: "/categories/handicrafts", emoji: "🪔" },
   { label: "Jatras",      href: "/jatras",              emoji: "🛕" },
+  { label: "Converters",  href: "/converters",          emoji: "⚡" },
   { label: "Blog",        href: "/blog",                emoji: "📖" },
   { label: "FAQ",         href: "/faq",                 emoji: "💬" },
   { label: "About",       href: "/about",               emoji: "🌺" },

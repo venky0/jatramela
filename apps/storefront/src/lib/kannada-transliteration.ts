@@ -1,13 +1,13 @@
 // ── VOWELS, MATRAS, AND CONSONANTS TRANSLITERATION MATRIX ────────────────────
 export const VOWELS: { [key: string]: string } = {
   a: "ಅ", aa: "ಆ", A: "ಆ", i: "ಇ", ii: "ಈ", I: "ಈ", u: "ಉ", uu: "ಊ", U: "ಊ",
-  e: "ಎ", ee: "ಏ", E: "ಏ", ai: "ಐ", o: "ಒ", oo: "ಓ", O: "ಓ", au: "ಔ",
+  e: "ಏ", ee: "ಈ", E: "ಏ", ai: "ಐ", o: "ಓ", oo: "ಊ", O: "ಓ", au: "ಔ",
   am: "ಅಂ", aha: "ಅಃ", ru: "ಋ", R: "ಋ"
 }
 
 export const MATRAS: { [key: string]: string } = {
   a: "", aa: "ಾ", A: "ಾ", i: "ಿ", ii: "ೀ", I: "ೀ", u: "ು", uu: "ೂ", U: "ೂ",
-  e: "ೆ", ee: "ೇ", E: "ೇ", ai: "ೈ", o: "ೊ", oo: "ೋ", O: "ೋ", au: "ೌ",
+  e: "ೇ", ee: "ೀ", E: "ೇ", ai: "ೈ", o: "ೋ", oo: "ೂ", O: "ೋ", au: "ೌ",
   am: "ಂ", aha: "ಃ", ru: "ೃ", R: "ೃ"
 }
 
@@ -256,11 +256,31 @@ export const KANNADA_DICTIONARY: { [key: string]: string[] } = {
   "nadu": ["ನಾಡು", "ನಾಡಿನ", "ನಾಡುಗಳು"],
   "naadu": ["ನಾಡು", "ನಾಡಿನ", "ನಾಡುಗಳು"],
   "venkatesh": ["ವೆಂಕಟೇಶ್", "ವೆಂಕಟೇಶ", "ವೆಂಕಟೇಶನ"],
-  "venkatesha": ["ವೆಂಕಟೇಶ", "ವೆಂಕಟೇಶ್", "ವೆಂಕಟೇಶನ"]
+  "venkatesha": ["ವೆಂಕಟೇಶ", "ವೆಂಕಟೇಶ್", "ವೆಂಕಟೇಶನ"],
+  "ramesh": ["ರಮೇಶ್", "ರಮೇಶ", "ರಮೇಶನ"],
+  "rakesh": ["ರಾಕೇಶ್", "ರಾಕೇಶ", "ರಾಕೇಶನ"],
+  "rajesh": ["ರಾಜೇಶ್", "ರಾಜೇಶ", "ರಾಜೇಶನ"],
+  "vinod": ["ವಿನೋದ್", "ವಿನೋದ", "ವಿನೋದನ"],
+  "vinoda": ["ವಿನೋದ", "ವಿನೋದ್", "ವಿನೋದನ"],
+  "nanu": ["ನಾನು", "ನನ್ನ", "ನನ್ನನ್ನು"],
+  "naanu": ["ನಾನು", "ನನ್ನ", "ನನ್ನನ್ನು"],
+  "evathu": ["ಇವತ್ತು", "ಏವತ್ತು", "ಈವತ್ತು"],
+  "evattu": ["ಇವತ್ತು", "ಏವತ್ತು", "ಈವತ್ತು"],
+  "ivattu": ["ಇವತ್ತು", "ಇವತ್ತಿನ", "ಇವತ್ತಿಗೆ"],
+  "eevattu": ["ಇವತ್ತು", "ಈವತ್ತು", "ಏವತ್ತು"],
+  "barodila": ["ಬರೋದಿಲ್ಲ", "ಬರೋದಿಲಾ", "ಬರೋದಿಲ್ಲಾ"],
+  "barodilla": ["ಬರೋದಿಲ್ಲ", "ಬರೋದಿಲ್ಲಾ", "ಬರೋದಿಲಾ"],
+  "ninu": ["ನೀನು", "ನಿನ್ನ", "ನಿನಗೆ"],
+  "niinu": ["ನೀನು", "ನಿನ್ನ", "ನಿನಗೆ"],
+  "baa": ["ಬಾ", "ಬನ್ನಿ", "ಬಾರೋ"]
 }
 
 // ── ADVANCED PHONETIC TRANSLITERATION ENGINE ────────────────────────────────
-export function transliterateWord(word: string, overrides: { [key: string]: string } = {}, options: { useRetroflex?: boolean } = {}): string {
+export function transliterateWord(
+  word: string,
+  overrides: { [key: string]: string } = {},
+  options: { useRetroflex?: boolean; treatEOAsShort?: boolean } = {}
+): string {
   if (!word) return ""
   const lowerWord = word.toLowerCase()
   
@@ -291,6 +311,14 @@ export function transliterateWord(word: string, overrides: { [key: string]: stri
   let result = ""
   let i = 0
   const len = processed.length
+
+  // Setup dynamic matra and vowel maps for short/long toggle
+  let currentMatras = MATRAS;
+  let currentVowels = VOWELS;
+  if (options.treatEOAsShort) {
+    currentMatras = { ...MATRAS, e: "ೆ", o: "ೊ" };
+    currentVowels = { ...VOWELS, e: "ಎ", o: "ಒ" };
+  }
 
   while (i < len) {
     const char = processed[i]
@@ -335,22 +363,22 @@ export function transliterateWord(word: string, overrides: { [key: string]: stri
       let vowelKey = ""
       let vStep = 0
 
-      if (i + 2 < len && MATRAS[processed.substring(i, i + 3).toLowerCase()] !== undefined) {
+      if (i + 2 < len && currentMatras[processed.substring(i, i + 3).toLowerCase()] !== undefined) {
         vowelKey = processed.substring(i, i + 3).toLowerCase()
         vStep = 3
-      } else if (i + 1 < len && MATRAS[processed.substring(i, i + 2).toLowerCase()] !== undefined) {
+      } else if (i + 1 < len && currentMatras[processed.substring(i, i + 2).toLowerCase()] !== undefined) {
         vowelKey = processed.substring(i, i + 2).toLowerCase()
         vStep = 2
-      } else if (i < len && MATRAS[processed[i]] !== undefined) {
+      } else if (i < len && currentMatras[processed[i]] !== undefined) {
         vowelKey = processed[i] // Case-sensitive
         vStep = 1
-      } else if (i < len && MATRAS[processed[i].toLowerCase()] !== undefined) {
+      } else if (i < len && currentMatras[processed[i].toLowerCase()] !== undefined) {
         vowelKey = processed[i].toLowerCase()
         vStep = 1
       }
 
       if (vStep > 0) {
-        result += baseGlyph + MATRAS[vowelKey]
+        result += baseGlyph + currentMatras[vowelKey]
         i += vStep
       } else {
         // No vowel following: add Virama (್) to form conjunct/half-letter
@@ -361,22 +389,22 @@ export function transliterateWord(word: string, overrides: { [key: string]: stri
       let vowelKey = ""
       let vStep = 0
 
-      if (i + 2 < len && VOWELS[processed.substring(i, i + 3).toLowerCase()] !== undefined) {
+      if (i + 2 < len && currentVowels[processed.substring(i, i + 3).toLowerCase()] !== undefined) {
         vowelKey = processed.substring(i, i + 3).toLowerCase()
         vStep = 3
-      } else if (i + 1 < len && VOWELS[processed.substring(i, i + 2).toLowerCase()] !== undefined) {
+      } else if (i + 1 < len && currentVowels[processed.substring(i, i + 2).toLowerCase()] !== undefined) {
         vowelKey = processed.substring(i, i + 2).toLowerCase()
         vStep = 2
-      } else if (VOWELS[char] !== undefined) {
+      } else if (currentVowels[char] !== undefined) {
         vowelKey = char // Case-sensitive
         vStep = 1
-      } else if (VOWELS[char.toLowerCase()] !== undefined) {
+      } else if (currentVowels[char.toLowerCase()] !== undefined) {
         vowelKey = char.toLowerCase()
         vStep = 1
       }
 
       if (vStep > 0) {
-        result += VOWELS[vowelKey]
+        result += currentVowels[vowelKey]
         i += vStep
       } else {
         result += char
@@ -437,10 +465,8 @@ export function generateSuggestions(word: string, overrides: { [key: string]: st
   const optB = transliterateWord(lengthenedFirst, overrides, { useRetroflex: true })
   if (optB && optB !== optA) options.push(optB)
 
-  // Option C: Treat single 'e' or 'o' as long (e.g. venkatesh -> venkateesh -> ವೆಂಕಟೇಶ್)
-  let eeooWord = word;
-  eeooWord = eeooWord.replace(/e(?!e)/gi, "ee").replace(/o(?!o)/gi, "oo");
-  const optC = transliterateWord(eeooWord, overrides, { useRetroflex: true })
+  // Option C: Treat single 'e' or 'o' as short (e.g. ramesh -> ರಮೇಶ್, but suggest ರಮೆಶ್ as well)
+  const optC = transliterateWord(word, overrides, { useRetroflex: true, treatEOAsShort: true })
   if (optC && optC !== optA && optC !== optB) {
     options.push(optC)
   } else {

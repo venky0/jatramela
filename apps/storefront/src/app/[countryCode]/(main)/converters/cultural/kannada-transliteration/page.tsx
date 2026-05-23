@@ -4,54 +4,10 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import QuickSwitch from "../../components/quick-switch"
 
-// ── VOWELS, MATRAS, AND CONSONANTS TRANSLITERATION MATRIX ────────────────────
-const VOWELS: { [key: string]: string } = {
-  a: "ಅ", aa: "ಆ", A: "ಆ", i: "ಇ", ii: "ಈ", I: "ಈ", u: "ಉ", uu: "ಊ", U: "ಊ",
-  e: "ಎ", ee: "ಏ", E: "ಏ", ai: "ಐ", o: "ಒ", oo: "ಓ", O: "ಓ", au: "ಔ",
-  am: "ಅಂ", aha: "ಅಃ", ru: "ಋ", R: "ಋ"
-}
-
-const MATRAS: { [key: string]: string } = {
-  a: "", aa: "ಾ", A: "ಾ", i: "ಿ", ii: "ೀ", I: "ೀ", u: "ು", uu: "ೂ", U: "ೂ",
-  e: "ೆ", ee: "ೇ", E: "ೇ", ai: "ೈ", o: "ೊ", oo: "ೋ", O: "ೋ", au: "ೌ",
-  am: "ಂ", aha: "ಃ", ru: "ೃ", R: "ೃ"
-}
-
-const CONSONANTS: { [key: string]: string } = {
-  k: "ಕ", kh: "ಖ", g: "ಗ", gh: "ಘ", ng: "ಙ",
-  c: "ಚ", ch: "ಚ", chh: "ಛ", j: "ಜ", jh: "ಝ", ny: "ಞ",
-  t: "ತ", th: "ಥ", d: "ದ", dh: "ಧ", n: "ನ",
-  T: "ಟ", Th: "ಠ", D: "ಡ", Dh: "ಢ", N: "ಣ",
-  p: "ಪ", ph: "ಫ", f: "ಫ", b: "ಬ", bh: "ಭ", m: "ಮ",
-  y: "ಯ", r: "ರ", l: "ಲ", v: "ವ", w: "ವ",
-  sh: "ಶ", Sh: "ಷ", s: "ಸ", h: "ಹ", L: "ಳ",
-  ksh: "ಕ್ಷ", jn: "ಜ್ಞ"
-}
-
-// ── HERITAGE DICTIONARY FOR CULTURAL WORD OVERRIDES ──────────────────────────
-const KANNADA_DICTIONARY: { [key: string]: string[] } = {
-  "namaskara": ["ನಮಸ್ಕಾರ", "ನಮಸ್ಕಾರಗಳು", "ನಮಸ್ತೆ"],
-  "namaskaraa": ["ನಮಸ್ಕಾರ", "ನಮಸ್ಕಾರಗಳು", "ನಮಸ್ತೆ"],
-  "kannada": ["ಕನ್ನಡ", "ಕನ್ನಡದ", "ಕನ್ನಡಿಗ"],
-  "karnataka": ["ಕರ್ನಾಟಕ", "ಕರ್ನಾಟಕದ", "ಕರ್ನಾಟಕದಲ್ಲಿ"],
-  "jatra": ["ಜಾತ್ರೆ", "ಜಾತ್ರಾ", "ಯಾತ್ರೆ"],
-  "jaatre": ["ಜಾತ್ರೆ", "ಜಾತ್ರಾ", "ಯಾತ್ರೆ"],
-  "utsava": ["ಉತ್ಸವ", "ಉತ್ಸವಗಳು", "ಹಬ್ಬ"],
-  "siddheshwara": ["ಸಿದ್ಧೇಶ್ವರ", "ಸಿದ್ದೇಶ್ವರ", "ಸಿದ್ಧೇಶ್ವರಸ್ವಾಮಿ"],
-  "veerabhadreshwara": ["ವೀರಭದ್ರೇಶ್ವರ", "ವೀರಭದ್ರ", "ವೀರಭದ್ರೇಶ್ವರಸ್ವಾಮಿ"],
-  "huskur": ["ಹುಸ್ಕೂರು", "ಹುಸ್ಕೂರ್", "ಉಸ್ಕೂರು"],
-  "madduramma": ["ಮದ್ದೂರಮ್ಮ", "ಮದ್ದೂರಮ್ಮನ", "ಮದ್ದೂರು"],
-  "bengaluru": ["ಬೆಂಗಳೂರು", "ಬೆಂಗಳೂರ್", "ಬೆಂಗಳೂರಿನ"],
-  "shiva": ["ಶಿವ", "ಶಿವನ", "ಶಿವಾಯ"],
-  "temple": ["ದೇವಸ್ಥಾನ", "ದೇವಾಲಯ", "ಗುಡಿ"],
-  "swamy": ["ಸ್ವಾಮಿ", "ಸ್ವಾಮಿಗಳು", "ಸ್ವಾಮಿಯೇ"],
-  "kambala": ["ಕಂಬಳ", "ಕಂಬಳದ", "ಕಂಬಳವು"],
-  "karaga": ["ಕರಗ", "ಕರಗದ", "ಕರಗವು"],
-  "dasara": ["ದಸರಾ", "ದಸರೆ", "ಮೈಸೂರು ದಸರಾ"],
-  "panchanga": ["ಪಂಚಾಂಗ", "ಪಂಚಾಂಗದ", "ಪಂಚಾಂಗವು"],
-  "tithi": ["ತಿಥಿ", "ತಿಥಿಗಳು", "ತಿಥಿಯ"],
-  "sharanabasaveshwara": ["ಶರಣಬಸವೇಶ್ವರ", "ಶರಣಬಸವ", "ಶರಣಬಸವೇಶ್ವರಸ್ವಾಮಿ"]
-}
+import {
+  transliterateDocument,
+  generateSuggestions
+} from "@lib/kannada-transliteration"
 
 export default function TransliterationPage() {
   const [englishText, setEnglishText] = useState<string>("")
@@ -61,186 +17,6 @@ export default function TransliterationPage() {
   const [overrides, setOverrides] = useState<{ [key: string]: string }>({})
   const [copyStatus, setCopyStatus] = useState<boolean>(false)
 
-  // ── CORE PHONETIC TRANSLITERATION ENGINE ──────────────────────────────────
-  const transliterateWord = (word: string): string => {
-    if (!word) return ""
-    const lowerWord = word.toLowerCase()
-    
-    // Check if user has explicitly chosen an override for this word
-    if (overrides[lowerWord]) {
-      return overrides[lowerWord]
-    }
-    
-    // Fallback to first dictionary entry if available
-    if (KANNADA_DICTIONARY[lowerWord]) {
-      return KANNADA_DICTIONARY[lowerWord][0]
-    }
-
-    let result = ""
-    let i = 0
-    const len = word.length
-
-    while (i < len) {
-      const char = word[i]
-
-      // Skip non-alphabetic chars
-      if (/[^a-zA-Z]/g.test(char)) {
-        result += char
-        i++
-        continue
-      }
-
-      // 1. Identify consonant cluster length (up to 3 characters)
-      let consKey = ""
-      let step = 0
-      
-      if (i + 2 < len && CONSONANTS[word.substring(i, i + 3).toLowerCase()]) {
-        consKey = word.substring(i, i + 3).toLowerCase()
-        step = 3
-      } else if (i + 1 < len && CONSONANTS[word.substring(i, i + 2).toLowerCase()]) {
-        consKey = word.substring(i, i + 2).toLowerCase()
-        step = 2
-      } else if (CONSONANTS[char]) {
-        consKey = char // Capital letters (T, D, N, L, S, Sh)
-        step = 1
-      } else if (CONSONANTS[char.toLowerCase()]) {
-        consKey = char.toLowerCase()
-        step = 1
-      }
-
-      if (consKey) {
-        const baseGlyph = CONSONANTS[consKey]
-        i += step
-
-        // 2. Identify the following vowel matra
-        let vowelKey = ""
-        let vStep = 0
-
-        if (i + 2 < len && MATRAS[word.substring(i, i + 3).toLowerCase()]) {
-          vowelKey = word.substring(i, i + 3).toLowerCase()
-          vStep = 3
-        } else if (i + 1 < len && MATRAS[word.substring(i, i + 2).toLowerCase()]) {
-          vowelKey = word.substring(i, i + 2).toLowerCase()
-          vStep = 2
-        } else if (i < len && MATRAS[word[i]]) {
-          vowelKey = word[i] // Case sensitive
-          vStep = 1
-        } else if (i < len && MATRAS[word[i].toLowerCase()]) {
-          vowelKey = word[i].toLowerCase()
-          vStep = 1
-        }
-
-        if (vStep > 0) {
-          result += baseGlyph + MATRAS[vowelKey]
-          i += vStep
-        } else {
-          // No vowel following: add Virama (್) to form conjunct/half-letter
-          result += baseGlyph + "್"
-        }
-      } else {
-        // 3. Isolated vowel mapping (starts a word or syllable)
-        let vowelKey = ""
-        let vStep = 0
-
-        if (i + 2 < len && VOWELS[word.substring(i, i + 3).toLowerCase()]) {
-          vowelKey = word.substring(i, i + 3).toLowerCase()
-          vStep = 3
-        } else if (i + 1 < len && VOWELS[word.substring(i, i + 2).toLowerCase()]) {
-          vowelKey = word.substring(i, i + 2).toLowerCase()
-          vStep = 2
-        } else if (VOWELS[char]) {
-          vowelKey = char // Case sensitive
-          vStep = 1
-        } else if (VOWELS[char.toLowerCase()]) {
-          vowelKey = char.toLowerCase()
-          vStep = 1
-        }
-
-        if (vStep > 0) {
-          result += VOWELS[vowelKey]
-          i += vStep
-        } else {
-          result += char
-          i++
-        }
-      }
-    }
-
-    // Clean up trailing halant/virama on word boundaries
-    return result.replace(/್$/, "")
-  }
-
-  // ── TRANSLITERATE ENTIRE DOCUMENT ──────────────────────────────────────────
-  const transliterateDocument = (text: string, currentOverrides: { [key: string]: string }) => {
-    // Regex splits words preserving spaces and punctuation
-    const tokens = text.split(/([a-zA-Z]+)/)
-    const translatedTokens = tokens.map(token => {
-      if (/^[a-zA-Z]+$/.test(token)) {
-        return overrides[token.toLowerCase()] 
-          ? overrides[token.toLowerCase()] 
-          : transliterateWord(token)
-      }
-      return token
-    })
-    return translatedTokens.join("")
-  }
-
-  // ── DYNAMIC SUGGESTIONS GENERATOR ──────────────────────────────────────────
-  const generateSuggestions = (word: string) => {
-    if (!word || !/^[a-zA-Z]+$/.test(word)) {
-      setSuggestions([])
-      return
-    }
-
-    const lower = word.toLowerCase()
-    const options: string[] = []
-
-    // 1. Check dictionary first
-    if (KANNADA_DICTIONARY[lower]) {
-      setSuggestions(KANNADA_DICTIONARY[lower].slice(0, 3))
-      return
-    }
-
-    // 2. Generate phonetic options dynamically
-    // Option A: Raw phonetic output
-    const optA = transliterateWord(word)
-    options.push(optA)
-
-    // Option B: Trailing long vowel variation
-    let optB = ""
-    if (lower.endsWith("a")) {
-      // e.g. namaskara ➔ namaskaara
-      const modified = word.slice(0, -1) + "aa"
-      optB = transliterateWord(modified)
-    } else if (lower.endsWith("i")) {
-      const modified = word.slice(0, -1) + "ee"
-      optB = transliterateWord(modified)
-    } else {
-      optB = transliterateWord(word + "a")
-    }
-    if (optB && optB !== optA) options.push(optB)
-
-    // Option C: Soft vs. hard consonant modifications
-    let optC = ""
-    if (lower.includes("d")) {
-      optC = transliterateWord(word.replace(/d/gi, "dh"))
-    } else if (lower.includes("t")) {
-      optC = transliterateWord(word.replace(/t/gi, "th"))
-    } else if (lower.includes("n")) {
-      optC = transliterateWord(word.replace(/n/gi, "N"))
-    } else {
-      optC = optA + "ಂ" // Anusvara modifier
-    }
-    if (optC && optC !== optA && optC !== optB) options.push(optC)
-
-    // Fill up to 3 options with slight suffix variations
-    if (options.length < 3) {
-      options.push(optA + "ಾ")
-    }
-
-    setSuggestions(options.slice(0, 3))
-  }
-
   // ── ON TEXT CHANGE HANDLER ────────────────────────────────────────────────
   const handleTextChange = (val: string) => {
     setEnglishText(val)
@@ -249,7 +25,7 @@ export default function TransliterationPage() {
     const words = val.trim().split(/[^a-zA-Z]+/)
     const lastWord = words[words.length - 1] || ""
     setActiveWord(lastWord)
-    generateSuggestions(lastWord)
+    setSuggestions(generateSuggestions(lastWord, overrides))
   }
 
   // Update document whenever input or overrides change
@@ -384,7 +160,7 @@ export default function TransliterationPage() {
               <p className="font-bold text-[#C9A84C] mb-1">Retroflex (ಮೂರ್ಧನ್ಯ)</p>
               <ul className="space-y-1 text-neutral-400">
                 <li>• T ➔ ಟ | Th ➔ ಠ</li>
-                <li>• D ➔ ด | Dh ➔ ಢ</li>
+                <li>• D ➔ ಡ | Dh ➔ ಢ</li>
                 <li>• N ➔ ಣ | L ➔ ಳ</li>
               </ul>
             </div>

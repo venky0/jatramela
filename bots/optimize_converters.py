@@ -48,6 +48,22 @@ def scan_parameters():
     else:
         print(f"⚠️ Vectorizer client not found at {vectorizer_client}, utilizing defaults.")
         
+    # 2. Parse Kannada Transliteration Parameters
+    kannada_lib = os.path.join(PROJECT_ROOT, "apps", "storefront", "src", "lib", "kannada-transliteration.ts")
+    if os.path.exists(kannada_lib):
+        print(f"🔍 Reading Kannada Transliteration library: {kannada_lib}")
+        with open(kannada_lib, "r", encoding="utf-8") as f:
+            content = f.read()
+            # Extract dictionary block and count keys
+            dict_match = re.search(r"export const KANNADA_DICTIONARY:.*?=\s*\{([\s\S]*?)\n\}", content)
+            if dict_match:
+                dict_content = dict_match.group(1)
+                keys = re.findall(r'"([^"]+)"\s*:', dict_content)
+                scanned_params["kannada_dictionary_size"] = len(keys)
+                print(f"   ✅ Found {len(keys)} dictionary mappings in library.")
+    else:
+        print(f"⚠️ Kannada library not found at {kannada_lib}.")
+        
     return scanned_params
 
 def update_skills_registry(scanned_params):
@@ -74,6 +90,14 @@ def update_skills_registry(scanned_params):
                 else:
                     print(f"   ⚠️ WARNING: '{key}' value {val} is outside the optimal range [{min_opt}, {max_opt}]!")
                     
+    # Update Kannada Transliteration parameter if scanned
+    if "kannada_dictionary_size" in scanned_params and "kannada_transliteration" in registry["skills"]:
+        kannada_skills = registry["skills"]["kannada_transliteration"]["parameters"]
+        old_val = kannada_skills["dictionary_size"]["current_val"]
+        new_val = scanned_params["kannada_dictionary_size"]
+        kannada_skills["dictionary_size"]["current_val"] = new_val
+        print(f"📊 Kannada Parameter 'dictionary_size': Syncing value from {old_val} ➔ {new_val}")
+        
     # Update execution benchmarks and metadata
     registry["learning_state"]["last_optimized_timestamp"] = datetime.now(timezone.utc).isoformat()
     registry["learning_state"]["total_optimization_cycles"] += 1

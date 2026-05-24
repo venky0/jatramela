@@ -13,6 +13,14 @@ const ALL_TOOLS = [
     ]
   },
   {
+    category: "PDF & Document Tools",
+    tools: [
+      { name: "PDF Compressor", href: "/converters/pdf/compressor" },
+      { name: "Images to PDF Converter", href: "/converters/pdf/images-to-pdf" },
+      { name: "PDF Split & Merge Organizer", href: "/converters/pdf/organizer" },
+    ]
+  },
+  {
     category: "Local Script & Cultural Tools",
     tools: [
       { name: "English ➔ Kannada Phonetic", href: "/converters/cultural/kannada-transliteration" },

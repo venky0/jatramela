@@ -16,6 +16,17 @@ const CATEGORIES = [
     ]
   },
   {
+    id: "pdf",
+    name: "📄 PDF & Document Tools",
+    desc: "Compress, merge, split, and convert images to PDF completely locally.",
+    href: "/converters/pdf",
+    tools: [
+      { name: "PDF Compressor", desc: "Reduce PDF file sizes by compressing and downscaling page images.", href: "/converters/pdf/compressor" },
+      { name: "Images to PDF Converter", desc: "Convert multiple PNG/JPG/WebP images into a single clean PDF.", href: "/converters/pdf/images-to-pdf" },
+      { name: "PDF Split & Merge Organizer", desc: "Merge multiple documents or extract select pages from a PDF.", href: "/converters/pdf/organizer" },
+    ]
+  },
+  {
     id: "cultural",
     name: "🛕 Local Script & Cultural Tools",
     desc: "Transliterate Kannada script, convert legacy fonts, and calculate Panchanga dates.",
@@ -60,7 +71,7 @@ export default function ConvertersDashboard() {
 
       {/* ── DASHBOARD GRID ── */}
       <div className="content-container py-14">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {CATEGORIES.map(category => (
             <div key={category.id} className="heritage-card p-6 flex flex-col justify-between">
               <div>

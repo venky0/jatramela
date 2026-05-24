@@ -283,6 +283,15 @@ h1, h2, h3, .display-font { font-family: 'Baloo 2', 'Playfair Display', sans-ser
   }
   .btn-outline-gold:hover { background: var(--gold-glow); }
 
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full font-bold text-sm tracking-wide transition-all duration-300;
+    background: transparent;
+    color: var(--text-primary);
+    border: 2px solid var(--border);
+    font-family: 'Baloo 2', sans-serif;
+  }
+  .btn-outline:hover { background: rgba(201,168,76,0.1); border-color: var(--primary); color: var(--primary); }
+
   /* ─ Cards ─ */
   .heritage-card {
     background: var(--bg-card);

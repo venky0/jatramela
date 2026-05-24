@@ -19,13 +19,15 @@ export const SHOPPING_LINKS = [
 ]
 
 export const NAV_LINKS = [
-  { label: "Jatras",      href: "/jatras",              emoji: "🛕" },
-  { label: "Tourism",     href: "/tourism",             emoji: "🌾" },
-  { label: "Converters",  href: "/converters",          emoji: "⚡" },
-  { label: "Blog",        href: "/blog",                emoji: "📖" },
-  { label: "FAQ",         href: "/faq",                 emoji: "💬" },
-  { label: "About",       href: "/about",               emoji: "🌺" },
+  { label: "Jatras",          href: "/jatras",         emoji: "🛕" },
+  { label: "Tourism",         href: "/tourism",         emoji: "🌄" },
+  { label: "Creative Tools",  href: "/creative-tools",  emoji: "🎬" },
+  { label: "Converters",      href: "/converters",      emoji: "⚡" },
+  { label: "Blog",            href: "/blog",            emoji: "📖" },
+  { label: "FAQ",             href: "/faq",             emoji: "💬" },
+  { label: "About",           href: "/about",           emoji: "🌺" },
 ]
+
 
 export function NavLogo() {
   return (

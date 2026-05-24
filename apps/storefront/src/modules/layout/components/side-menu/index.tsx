@@ -23,12 +23,14 @@ const MENU_SECTIONS = [
   {
     label: "Explore",
     items: [
-      { name: "Tourism",    href: "/tourism",    icon: "🌾" },
-      { name: "Converters", href: "/converters", icon: "⚡" },
-      { name: "Blog",    href: "/blog",    icon: "📖" },
-      { name: "FAQ",     href: "/faq",     icon: "💬" },
-      { name: "About",   href: "/about",   icon: "🌺" },
+      { name: "Tourism",        href: "/tourism",         icon: "🌄" },
+      { name: "Creative Tools", href: "/creative-tools",  icon: "🎬" },
+      { name: "Converters",     href: "/converters",      icon: "⚡" },
+      { name: "Blog",           href: "/blog",            icon: "📖" },
+      { name: "FAQ",            href: "/faq",             icon: "💬" },
+      { name: "About",          href: "/about",           icon: "🌺" },
     ],
+
   },
   {
     label: "Account",

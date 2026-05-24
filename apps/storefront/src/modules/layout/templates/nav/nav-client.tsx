@@ -10,13 +10,15 @@ import { ThemeToggle } from "@modules/layout/components/theme-toggle"
 // Primary gold: #C9A84C | Dark bg: #1a0a00 | Text: #FFF8E7
 // Font: Baloo 2 (brand), Inter (body)
 
+export const SHOPPING_LINKS = [
+  { label: "Shop All",     href: "/store",               emoji: "🛒" },
+  { label: "Clothing",     href: "/categories/clothing", emoji: "🥻" },
+  { label: "Organic Food", href: "/categories/organic",  emoji: "🌾" },
+  { label: "Wellness",     href: "/categories/wellness", emoji: "🌿" },
+  { label: "Handicrafts",  href: "/categories/handicrafts", emoji: "🪔" },
+]
+
 export const NAV_LINKS = [
-  { label: "Home",        href: "/",                   emoji: "🏠" },
-  { label: "Shop All",    href: "/store",               emoji: "🛒" },
-  { label: "Clothing",    href: "/categories/clothing", emoji: "🥻" },
-  { label: "Organic Food",href: "/categories/organic",  emoji: "🌾" },
-  { label: "Wellness",    href: "/categories/wellness", emoji: "🌿" },
-  { label: "Handicrafts", href: "/categories/handicrafts", emoji: "🪔" },
   { label: "Jatras",      href: "/jatras",              emoji: "🛕" },
   { label: "Converters",  href: "/converters",          emoji: "⚡" },
   { label: "Blog",        href: "/blog",                emoji: "📖" },
@@ -44,8 +46,70 @@ export function NavLogo() {
 }
 
 export function NavLinks() {
+  const [isShoppingOpen, setIsShoppingOpen] = useState(false)
+
   return (
     <nav className="hidden xl:flex items-center gap-0.5">
+      {/* Home */}
+      <Link href="/" className="nav-link px-3 py-1.5 rounded-full transition-all duration-200 hover:bg-white/10">
+        Home
+      </Link>
+
+      {/* Shopping Dropdown */}
+      <div 
+        className="relative py-1.5"
+        onMouseEnter={() => setIsShoppingOpen(true)}
+        onMouseLeave={() => setIsShoppingOpen(false)}
+      >
+        <button 
+          className="nav-link px-3 py-1.5 rounded-full transition-all duration-200 hover:bg-white/10 flex items-center gap-1.5 outline-none cursor-pointer"
+          style={{ color: "var(--text-on-header)", fontFamily: "'Baloo 2', sans-serif" }}
+        >
+          <span>Shopping</span>
+          <svg 
+            width="10" 
+            height="10" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="3"
+            className={`transition-transform duration-200 ${isShoppingOpen ? "rotate-180" : ""}`}
+          >
+            <path d="m6 9 6 6 6-6"/>
+          </svg>
+        </button>
+
+        {/* Dropdown Menu */}
+        <div 
+          className={`absolute left-1/2 -translate-x-1/2 top-full w-52 rounded-2xl border p-1.5 shadow-2xl transition-all duration-200 z-50 ${
+            isShoppingOpen 
+              ? "opacity-100 translate-y-1 pointer-events-auto" 
+              : "opacity-0 -translate-y-1 pointer-events-none"
+          }`}
+          style={{ 
+            background: "var(--bg-glass, rgba(38,20,8,0.95))", 
+            backdropFilter: "blur(16px) saturate(160%)",
+            borderColor: "var(--border, rgba(232,197,106,0.2))",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.5)"
+          }}
+        >
+          {SHOPPING_LINKS.map(link => (
+            <Link 
+              key={link.href} 
+              href={link.href} 
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 hover:bg-white/5 group/item"
+              style={{ color: "var(--text-on-header, #FFF8E7)", fontFamily: "'Baloo 2', sans-serif" }}
+            >
+              <span className="text-sm">{link.emoji}</span>
+              <span className="text-xs font-extrabold group-hover/item:text-[#C9A84C] transition-colors">
+                {link.label}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Main Nav Links */}
       {NAV_LINKS.map(link => (
         <Link key={link.href} href={link.href} className="nav-link px-3 py-1.5 rounded-full transition-all duration-200 hover:bg-white/10">
           {link.label}

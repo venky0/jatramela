@@ -20,6 +20,7 @@ export const SHOPPING_LINKS = [
 
 export const NAV_LINKS = [
   { label: "Jatras",      href: "/jatras",              emoji: "🛕" },
+  { label: "Tourism",     href: "/tourism",             emoji: "🌾" },
   { label: "Converters",  href: "/converters",          emoji: "⚡" },
   { label: "Blog",        href: "/blog",                emoji: "📖" },
   { label: "FAQ",         href: "/faq",                 emoji: "💬" },

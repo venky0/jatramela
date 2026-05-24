@@ -26,7 +26,7 @@ const TOOLS = [
     emoji: "✍️",
     badge: "Popular",
     badgeColor: "#2E6B3E",
-    downloadUrl: "/downloads/ae-auto-text.jsx",
+    downloadUrl: "/downloads/ae-auto-text.zip",
   },
   {
     id: "ae-color-grade",
@@ -52,7 +52,7 @@ const TOOLS = [
     emoji: "🔁",
     badge: null,
     badgeColor: null,
-    downloadUrl: "/downloads/ae-loop-machine.jsx",
+    downloadUrl: "/downloads/ae-loop-machine.zip",
   },
   {
     id: "ae-render-q",
@@ -65,7 +65,7 @@ const TOOLS = [
     emoji: "📤",
     badge: "Editor's Pick",
     badgeColor: "#5C3A00",
-    downloadUrl: "/downloads/ae-render-q.jsx",
+    downloadUrl: "/downloads/ae-render-q.zip",
   },
   {
     id: "ae-particle-temple",
@@ -93,7 +93,7 @@ const TOOLS = [
     emoji: "📱",
     badge: "Popular",
     badgeColor: "#2E6B3E",
-    downloadUrl: "/downloads/ps-batch-resize.jsx",
+    downloadUrl: "/downloads/ps-batch-resize.zip",
   },
   {
     id: "ps-layer-organiser",
@@ -106,7 +106,7 @@ const TOOLS = [
     emoji: "📂",
     badge: null,
     badgeColor: null,
-    downloadUrl: "/downloads/ps-layer-organiser.jsx",
+    downloadUrl: "/downloads/ps-layer-organiser.zip",
   },
   {
     id: "ps-kannadafont",
@@ -132,7 +132,7 @@ const TOOLS = [
     emoji: "©️",
     badge: null,
     badgeColor: null,
-    downloadUrl: "/downloads/ps-watermark.jsx",
+    downloadUrl: "/downloads/ps-watermark.zip",
   },
 
   // ─ PREMIERE PRO ─
@@ -147,7 +147,7 @@ const TOOLS = [
     emoji: "💬",
     badge: "Editor's Pick",
     badgeColor: "#5C3A00",
-    downloadUrl: "/downloads/pr-auto-captions.jsx",
+    downloadUrl: "/downloads/pr-auto-captions.zip",
   },
   {
     id: "pr-multicam-sync",
@@ -160,7 +160,7 @@ const TOOLS = [
     emoji: "🎙️",
     badge: "New",
     badgeColor: "#8B2500",
-    downloadUrl: "/downloads/pr-multicam-sync.jsx",
+    downloadUrl: "/downloads/pr-multicam-sync.zip",
   },
   {
     id: "pr-cut-to-beat",
@@ -173,7 +173,7 @@ const TOOLS = [
     emoji: "🥁",
     badge: "Popular",
     badgeColor: "#2E6B3E",
-    downloadUrl: "/downloads/pr-cut-to-beat.jsx",
+    downloadUrl: "/downloads/pr-cut-to-beat.zip",
   },
 
   // ─ TEMPLATES ─

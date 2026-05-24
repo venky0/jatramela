@@ -13,6 +13,8 @@ Usage:
 
 Bot Team Under Manager:
   🕵️  agent_bot      — Daily QC checker & auto-fixer (runs EVERY DAY at 6 AM)
+  🧠  learning_agent — Vocabulary self-learning & dictionary update agent (DAILY)
+  ⚙️  optimize_converters — Sync converter parameter metrics & update skills (DAILY)
   📦  product_bot    — Adds new Karnataka products (WEEKLY on Wednesdays)
   🖼️  image_uploader — Uploads product images (WEEKLY on Mondays)
   📁  category_setup — Syncs product categories (MONTHLY on 1st)
@@ -81,6 +83,20 @@ BOTS = {
         "schedule_type": "daily",
         "priority":      7,
         "emoji":         "🔱",
+    },
+    "learning_agent": {
+        "script":        "bots/learning_agent.py",
+        "desc":          "Daily vocabulary self-learning from Kannada Wikipedia",
+        "schedule_type": "daily",
+        "priority":      8,
+        "emoji":         "🧠",
+    },
+    "optimize_converters": {
+        "script":        "bots/optimize_converters.py",
+        "desc":          "Sync converter parameter metrics & update skills registry",
+        "schedule_type": "daily",
+        "priority":      9,
+        "emoji":         "⚙️",
     },
 }
 

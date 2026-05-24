@@ -26,7 +26,7 @@ const TOOLS = [
     emoji: "✍️",
     badge: "Popular",
     badgeColor: "#2E6B3E",
-    downloadUrl: "#",
+    downloadUrl: "/downloads/ae-auto-text.jsx",
   },
   {
     id: "ae-color-grade",
@@ -39,7 +39,7 @@ const TOOLS = [
     emoji: "🎨",
     badge: "New",
     badgeColor: "#8B2500",
-    downloadUrl: "#",
+    downloadUrl: "/downloads/ae-color-grade.zip",
   },
   {
     id: "ae-loop-machine",
@@ -52,7 +52,7 @@ const TOOLS = [
     emoji: "🔁",
     badge: null,
     badgeColor: null,
-    downloadUrl: "#",
+    downloadUrl: "/downloads/ae-loop-machine.jsx",
   },
   {
     id: "ae-render-q",
@@ -65,7 +65,7 @@ const TOOLS = [
     emoji: "📤",
     badge: "Editor's Pick",
     badgeColor: "#5C3A00",
-    downloadUrl: "#",
+    downloadUrl: "/downloads/ae-render-q.jsx",
   },
   {
     id: "ae-particle-temple",
@@ -78,7 +78,7 @@ const TOOLS = [
     emoji: "🪔",
     badge: "Free Pack",
     badgeColor: "#7B4F00",
-    downloadUrl: "#",
+    downloadUrl: "/downloads/ae-particle-temple.zip",
   },
 
   // ─ PHOTOSHOP ─
@@ -93,7 +93,7 @@ const TOOLS = [
     emoji: "📱",
     badge: "Popular",
     badgeColor: "#2E6B3E",
-    downloadUrl: "#",
+    downloadUrl: "/downloads/ps-batch-resize.jsx",
   },
   {
     id: "ps-layer-organiser",
@@ -106,7 +106,7 @@ const TOOLS = [
     emoji: "📂",
     badge: null,
     badgeColor: null,
-    downloadUrl: "#",
+    downloadUrl: "/downloads/ps-layer-organiser.jsx",
   },
   {
     id: "ps-kannadafont",
@@ -119,7 +119,7 @@ const TOOLS = [
     emoji: "ಕ",
     badge: "Exclusive",
     badgeColor: "#8B2500",
-    downloadUrl: "#",
+    downloadUrl: "/downloads/ps-kannadafont.zip",
   },
   {
     id: "ps-watermark",
@@ -132,7 +132,7 @@ const TOOLS = [
     emoji: "©️",
     badge: null,
     badgeColor: null,
-    downloadUrl: "#",
+    downloadUrl: "/downloads/ps-watermark.jsx",
   },
 
   // ─ PREMIERE PRO ─
@@ -147,7 +147,7 @@ const TOOLS = [
     emoji: "💬",
     badge: "Editor's Pick",
     badgeColor: "#5C3A00",
-    downloadUrl: "#",
+    downloadUrl: "/downloads/pr-auto-captions.jsx",
   },
   {
     id: "pr-multicam-sync",
@@ -160,7 +160,7 @@ const TOOLS = [
     emoji: "🎙️",
     badge: "New",
     badgeColor: "#8B2500",
-    downloadUrl: "#",
+    downloadUrl: "/downloads/pr-multicam-sync.jsx",
   },
   {
     id: "pr-cut-to-beat",
@@ -173,7 +173,7 @@ const TOOLS = [
     emoji: "🥁",
     badge: "Popular",
     badgeColor: "#2E6B3E",
-    downloadUrl: "#",
+    downloadUrl: "/downloads/pr-cut-to-beat.jsx",
   },
 
   // ─ TEMPLATES ─
@@ -188,7 +188,7 @@ const TOOLS = [
     emoji: "📽️",
     badge: "Free Pack",
     badgeColor: "#7B4F00",
-    downloadUrl: "#",
+    downloadUrl: "/downloads/tpl-karnataka-reel.zip",
   },
   {
     id: "tpl-youtube-kit",
@@ -201,7 +201,7 @@ const TOOLS = [
     emoji: "📺",
     badge: "Editor's Pick",
     badgeColor: "#5C3A00",
-    downloadUrl: "#",
+    downloadUrl: "/downloads/tpl-youtube-kit.zip",
   },
   {
     id: "tpl-wedding-pack",
@@ -214,7 +214,7 @@ const TOOLS = [
     emoji: "💍",
     badge: "Exclusive",
     badgeColor: "#8B2500",
-    downloadUrl: "#",
+    downloadUrl: "/downloads/tpl-wedding-pack.zip",
   },
 ]
 

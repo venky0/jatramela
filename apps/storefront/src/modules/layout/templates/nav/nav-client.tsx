@@ -97,8 +97,8 @@ export function NavLinks() {
             <Link 
               key={link.href} 
               href={link.href} 
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 hover:bg-white/5 group/item"
-              style={{ color: "var(--text-on-header, #FFF8E7)", fontFamily: "'Baloo 2', sans-serif" }}
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 hover:bg-[rgba(201,168,76,0.12)] group/item"
+              style={{ color: "var(--text-primary)", fontFamily: "'Baloo 2', sans-serif" }}
             >
               <span className="text-sm">{link.emoji}</span>
               <span className="text-xs font-extrabold group-hover/item:text-[#C9A84C] transition-colors">

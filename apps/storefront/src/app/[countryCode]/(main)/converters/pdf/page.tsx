@@ -40,7 +40,7 @@ export default function PDFCategoryPage() {
           <h1 className="text-3xl sm:text-4xl font-extrabold text-shimmer mb-3" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
             PDF & Document Tools
           </h1>
-          <p className="text-sm max-w-md mx-auto" style={{ color: "rgba(255,248,231,0.7)" }}>
+          <p className="text-base max-w-md mx-auto" style={{ color: "rgba(255,248,231,0.7)" }}>
             Perform advanced PDF adjustments client-side. Your files never leave your browser, ensuring complete privacy.
           </p>
         </div>
@@ -54,15 +54,15 @@ export default function PDFCategoryPage() {
             <div key={tool.href} className="heritage-card p-6 flex flex-col justify-between">
               <div>
                 <div className="text-3xl mb-4">{tool.icon}</div>
-                <h2 className="text-lg font-extrabold mb-2" style={{ fontFamily: "'Baloo 2', sans-serif", color: "var(--primary)" }}>
+                <h2 className="text-xl font-extrabold mb-2" style={{ fontFamily: "'Baloo 2', sans-serif", color: "var(--primary)" }}>
                   {tool.name}
                 </h2>
-                <p className="text-xs mb-6 leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                <p className="text-sm mb-6 leading-relaxed" style={{ color: "var(--text-muted)" }}>
                   {tool.desc}
                 </p>
               </div>
               <Link href={tool.href}>
-                <button className="w-full btn-gold py-2.5 text-xs">
+                <button className="w-full btn-gold py-2.5 text-sm">
                   Open PDF Tool →
                 </button>
               </Link>

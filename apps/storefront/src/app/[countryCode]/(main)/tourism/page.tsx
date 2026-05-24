@@ -431,8 +431,8 @@ export default function TourismPortalPage() {
 
                 {/* Specs List */}
                 <div className="space-y-1.5 text-[11px] text-[var(--text-muted)] border-t border-dashed pt-3 border-[var(--border)]">
-                  <p>📍 **Starts**: {pkg.startPoint}</p>
-                  <p>💪 **Difficulty**: {pkg.difficulty}</p>
+                  <p>📍 <span className="font-extrabold text-[var(--text-primary)]">Starts:</span> {pkg.startPoint}</p>
+                  <p>💪 <span className="font-extrabold text-[var(--text-primary)]">Difficulty:</span> {pkg.difficulty}</p>
                 </div>
               </div>
 

@@ -417,14 +417,14 @@ export default function ImagesToPDFPage() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center px-1">
                     <h4 className="text-xs font-bold text-[var(--text-muted)]">Rearrange Pages</h4>
-                    <p className="text-[10px] text-[var(--gold)]">First thumbnail will be Page 1</p>
+                    <p className="text-[10px] text-[var(--text-gold)]">First thumbnail will be Page 1</p>
                   </div>
                   
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                     {images.map((item, index) => (
                       <div key={item.id} className="heritage-card relative p-2 bg-[var(--bg-secondary)] flex flex-col justify-between border-[var(--border)]">
                         {/* Badge */}
-                        <div className="absolute top-2 left-2 bg-[var(--bg-primary)] text-[var(--gold)] font-extrabold text-[9px] px-2 py-0.5 rounded-full border border-[var(--border)]">
+                        <div className="absolute top-2 left-2 bg-[var(--bg-primary)] text-[var(--text-gold)] font-extrabold text-[9px] px-2 py-0.5 rounded-full border border-[var(--border)]">
                           Page {index + 1}
                         </div>
 

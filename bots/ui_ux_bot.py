@@ -387,6 +387,22 @@ def check_theme_contrast():
                             issue.auto_fixed = True
                             content = new_content
                     issues.append(issue)
+
+                # Check for text-[var(--gold)] on light/cream backgrounds
+                is_always_dark_container = "nav-client" in str(path) or "quick-switch" in str(path) or "footer" in str(path)
+                if "text-[var(--gold)]" in content and not is_always_dark_container:
+                    issue = UXIssue(
+                        "WARN", "Theme Contrast", path,
+                        "Found text-[var(--gold)] which is unreadable in light mode — use text-[var(--text-gold)]",
+                        "Replace text-[var(--gold)] with text-[var(--text-gold)] on light/cream backgrounds"
+                    )
+                    if AUTO_FIX:
+                        new_content = content.replace("text-[var(--gold)]", "text-[var(--text-gold)]")
+                        if new_content != content:
+                            path.write_text(new_content, encoding="utf-8")
+                            issue.auto_fixed = True
+                            content = new_content
+                    issues.append(issue)
                     
                 # Check for hardcoded hex styles
                 matches_hex = pattern_hardcoded_hex.findall(content)

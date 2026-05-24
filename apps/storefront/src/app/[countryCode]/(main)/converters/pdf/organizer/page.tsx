@@ -364,7 +364,7 @@ export default function PDFOrganizerPage() {
                 onClick={() => { setActiveTab("merge"); setStatusMessage(""); setIsProcessing(false); }}
                 className={`py-3 px-6 text-sm font-extrabold transition-all border-b-2 ${
                   activeTab === "merge" 
-                    ? "border-[var(--gold)] text-[var(--gold)]" 
+                    ? "border-[var(--gold)] text-[var(--text-gold)]" 
                     : "border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]"
                 }`}
                 style={{ fontFamily: "'Baloo 2', sans-serif" }}
@@ -375,7 +375,7 @@ export default function PDFOrganizerPage() {
                 onClick={() => { setActiveTab("split"); setStatusMessage(""); setIsProcessing(false); }}
                 className={`py-3 px-6 text-sm font-extrabold transition-all border-b-2 ${
                   activeTab === "split" 
-                    ? "border-[var(--gold)] text-[var(--gold)]" 
+                    ? "border-[var(--gold)] text-[var(--text-gold)]" 
                     : "border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]"
                 }`}
                 style={{ fontFamily: "'Baloo 2', sans-serif" }}
@@ -473,7 +473,7 @@ export default function PDFOrganizerPage() {
                           {mergeFiles.map((item, index) => (
                             <div key={item.id} className="heritage-card p-4 flex items-center justify-between bg-[var(--bg-secondary)]/40 border-[var(--border)]">
                               <div className="flex items-center gap-4 truncate">
-                                <div className="w-7 h-7 flex items-center justify-center bg-[var(--bg-primary)] text-[var(--gold)] text-[10px] font-extrabold rounded-full border border-[var(--border)]">
+                                <div className="w-7 h-7 flex items-center justify-center bg-[var(--bg-primary)] text-[var(--text-gold)] text-[10px] font-extrabold rounded-full border border-[var(--border)]">
                                   {index + 1}
                                 </div>
                                 <div className="truncate">
@@ -700,7 +700,7 @@ export default function PDFOrganizerPage() {
                                   <img src={thumb.dataUrl} alt={`Page ${thumb.pageNum}`} className="object-contain max-h-full max-w-full shadow-inner" />
                                 </div>
 
-                                <p className={`text-[10px] mt-2 font-bold ${isSelected ? "text-[var(--gold)]" : "text-[var(--text-muted)]"}`}>
+                                <p className={`text-[10px] mt-2 font-bold ${isSelected ? "text-[var(--text-gold)]" : "text-[var(--text-muted)]"}`}>
                                   Page {thumb.pageNum}
                                 </p>
                               </div>

@@ -272,7 +272,7 @@ export default function PDFCompressorPage() {
                     onClick={() => setCompressionLevel("high")}
                     className={`p-3 rounded-xl border text-left transition-all ${
                       compressionLevel === "high" 
-                        ? "border-[var(--gold)] bg-[var(--gold-glow)] text-[var(--gold)]" 
+                        ? "border-[var(--gold)] bg-[var(--gold-glow)] text-[var(--text-gold)]" 
                         : "border-[var(--border)] bg-[var(--bg-secondary)]/50 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
                     }`}
                   >
@@ -284,7 +284,7 @@ export default function PDFCompressorPage() {
                     onClick={() => setCompressionLevel("medium")}
                     className={`p-3 rounded-xl border text-left transition-all ${
                       compressionLevel === "medium" 
-                        ? "border-[var(--gold)] bg-[var(--gold-glow)] text-[var(--gold)]" 
+                        ? "border-[var(--gold)] bg-[var(--gold-glow)] text-[var(--text-gold)]" 
                         : "border-[var(--border)] bg-[var(--bg-secondary)]/50 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
                     }`}
                   >
@@ -296,7 +296,7 @@ export default function PDFCompressorPage() {
                     onClick={() => setCompressionLevel("low")}
                     className={`p-3 rounded-xl border text-left transition-all ${
                       compressionLevel === "low" 
-                        ? "border-[var(--gold)] bg-[var(--gold-glow)] text-[var(--gold)]" 
+                        ? "border-[var(--gold)] bg-[var(--gold-glow)] text-[var(--text-gold)]" 
                         : "border-[var(--border)] bg-[var(--bg-secondary)]/50 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
                     }`}
                   >

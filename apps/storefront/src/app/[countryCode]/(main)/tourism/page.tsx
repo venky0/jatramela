@@ -406,7 +406,7 @@ export default function TourismPortalPage() {
                       ? "bg-[var(--primary-glow)] border border-[var(--primary)] text-[var(--primary)]" 
                       : pkg.category === "youth"
                         ? "bg-[var(--green-glow)] border border-[var(--green)] text-[var(--green)]"
-                        : "bg-[var(--gold-glow)] border border-[var(--gold)] text-[var(--gold)]"
+                        : "bg-[var(--gold-glow)] border border-[var(--gold)] text-[var(--text-gold)]"
                   }`}>
                     {pkg.category === "temple" ? "🛕 Pilgrimage" : pkg.category === "youth" ? "⛰️ Adventure" : "🏢 Corporate"}
                   </span>
@@ -439,7 +439,7 @@ export default function TourismPortalPage() {
               <div className="flex items-center justify-between border-t border-dashed pt-3 mt-4 border-[var(--border)]">
                 <div>
                   <p className="text-[9px] text-[var(--text-subtle)] uppercase tracking-widest leading-none">Starting from</p>
-                  <p className="text-base font-extrabold text-[var(--gold)] mt-0.5">{pkg.price}</p>
+                  <p className="text-base font-extrabold text-[var(--text-gold)] mt-0.5">{pkg.price}</p>
                 </div>
                 <button 
                   onClick={() => setSelectedPackage(pkg)}
@@ -468,7 +468,7 @@ export default function TourismPortalPage() {
             {/* Header */}
             <div className="px-6 py-5 border-b border-[var(--border)] flex justify-between items-center" style={{ background: "var(--bg-header)" }}>
               <div className="text-left">
-                <span className="text-[10px] font-extrabold uppercase text-[var(--gold)] tracking-widest">
+                <span className="text-[10px] font-extrabold uppercase text-[var(--text-gold)] tracking-widest">
                   {selectedPackage.category === "temple" ? "🛕 Pilgrimage Package" : selectedPackage.category === "youth" ? "⛰️ Adventure Package" : "🏢 Corporate Plan"}
                 </span>
                 <h2 className="text-xl font-extrabold text-shimmer mt-0.5" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
@@ -504,7 +504,7 @@ export default function TourismPortalPage() {
 
               {/* In-Depth Market Logistics Analysis */}
               <div className="space-y-4">
-                <h3 className="text-sm font-extrabold text-[var(--gold)] border-b pb-2 uppercase tracking-wide" style={{ fontFamily: "'Baloo 2', sans-serif", borderColor: "var(--border)" }}>
+                <h3 className="text-sm font-extrabold text-[var(--text-gold)] border-b pb-2 uppercase tracking-wide" style={{ fontFamily: "'Baloo 2', sans-serif", borderColor: "var(--border)" }}>
                   📋 Strategic Market & Logistics Analysis
                 </h3>
                 
@@ -528,7 +528,7 @@ export default function TourismPortalPage() {
 
               {/* Day-by-Day Itinerary */}
               <div className="space-y-4">
-                <h3 className="text-sm font-extrabold text-[var(--gold)] border-b pb-2 uppercase tracking-wide" style={{ fontFamily: "'Baloo 2', sans-serif", borderColor: "var(--border)" }}>
+                <h3 className="text-sm font-extrabold text-[var(--text-gold)] border-b pb-2 uppercase tracking-wide" style={{ fontFamily: "'Baloo 2', sans-serif", borderColor: "var(--border)" }}>
                   📍 Day-By-Day Itinerary
                 </h3>
                 
@@ -568,7 +568,7 @@ export default function TourismPortalPage() {
 
               {/* Interactive Booking Form */}
               <div className="p-6 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border)] space-y-4">
-                <h4 className="text-xs font-bold text-[var(--gold)] uppercase tracking-wider text-center">
+                <h4 className="text-xs font-bold text-[var(--text-gold)] uppercase tracking-wider text-center">
                   Book or Inquire About This Package
                 </h4>
                 
@@ -622,11 +622,11 @@ export default function TourismPortalPage() {
                           onChange={e => setTravelersCount(e.target.value)}
                           className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-2.5 text-xs text-[var(--text-primary)] outline-none focus:border-[var(--gold)]"
                         >
-                          <option value="1">1 Person</option>
-                          <option value="2">2 People</option>
-                          <option value="3-5">3 - 5 People</option>
-                          <option value="5-10">5 - 10 People</option>
-                          <option value="10+">10+ People</option>
+                          <option value="1" className="bg-[var(--bg-card)] text-[var(--text-primary)]">1 Person</option>
+                          <option value="2" className="bg-[var(--bg-card)] text-[var(--text-primary)]">2 People</option>
+                          <option value="3-5" className="bg-[var(--bg-card)] text-[var(--text-primary)]">3 - 5 People</option>
+                          <option value="5-10" className="bg-[var(--bg-card)] text-[var(--text-primary)]">5 - 10 People</option>
+                          <option value="10+" className="bg-[var(--bg-card)] text-[var(--text-primary)]">10+ People</option>
                         </select>
                       </div>
                     </div>
@@ -668,7 +668,7 @@ export default function TourismPortalPage() {
             <div className="px-6 py-4 border-t border-[var(--border)] flex items-center justify-between bg-[var(--bg-secondary)]/40">
               <div>
                 <p className="text-[10px] text-[var(--text-subtle)] uppercase">Estimated Budget</p>
-                <p className="text-lg font-extrabold text-[var(--gold)] mt-0.5">{selectedPackage.price} <span className="text-[10px] font-normal text-[var(--text-subtle)]">/ person</span></p>
+                <p className="text-lg font-extrabold text-[var(--text-gold)] mt-0.5">{selectedPackage.price} <span className="text-[10px] font-normal text-[var(--text-subtle)]">/ person</span></p>
               </div>
               <button 
                 onClick={() => setSelectedPackage(null)}

@@ -223,12 +223,12 @@ export default function PDFCompressorPage() {
 
         {!libsLoaded && !loadError ? (
           <div className="text-center py-20">
-            <div className="animate-spin inline-block w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full mb-4"></div>
-            <p className="text-xs text-neutral-400">Loading secure compression engines in-browser...</p>
+            <div className="animate-spin inline-block w-8 h-8 border-4 border-[var(--gold)] border-t-transparent rounded-full mb-4"></div>
+            <p className="text-xs text-[var(--text-muted)]">Loading secure compression engines in-browser...</p>
           </div>
         ) : !pdfFile ? (
           /* Dropzone */
-          <div className="heritage-card p-12 text-center flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover:border-[#C9A84C]/80"
+          <div className="heritage-card p-12 text-center flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover:border-[var(--gold)]/80"
             style={{ minHeight: 300, border: "2.5px dashed var(--border)" }}
             onClick={() => document.getElementById("pdf-upload")?.click()}
             onDragOver={e => e.preventDefault()}
@@ -241,7 +241,7 @@ export default function PDFCompressorPage() {
             <input type="file" id="pdf-upload" className="hidden" accept="application/pdf" onChange={handleFileUpload} />
             <div className="text-4xl mb-4">🗜️</div>
             <h2 className="text-xl font-bold mb-2" style={{ fontFamily: "'Baloo 2', sans-serif" }}>Upload PDF Document</h2>
-            <p className="text-xs mb-6 text-neutral-400">Drag & drop your PDF or click to select from your file explorer.</p>
+            <p className="text-xs mb-6 text-[var(--text-muted)]">Drag & drop your PDF or click to select from your file explorer.</p>
             <button className="btn-gold px-6 py-2.5 text-xs">Select PDF File</button>
           </div>
         ) : (
@@ -255,11 +255,11 @@ export default function PDFCompressorPage() {
 
               {/* PDF Meta */}
               <div className="space-y-1">
-                <p className="text-[10px] text-neutral-400 uppercase tracking-widest">Active File</p>
-                <p className="text-xs font-bold truncate max-w-full text-neutral-200" title={pdfFile.name}>
+                <p className="text-[10px] text-[var(--text-subtle)] uppercase tracking-widest">Active File</p>
+                <p className="text-xs font-bold truncate max-w-full text-[var(--text-primary)]" title={pdfFile.name}>
                   {pdfFile.name}
                 </p>
-                <p className="text-[10px] text-neutral-400">
+                <p className="text-[10px] text-[var(--text-muted)]">
                   Size: {formatSize(originalSize)}
                 </p>
               </div>
@@ -272,8 +272,8 @@ export default function PDFCompressorPage() {
                     onClick={() => setCompressionLevel("high")}
                     className={`p-3 rounded-xl border text-left transition-all ${
                       compressionLevel === "high" 
-                        ? "border-[#C9A84C] bg-white/5 text-[#C9A84C]" 
-                        : "border-neutral-800 bg-neutral-900/50 text-neutral-400"
+                        ? "border-[var(--gold)] bg-[var(--gold-glow)] text-[var(--gold)]" 
+                        : "border-[var(--border)] bg-[var(--bg-secondary)]/50 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
                     }`}
                   >
                     <p className="text-xs font-extrabold">🚨 High Compression</p>
@@ -284,8 +284,8 @@ export default function PDFCompressorPage() {
                     onClick={() => setCompressionLevel("medium")}
                     className={`p-3 rounded-xl border text-left transition-all ${
                       compressionLevel === "medium" 
-                        ? "border-[#C9A84C] bg-white/5 text-[#C9A84C]" 
-                        : "border-neutral-800 bg-neutral-900/50 text-neutral-400"
+                        ? "border-[var(--gold)] bg-[var(--gold-glow)] text-[var(--gold)]" 
+                        : "border-[var(--border)] bg-[var(--bg-secondary)]/50 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
                     }`}
                   >
                     <p className="text-xs font-extrabold">⚡ Medium Compression</p>
@@ -296,8 +296,8 @@ export default function PDFCompressorPage() {
                     onClick={() => setCompressionLevel("low")}
                     className={`p-3 rounded-xl border text-left transition-all ${
                       compressionLevel === "low" 
-                        ? "border-[#C9A84C] bg-white/5 text-[#C9A84C]" 
-                        : "border-neutral-800 bg-neutral-900/50 text-neutral-400"
+                        ? "border-[var(--gold)] bg-[var(--gold-glow)] text-[var(--gold)]" 
+                        : "border-[var(--border)] bg-[var(--bg-secondary)]/50 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
                     }`}
                   >
                     <p className="text-xs font-extrabold">✨ Low Compression</p>
@@ -344,27 +344,27 @@ export default function PDFCompressorPage() {
             <div className="md:col-span-2 space-y-6">
               {isProcessing && (
                 <div className="heritage-card p-8 text-center flex flex-col items-center justify-center">
-                  <div className="animate-spin inline-block w-8 h-8 border-4 border-[#C9A84C] border-t-transparent rounded-full mb-4"></div>
-                  <h4 className="text-sm font-bold text-neutral-200" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
+                  <div className="animate-spin inline-block w-8 h-8 border-4 border-[var(--gold)] border-t-transparent rounded-full mb-4"></div>
+                  <h4 className="text-sm font-bold text-[var(--text-primary)]" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
                     Compressing Document Pages
                   </h4>
-                  <p className="text-xs text-neutral-400 mt-1 mb-4">{statusMessage}</p>
+                  <p className="text-xs text-[var(--text-muted)] mt-1 mb-4">{statusMessage}</p>
                   
                   {/* Progress bar */}
-                  <div className="w-full max-w-md bg-neutral-900 rounded-full h-2 border border-neutral-800 overflow-hidden">
+                  <div className="w-full max-w-md bg-[var(--bg-secondary)] rounded-full h-2 border border-[var(--border)] overflow-hidden">
                     <div 
-                      className="bg-gradient-to-r from-[#C9A84C] to-[#E8C56A] h-2 transition-all duration-300" 
+                      className="bg-gradient-to-r from-[var(--gold)] to-[var(--gold-bright)] h-2 transition-all duration-300" 
                       style={{ width: `${progressPercent}%` }}
                     />
                   </div>
-                  <p className="text-[10px] text-neutral-500 mt-2">{progressPercent}% complete</p>
+                  <p className="text-[10px] text-[var(--text-subtle)] mt-2">{progressPercent}% complete</p>
                 </div>
               )}
 
               {!isProcessing && !compressedUrl && (
-                <div className="heritage-card p-12 text-center text-neutral-400 flex flex-col items-center justify-center" style={{ height: "100%", minHeight: 250 }}>
+                <div className="heritage-card p-12 text-center text-[var(--text-muted)] flex flex-col items-center justify-center" style={{ height: "100%", minHeight: 250 }}>
                   <p className="text-4xl mb-3">⚙️</p>
-                  <h4 className="text-sm font-bold text-neutral-300" style={{ fontFamily: "'Baloo 2', sans-serif" }}>Ready for Compression</h4>
+                  <h4 className="text-sm font-bold text-[var(--text-primary)]" style={{ fontFamily: "'Baloo 2', sans-serif" }}>Ready for Compression</h4>
                   <p className="text-xs max-w-xs mx-auto mt-1">
                     Select your targeted file size optimization parameters on the left pane and trigger compression to proceed.
                   </p>
@@ -376,30 +376,30 @@ export default function PDFCompressorPage() {
                   {/* Comparison Savings Card */}
                   <div className="heritage-card p-8 text-center flex flex-col items-center justify-center">
                     <p className="text-4xl mb-3">🎉</p>
-                    <h4 className="text-lg font-bold text-green-500" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
+                    <h4 className="text-lg font-bold text-[var(--green)]" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
                       PDF Compressed Successfully!
                     </h4>
-                    <p className="text-xs text-neutral-400 mt-1">
+                    <p className="text-xs text-[var(--text-muted)] mt-1">
                       Your document has been optimized entirely in your browser.
                     </p>
 
                     <div className="grid grid-cols-2 gap-4 w-full max-w-md mt-6 pt-6 border-t border-dashed" style={{ borderColor: "var(--border)" }}>
                       <div>
-                        <p className="text-[10px] text-neutral-400 uppercase tracking-wider">Original Size</p>
-                        <p className="text-base font-bold text-neutral-200 mt-1">{formatSize(originalSize)}</p>
+                        <p className="text-[10px] text-[var(--text-subtle)] uppercase tracking-wider">Original Size</p>
+                        <p className="text-base font-bold text-[var(--text-primary)] mt-1">{formatSize(originalSize)}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] text-neutral-400 uppercase tracking-wider">Compressed Size</p>
-                        <p className="text-base font-bold text-green-500 mt-1">{formatSize(compressedSize)}</p>
+                        <p className="text-[10px] text-[var(--text-subtle)] uppercase tracking-wider">Compressed Size</p>
+                        <p className="text-base font-bold text-[var(--green)] mt-1">{formatSize(compressedSize)}</p>
                       </div>
                     </div>
 
-                    <div className="mt-6 p-4 rounded-xl border bg-green-950/10 w-full max-w-md" style={{ borderColor: "var(--border)" }}>
-                      <p className="text-xs text-neutral-300">File Size Savings</p>
-                      <p className="font-extrabold text-3xl text-green-500 mt-1">
+                    <div className="mt-6 p-4 rounded-xl border bg-[var(--green)]/10 w-full max-w-md" style={{ borderColor: "var(--border)" }}>
+                      <p className="text-xs text-[var(--text-muted)]">File Size Savings</p>
+                      <p className="font-extrabold text-3xl text-[var(--green)] mt-1">
                         -{Math.round(((originalSize - compressedSize) / originalSize) * 100)}% Saved
                       </p>
-                      <p className="text-[10px] text-neutral-500 mt-1">
+                      <p className="text-[10px] text-[var(--text-subtle)] mt-1">
                         Optimized down from {formatSize(originalSize)} to {formatSize(compressedSize)}.
                       </p>
                     </div>

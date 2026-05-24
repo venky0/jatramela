@@ -76,9 +76,9 @@ export default function TransliterationPage() {
         
         {/* Dynamic 3-Option Suggestion Bar */}
         {activeWord && suggestions.length > 0 && (
-          <div className="mb-6 p-4 rounded-xl border flex flex-col sm:flex-row items-center justify-between gap-4 bg-neutral-950/80" style={{ borderColor: "rgba(201,168,76,0.3)" }}>
+          <div className="mb-6 p-4 rounded-xl border flex flex-col sm:flex-row items-center justify-between gap-4 bg-[var(--bg-primary)]/80" style={{ borderColor: "rgba(201,168,76,0.3)" }}>
             <div className="text-xs">
-              <span className="text-neutral-400">Variations for </span>
+              <span className="text-[var(--text-muted)]">Variations for </span>
               <strong className="text-[#C9A84C]">"{activeWord}"</strong>:
             </div>
             <div className="flex gap-2 flex-wrap">
@@ -91,7 +91,7 @@ export default function TransliterationPage() {
                     className={`px-4 py-2 text-xs font-bold rounded-lg border transition-all duration-150 ${
                       isSelected
                         ? "bg-[#C9A84C] text-[#2C1810] border-[#C9A84C] shadow-lg scale-105"
-                        : "bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-neutral-700"
+                        : "bg-[var(--bg-secondary)] border-[var(--border)] text-[var(--text-primary)] hover:border-neutral-700"
                     }`}
                     style={{ fontFamily: "'Baloo 2', sans-serif" }}
                   >
@@ -111,7 +111,7 @@ export default function TransliterationPage() {
               value={englishText}
               onChange={e => handleTextChange(e.target.value)}
               placeholder="Type here... (e.g., namma karnataka, shubha dinavu, devasthana, jatra)"
-              className="w-full h-72 bg-neutral-950 border border-neutral-800 rounded-xl p-4 text-sm text-amber-100 outline-none focus:border-[#C9A84C] resize-none"
+              className="w-full h-72 bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-4 text-sm text-amber-100 outline-none focus:border-[#C9A84C] resize-none"
             />
           </div>
 
@@ -126,8 +126,8 @@ export default function TransliterationPage() {
                   </button>
                 )}
               </div>
-              <div className="w-full h-72 bg-neutral-900 border border-neutral-800 rounded-xl p-4 text-base text-neutral-200 overflow-y-auto leading-relaxed whitespace-pre-wrap select-all">
-                {kannadaText || <span className="text-neutral-500 text-xs">ಕನ್ನಡ ಅನುವಾದ ಇಲ್ಲಿ ಗೋಚರಿಸುತ್ತದೆ...</span>}
+              <div className="w-full h-72 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl p-4 text-base text-[var(--text-primary)] overflow-y-auto leading-relaxed whitespace-pre-wrap select-all">
+                {kannadaText || <span className="text-[var(--text-subtle)] text-xs">ಕನ್ನಡ ಅನುವಾದ ಇಲ್ಲಿ ಗೋಚರಿಸುತ್ತದೆ...</span>}
               </div>
             </div>
           </div>
@@ -139,7 +139,7 @@ export default function TransliterationPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
             <div>
               <p className="font-bold text-[#C9A84C] mb-1">Vowels (ಸ್ವರಗಳು)</p>
-              <ul className="space-y-1 text-neutral-400">
+              <ul className="space-y-1 text-[var(--text-muted)]">
                 <li>• a ➔ ಅ | aa / A ➔ ಆ</li>
                 <li>• i ➔ ಇ | ii / I ➔ ಈ</li>
                 <li>• u ➔ ಉ | uu / U ➔ ಊ</li>
@@ -149,7 +149,7 @@ export default function TransliterationPage() {
             </div>
             <div>
               <p className="font-bold text-[#C9A84C] mb-1">Consonants (ವ್ಯಂಜನಗಳು)</p>
-              <ul className="space-y-1 text-neutral-400">
+              <ul className="space-y-1 text-[var(--text-muted)]">
                 <li>• k ➔ ಕ | kh ➔ ಖ</li>
                 <li>• g ➔ ಗ | gh ➔ ಘ</li>
                 <li>• c / ch ➔ ಚ | chh ➔ ಛ</li>
@@ -158,7 +158,7 @@ export default function TransliterationPage() {
             </div>
             <div>
               <p className="font-bold text-[#C9A84C] mb-1">Retroflex (ಮೂರ್ಧನ್ಯ)</p>
-              <ul className="space-y-1 text-neutral-400">
+              <ul className="space-y-1 text-[var(--text-muted)]">
                 <li>• T ➔ ಟ | Th ➔ ಠ</li>
                 <li>• D ➔ ಡ | Dh ➔ ಢ</li>
                 <li>• N ➔ ಣ | L ➔ ಳ</li>
@@ -166,7 +166,7 @@ export default function TransliterationPage() {
             </div>
             <div>
               <p className="font-bold text-[#C9A84C] mb-1">Conjuncts (ಒತ್ತಕ್ಷರಗಳು)</p>
-              <ul className="space-y-1 text-neutral-400">
+              <ul className="space-y-1 text-[var(--text-muted)]">
                 <li>• kka ➔ ಕ್ಕ (k + k + a)</li>
                 <li>• rya ➔ ರ್ಯ (r + y + a)</li>
                 <li>• jn ➔ ಜ್ಞ (j + n)</li>

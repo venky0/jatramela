@@ -353,8 +353,8 @@ export default function TourismPortalPage() {
             onClick={() => setActiveTab("all")}
             className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all ${
               activeTab === "all" 
-                ? "bg-[#C9A84C] text-[#2C1810]" 
-                : "bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-neutral-200"
+                ? "bg-[var(--gold)] text-[#2C1810]" 
+                : "bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
             }`}
             style={{ fontFamily: "'Baloo 2', sans-serif" }}
           >
@@ -364,8 +364,8 @@ export default function TourismPortalPage() {
             onClick={() => setActiveTab("temple")}
             className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all ${
               activeTab === "temple" 
-                ? "bg-[#C9A84C] text-[#2C1810]" 
-                : "bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-neutral-200"
+                ? "bg-[var(--gold)] text-[#2C1810]" 
+                : "bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
             }`}
             style={{ fontFamily: "'Baloo 2', sans-serif" }}
           >
@@ -375,8 +375,8 @@ export default function TourismPortalPage() {
             onClick={() => setActiveTab("youth")}
             className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all ${
               activeTab === "youth" 
-                ? "bg-[#C9A84C] text-[#2C1810]" 
-                : "bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-neutral-200"
+                ? "bg-[var(--gold)] text-[#2C1810]" 
+                : "bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
             }`}
             style={{ fontFamily: "'Baloo 2', sans-serif" }}
           >
@@ -386,8 +386,8 @@ export default function TourismPortalPage() {
             onClick={() => setActiveTab("corporate")}
             className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all ${
               activeTab === "corporate" 
-                ? "bg-[#C9A84C] text-[#2C1810]" 
-                : "bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-neutral-200"
+                ? "bg-[var(--gold)] text-[#2C1810]" 
+                : "bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
             }`}
             style={{ fontFamily: "'Baloo 2', sans-serif" }}
           >
@@ -398,48 +398,48 @@ export default function TourismPortalPage() {
         {/* Packages Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPackages.map(pkg => (
-            <div key={pkg.id} className="heritage-card p-5 flex flex-col justify-between h-[390px] border-neutral-800">
+            <div key={pkg.id} className="heritage-card p-5 flex flex-col justify-between h-[390px] border-[var(--border)]">
               <div>
                 <div className="flex justify-between items-start mb-3">
                   <span className={`text-[9px] font-extrabold uppercase px-2.5 py-0.5 rounded-full ${
                     pkg.category === "temple" 
-                      ? "bg-red-950/40 border border-red-900 text-red-400" 
+                      ? "bg-[var(--primary-glow)] border border-[var(--primary)] text-[var(--primary)]" 
                       : pkg.category === "youth"
-                        ? "bg-green-950/40 border border-green-900 text-green-400"
-                        : "bg-amber-950/40 border border-amber-900 text-amber-400"
+                        ? "bg-[var(--green-glow)] border border-[var(--green)] text-[var(--green)]"
+                        : "bg-[var(--gold-glow)] border border-[var(--gold)] text-[var(--gold)]"
                   }`}>
                     {pkg.category === "temple" ? "🛕 Pilgrimage" : pkg.category === "youth" ? "⛰️ Adventure" : "🏢 Corporate"}
                   </span>
-                  <span className="text-xs text-neutral-400 font-bold">{pkg.duration}</span>
+                  <span className="text-xs text-[var(--text-muted)] font-bold">{pkg.duration}</span>
                 </div>
 
-                <h3 className="text-lg font-extrabold text-neutral-200 mb-1.5 line-clamp-1" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
+                <h3 className="text-lg font-extrabold text-[var(--text-primary)] mb-1.5 line-clamp-1" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
                   {pkg.title}
                 </h3>
-                <p className="text-xs text-neutral-400 mb-4 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-[var(--text-muted)] mb-4 line-clamp-2 leading-relaxed">
                   {pkg.tagline}
                 </p>
 
                 {/* Spec Badges */}
                 <div className="flex flex-wrap gap-1.5 mb-4">
                   {pkg.tags.map(t => (
-                    <span key={t} className="text-[9px] px-2 py-0.5 rounded bg-neutral-900 text-neutral-400 border border-white/5">
+                    <span key={t} className="text-[9px] px-2 py-0.5 rounded bg-[var(--bg-secondary)] text-[var(--text-muted)] border border-[var(--border)]">
                       {t}
                     </span>
                   ))}
                 </div>
 
                 {/* Specs List */}
-                <div className="space-y-1.5 text-[11px] text-neutral-400 border-t border-dashed pt-3 border-neutral-800">
+                <div className="space-y-1.5 text-[11px] text-[var(--text-muted)] border-t border-dashed pt-3 border-[var(--border)]">
                   <p>📍 **Starts**: {pkg.startPoint}</p>
                   <p>💪 **Difficulty**: {pkg.difficulty}</p>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between border-t border-dashed pt-3 mt-4 border-neutral-800">
+              <div className="flex items-center justify-between border-t border-dashed pt-3 mt-4 border-[var(--border)]">
                 <div>
-                  <p className="text-[9px] text-neutral-500 uppercase tracking-widest leading-none">Starting from</p>
-                  <p className="text-base font-extrabold text-[#C9A84C] mt-0.5">{pkg.price}</p>
+                  <p className="text-[9px] text-[var(--text-subtle)] uppercase tracking-widest leading-none">Starting from</p>
+                  <p className="text-base font-extrabold text-[var(--gold)] mt-0.5">{pkg.price}</p>
                 </div>
                 <button 
                   onClick={() => setSelectedPackage(pkg)}
@@ -463,12 +463,12 @@ export default function TourismPortalPage() {
           />
 
           {/* Drawer Panel */}
-          <div className="relative w-full max-w-2xl bg-neutral-950 border-l border-neutral-800 shadow-2xl h-full flex flex-col justify-between z-10 animate-fade">
+          <div className="relative w-full max-w-2xl bg-[var(--bg-primary)] border-l border-[var(--border)] shadow-2xl h-full flex flex-col justify-between z-10 animate-fade">
             
             {/* Header */}
-            <div className="px-6 py-5 border-b border-neutral-800 flex justify-between items-center" style={{ background: "var(--bg-header)" }}>
+            <div className="px-6 py-5 border-b border-[var(--border)] flex justify-between items-center" style={{ background: "var(--bg-header)" }}>
               <div className="text-left">
-                <span className="text-[10px] font-extrabold uppercase text-[#C9A84C] tracking-widest">
+                <span className="text-[10px] font-extrabold uppercase text-[var(--gold)] tracking-widest">
                   {selectedPackage.category === "temple" ? "🛕 Pilgrimage Package" : selectedPackage.category === "youth" ? "⛰️ Adventure Package" : "🏢 Corporate Plan"}
                 </span>
                 <h2 className="text-xl font-extrabold text-shimmer mt-0.5" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
@@ -484,81 +484,81 @@ export default function TourismPortalPage() {
             </div>
 
             {/* Scrollable Body */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-8 text-neutral-300">
+            <div className="flex-1 overflow-y-auto p-6 space-y-8 text-[var(--text-muted)]">
               
               {/* Stats overview */}
-              <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-neutral-900 border border-neutral-800 text-center">
+              <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border)] text-center">
                 <div>
-                  <p className="text-[10px] text-neutral-500 uppercase">Duration</p>
-                  <p className="text-xs font-bold text-neutral-200 mt-0.5">{selectedPackage.duration}</p>
+                  <p className="text-[10px] text-[var(--text-subtle)] uppercase">Duration</p>
+                  <p className="text-xs font-bold text-[var(--text-primary)] mt-0.5">{selectedPackage.duration}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] text-neutral-500 uppercase">Start Point</p>
-                  <p className="text-xs font-bold text-neutral-200 mt-0.5">{selectedPackage.startPoint}</p>
+                  <p className="text-[10px] text-[var(--text-subtle)] uppercase">Start Point</p>
+                  <p className="text-xs font-bold text-[var(--text-primary)] mt-0.5">{selectedPackage.startPoint}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] text-neutral-500 uppercase">Difficulty</p>
-                  <p className="text-xs font-bold text-neutral-200 mt-0.5">{selectedPackage.difficulty}</p>
+                  <p className="text-[10px] text-[var(--text-subtle)] uppercase">Difficulty</p>
+                  <p className="text-xs font-bold text-[var(--text-primary)] mt-0.5">{selectedPackage.difficulty}</p>
                 </div>
               </div>
 
               {/* In-Depth Market Logistics Analysis */}
               <div className="space-y-4">
-                <h3 className="text-sm font-extrabold text-[#C9A84C] border-b pb-2 uppercase tracking-wide" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
+                <h3 className="text-sm font-extrabold text-[var(--gold)] border-b pb-2 uppercase tracking-wide" style={{ fontFamily: "'Baloo 2', sans-serif", borderColor: "var(--border)" }}>
                   📋 Strategic Market & Logistics Analysis
                 </h3>
                 
                 <div className="space-y-4 text-xs leading-relaxed">
-                  <div className="p-3.5 rounded-xl bg-neutral-900/50 border border-neutral-900/60">
-                    <p className="font-extrabold text-neutral-200 mb-1 flex items-center gap-1.5">🚌 Transportation & Transit Logistics</p>
-                    <p className="text-neutral-400">{selectedPackage.marketAnalysis.transit}</p>
+                  <div className="p-3.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)]">
+                    <p className="font-extrabold text-[var(--text-primary)] mb-1 flex items-center gap-1.5">🚌 Transportation & Transit Logistics</p>
+                    <p className="text-[var(--text-muted)]">{selectedPackage.marketAnalysis.transit}</p>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-neutral-900/50 border border-neutral-900/60">
-                    <p className="font-extrabold text-neutral-200 mb-1 flex items-center gap-1.5">🏨 Accommodation Standards</p>
-                    <p className="text-neutral-400">{selectedPackage.marketAnalysis.accommodation}</p>
+                  <div className="p-3.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)]">
+                    <p className="font-extrabold text-[var(--text-primary)] mb-1 flex items-center gap-1.5">🏨 Accommodation Standards</p>
+                    <p className="text-[var(--text-muted)]">{selectedPackage.marketAnalysis.accommodation}</p>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-neutral-900/50 border border-neutral-900/60">
-                    <p className="font-extrabold text-neutral-200 mb-1 flex items-center gap-1.5">🍲 Traditional Karnataka Cuisine & Food Plan</p>
-                    <p className="text-neutral-400">{selectedPackage.marketAnalysis.food}</p>
+                  <div className="p-3.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)]">
+                    <p className="font-extrabold text-[var(--text-primary)] mb-1 flex items-center gap-1.5">🍲 Traditional Karnataka Cuisine & Food Plan</p>
+                    <p className="text-[var(--text-muted)]">{selectedPackage.marketAnalysis.food}</p>
                   </div>
                 </div>
               </div>
 
               {/* Day-by-Day Itinerary */}
               <div className="space-y-4">
-                <h3 className="text-sm font-extrabold text-[#C9A84C] border-b pb-2 uppercase tracking-wide" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
+                <h3 className="text-sm font-extrabold text-[var(--gold)] border-b pb-2 uppercase tracking-wide" style={{ fontFamily: "'Baloo 2', sans-serif", borderColor: "var(--border)" }}>
                   📍 Day-By-Day Itinerary
                 </h3>
                 
-                <div className="relative border-l border-neutral-800 pl-4 ml-2.5 space-y-6">
+                <div className="relative border-l border-[var(--border)] pl-4 ml-2.5 space-y-6">
                   {selectedPackage.itinerary.map(item => (
                     <div key={item.day} className="relative">
                       {/* Timeline dot */}
-                      <span className="absolute -left-[24px] top-1.5 bg-[#C9A84C] text-[#2C1810] font-extrabold text-[9px] w-[18px] h-[18px] rounded-full flex items-center justify-center ring-4 ring-neutral-950">
+                      <span className="absolute -left-[24px] top-1.5 bg-[var(--gold)] text-[var(--bg-primary)] font-extrabold text-[9px] w-[18px] h-[18px] rounded-full flex items-center justify-center ring-4 ring-[var(--bg-primary)]">
                         {item.day}
                       </span>
-                      <h4 className="text-xs font-bold text-neutral-200">{item.title}</h4>
-                      <p className="text-[11px] text-neutral-400 mt-1 leading-relaxed">{item.desc}</p>
+                      <h4 className="text-xs font-bold text-[var(--text-primary)]">{item.title}</h4>
+                      <p className="text-[11px] text-[var(--text-muted)] mt-1 leading-relaxed">{item.desc}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Inclusions & Exclusions */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-neutral-900">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-[var(--border)]">
                 <div className="space-y-2">
-                  <h4 className="text-xs font-bold text-green-500">Inclusions</h4>
-                  <ul className="list-disc pl-4 text-[11px] text-neutral-400 space-y-1">
+                  <h4 className="text-xs font-bold text-[var(--green)]">Inclusions</h4>
+                  <ul className="list-disc pl-4 text-[11px] text-[var(--text-muted)] space-y-1">
                     {selectedPackage.inclusions.map(inc => (
                       <li key={inc}>{inc}</li>
                     ))}
                   </ul>
                 </div>
                 <div className="space-y-2">
-                  <h4 className="text-xs font-bold text-red-400">Exclusions</h4>
-                  <ul className="list-disc pl-4 text-[11px] text-neutral-400 space-y-1">
+                  <h4 className="text-xs font-bold text-[var(--primary)]">Exclusions</h4>
+                  <ul className="list-disc pl-4 text-[11px] text-[var(--text-muted)] space-y-1">
                     {selectedPackage.exclusions.map(exc => (
                       <li key={exc}>{exc}</li>
                     ))}
@@ -567,37 +567,37 @@ export default function TourismPortalPage() {
               </div>
 
               {/* Interactive Booking Form */}
-              <div className="p-6 rounded-2xl bg-neutral-900 border border-neutral-800 space-y-4">
-                <h4 className="text-xs font-bold text-[#C9A84C] uppercase tracking-wider text-center">
+              <div className="p-6 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border)] space-y-4">
+                <h4 className="text-xs font-bold text-[var(--gold)] uppercase tracking-wider text-center">
                   Book or Inquire About This Package
                 </h4>
                 
                 {inquirySuccess ? (
-                  <div className="p-4 rounded-xl bg-green-950/20 border border-green-900 text-green-400 text-xs text-center font-bold animate-pulse">
+                  <div className="p-4 rounded-xl bg-[var(--green)]/10 border border-[var(--green)] text-[var(--green)] text-xs text-center font-bold animate-pulse">
                     🎉 Inquiry Submitted! Our travel expert will contact you within 2 hours with a custom quote.
                   </div>
                 ) : (
                   <form onSubmit={handleInquirySubmit} className="space-y-3">
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="text-[10px] text-neutral-400 mb-1 block">Full Name</label>
+                        <label className="text-[10px] text-[var(--text-muted)] mb-1 block">Full Name</label>
                         <input 
                           type="text" 
                           required 
                           value={inquiryName}
                           onChange={e => setInquiryName(e.target.value)}
-                          className="field-input text-xs py-2 bg-neutral-950 border-neutral-800 text-neutral-200" 
+                          className="field-input text-xs py-2 bg-[var(--bg-primary)] border-[var(--border)] text-[var(--text-primary)]" 
                           placeholder="Venkatesh N."
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] text-neutral-400 mb-1 block">Phone Number</label>
+                        <label className="text-[10px] text-[var(--text-muted)] mb-1 block">Phone Number</label>
                         <input 
                           type="tel" 
                           required 
                           value={inquiryPhone}
                           onChange={e => setInquiryPhone(e.target.value)}
-                          className="field-input text-xs py-2 bg-neutral-950 border-neutral-800 text-neutral-200" 
+                          className="field-input text-xs py-2 bg-[var(--bg-primary)] border-[var(--border)] text-[var(--text-primary)]" 
                           placeholder="+91 98XXX XXXXX"
                         />
                       </div>
@@ -605,22 +605,22 @@ export default function TourismPortalPage() {
 
                     <div className="grid grid-cols-3 gap-3">
                       <div className="col-span-2">
-                        <label className="text-[10px] text-neutral-400 mb-1 block">Email Address</label>
+                        <label className="text-[10px] text-[var(--text-muted)] mb-1 block">Email Address</label>
                         <input 
                           type="email" 
                           required 
                           value={inquiryEmail}
                           onChange={e => setInquiryEmail(e.target.value)}
-                          className="field-input text-xs py-2 bg-neutral-950 border-neutral-800 text-neutral-200" 
+                          className="field-input text-xs py-2 bg-[var(--bg-primary)] border-[var(--border)] text-[var(--text-primary)]" 
                           placeholder="name@domain.com"
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] text-neutral-400 mb-1 block">Travelers</label>
+                        <label className="text-[10px] text-[var(--text-muted)] mb-1 block">Travelers</label>
                         <select 
                           value={travelersCount}
                           onChange={e => setTravelersCount(e.target.value)}
-                          className="w-full bg-neutral-950 border border-neutral-800 rounded-xl p-2.5 text-xs text-neutral-200 outline-none focus:border-amber-500"
+                          className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-2.5 text-xs text-[var(--text-primary)] outline-none focus:border-[var(--gold)]"
                         >
                           <option value="1">1 Person</option>
                           <option value="2">2 People</option>
@@ -632,22 +632,22 @@ export default function TourismPortalPage() {
                     </div>
 
                     <div>
-                      <label className="text-[10px] text-neutral-400 mb-1 block">Preferred Date of Travel</label>
+                      <label className="text-[10px] text-[var(--text-muted)] mb-1 block">Preferred Date of Travel</label>
                       <input 
                         type="date"
                         value={inquiryDate}
                         onChange={e => setInquiryDate(e.target.value)}
-                        className="field-input text-xs py-2 bg-neutral-950 border-neutral-800 text-neutral-200"
+                        className="field-input text-xs py-2 bg-[var(--bg-primary)] border-[var(--border)] text-[var(--text-primary)]"
                       />
                     </div>
 
                     <div>
-                      <label className="text-[10px] text-neutral-400 mb-1 block">Special Requests / Notes</label>
+                      <label className="text-[10px] text-[var(--text-muted)] mb-1 block">Special Requests / Notes</label>
                       <textarea 
                         rows={2} 
                         value={inquiryNotes}
                         onChange={e => setInquiryNotes(e.target.value)}
-                        className="field-input text-xs py-2 bg-neutral-950 border-neutral-800 text-neutral-200" 
+                        className="field-input text-xs py-2 bg-[var(--bg-primary)] border-[var(--border)] text-[var(--text-primary)]" 
                         placeholder="Specify any dietary needs or hotel upgrades..."
                       />
                     </div>
@@ -665,14 +665,14 @@ export default function TourismPortalPage() {
             </div>
 
             {/* Footer */}
-            <div className="px-6 py-4 border-t border-neutral-800 flex items-center justify-between bg-neutral-900/40">
+            <div className="px-6 py-4 border-t border-[var(--border)] flex items-center justify-between bg-[var(--bg-secondary)]/40">
               <div>
-                <p className="text-[10px] text-neutral-500 uppercase">Estimated Budget</p>
-                <p className="text-lg font-extrabold text-[#C9A84C] mt-0.5">{selectedPackage.price} <span className="text-[10px] font-normal text-neutral-500">/ person</span></p>
+                <p className="text-[10px] text-[var(--text-subtle)] uppercase">Estimated Budget</p>
+                <p className="text-lg font-extrabold text-[var(--gold)] mt-0.5">{selectedPackage.price} <span className="text-[10px] font-normal text-[var(--text-subtle)]">/ person</span></p>
               </div>
               <button 
                 onClick={() => setSelectedPackage(null)}
-                className="btn-ghost py-2 px-6 text-xs rounded-xl text-neutral-400 hover:text-white"
+                className="py-2 px-6 text-xs rounded-xl text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-all font-bold"
               >
                 Close Details
               </button>

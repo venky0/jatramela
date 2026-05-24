@@ -287,8 +287,8 @@ export default function ImagesToPDFPage() {
 
         {!libsLoaded && !loadError ? (
           <div className="text-center py-20">
-            <div className="animate-spin inline-block w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full mb-4"></div>
-            <p className="text-xs text-neutral-400">Loading document builder engines...</p>
+            <div className="animate-spin inline-block w-8 h-8 border-4 border-[var(--gold)] border-t-transparent rounded-full mb-4"></div>
+            <p className="text-xs text-[var(--text-muted)]">Loading document builder engines...</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -296,41 +296,44 @@ export default function ImagesToPDFPage() {
             {/* Left Options Panel */}
             <div className="lg:col-span-1 space-y-6">
               <div className="heritage-card p-5 space-y-5">
-                <h3 className="font-extrabold text-sm border-b pb-2 text-neutral-200" style={{ fontFamily: "'Baloo 2', sans-serif", borderColor: "var(--border)" }}>
-                  PDF Layout Options
+                <h3 className="font-extrabold text-sm border-b pb-2 text-[var(--text-primary)]" style={{ fontFamily: "'Baloo 2', sans-serif", borderColor: "var(--border)" }}>
+                  Layout Settings
                 </h3>
 
-                {/* Page Size */}
-                <div>
-                  <label className="field-label">Page Size</label>
-                  <select value={pageSize} onChange={e => { setPageSize(e.target.value as any); setPdfUrl(null); }}
-                    className="w-full bg-neutral-900 border border-neutral-800 rounded-xl p-2.5 text-xs text-neutral-200 outline-none focus:border-amber-500">
-                    <option value="a4">Standard A4 (595 x 842)</option>
-                    <option value="letter">US Letter (612 x 792)</option>
-                    <option value="fit">Fit Page to Image Size</option>
-                  </select>
-                </div>
-
-                {/* Orientation */}
                 <div>
                   <label className="field-label">Page Orientation</label>
-                  <select value={orientation} disabled={pageSize === "fit"} onChange={e => { setOrientation(e.target.value as any); setPdfUrl(null); }}
-                    className="w-full bg-neutral-900 border border-neutral-800 rounded-xl p-2.5 text-xs text-neutral-200 outline-none focus:border-amber-500 disabled:opacity-40">
-                    <option value="auto">Auto-detect Aspect (Recommended)</option>
-                    <option value="portrait">Always Portrait</option>
-                    <option value="landscape">Always Landscape</option>
+                  <select 
+                    value={pageOrientation}
+                    onChange={e => setPageOrientation(e.target.value as any)}
+                    className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-2.5 text-xs text-[var(--text-primary)] outline-none focus:border-[var(--gold)]"
+                  >
+                    <option value="portrait" className="bg-[var(--bg-card)] text-[var(--text-primary)]">Portrait (Vertical)</option>
+                    <option value="landscape" className="bg-[var(--bg-card)] text-[var(--text-primary)]">Landscape (Horizontal)</option>
                   </select>
                 </div>
 
-                {/* Margins */}
                 <div>
-                  <label className="field-label">Page Margins</label>
-                  <select value={margin} onChange={e => { setMargin(e.target.value as any); setPdfUrl(null); }}
-                    className="w-full bg-neutral-900 border border-neutral-800 rounded-xl p-2.5 text-xs text-neutral-200 outline-none focus:border-amber-500">
-                    <option value="none">No Margins (Full Borderless)</option>
-                    <option value="small">Small Margins (15pt)</option>
-                    <option value="medium">Medium Margins (30pt)</option>
-                    <option value="large">Large Margins (50pt)</option>
+                  <label className="field-label">Page Size Standard</label>
+                  <select 
+                    value={pageSize}
+                    onChange={e => setPageSize(e.target.value as any)}
+                    className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-2.5 text-xs text-[var(--text-primary)] outline-none focus:border-[var(--gold)]"
+                  >
+                    <option value="A4" className="bg-[var(--bg-card)] text-[var(--text-primary)]">A4 (210 x 297 mm)</option>
+                    <option value="LETTER" className="bg-[var(--bg-card)] text-[var(--text-primary)]">US Letter (8.5 x 11 in)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="field-label">Page Margin Width</label>
+                  <select 
+                    value={marginSize}
+                    onChange={e => setMarginSize(e.target.value as any)}
+                    className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-2.5 text-xs text-[var(--text-primary)] outline-none focus:border-[var(--gold)]"
+                  >
+                    <option value="none" className="bg-[var(--bg-card)] text-[var(--text-primary)]">No Margins (Full Bleed)</option>
+                    <option value="small" className="bg-[var(--bg-card)] text-[var(--text-primary)]">Small Margins (10mm)</option>
+                    <option value="large" className="bg-[var(--bg-card)] text-[var(--text-primary)]">Large Margins (25mm)</option>
                   </select>
                 </div>
 
@@ -389,8 +392,8 @@ export default function ImagesToPDFPage() {
                 <div className="flex items-center justify-center gap-3">
                   <span className="text-2xl">📸</span>
                   <div>
-                    <p className="text-xs font-bold text-neutral-300">Drag & drop or Click to add photo files</p>
-                    <p className="text-[10px] text-neutral-500">Supports JPG, PNG, WebP, SVG, BMP, GIF</p>
+                    <p className="text-xs font-bold text-[var(--text-primary)]">Drag & drop or Click to add photo files</p>
+                    <p className="text-[10px] text-[var(--text-subtle)]">Supports JPG, PNG, WebP, SVG, BMP, GIF</p>
                   </div>
                 </div>
               </div>
@@ -398,11 +401,11 @@ export default function ImagesToPDFPage() {
               {/* Processor Loader */}
               {isProcessing && (
                 <div className="heritage-card p-8 text-center flex flex-col items-center justify-center">
-                  <div className="animate-spin inline-block w-8 h-8 border-4 border-[#C9A84C] border-t-transparent rounded-full mb-4"></div>
-                  <p className="text-xs text-neutral-300">{statusMessage}</p>
-                  <div className="w-full max-w-md bg-neutral-900 rounded-full h-2 mt-4 overflow-hidden border border-neutral-800">
+                  <div className="animate-spin inline-block w-8 h-8 border-4 border-[var(--gold)] border-t-transparent rounded-full mb-4"></div>
+                  <p className="text-xs text-[var(--text-muted)]">{statusMessage}</p>
+                  <div className="w-full max-w-md bg-[var(--bg-secondary)] rounded-full h-2 mt-4 overflow-hidden border border-[var(--border)]">
                     <div 
-                      className="bg-gradient-to-r from-[#C9A84C] to-[#E8C56A] h-2 transition-all duration-300" 
+                      className="bg-[var(--gold)] h-2 transition-all duration-200" 
                       style={{ width: `${progressPercent}%` }}
                     />
                   </div>
@@ -411,52 +414,50 @@ export default function ImagesToPDFPage() {
 
               {/* Grid of uploaded images */}
               {!isProcessing && images.length > 0 && (
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div className="flex justify-between items-center px-1">
-                    <h4 className="text-xs font-bold text-neutral-400">
-                      Sort Pages ({images.length} Image{images.length > 1 ? "s" : ""})
-                    </h4>
-                    <p className="text-[10px] text-[#C9A84C]">First thumbnail will be Page 1</p>
+                    <h4 className="text-xs font-bold text-[var(--text-muted)]">Rearrange Pages</h4>
+                    <p className="text-[10px] text-[var(--gold)]">First thumbnail will be Page 1</p>
                   </div>
                   
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                     {images.map((item, index) => (
-                      <div key={item.id} className="heritage-card relative p-2 bg-neutral-950 flex flex-col justify-between border-neutral-800">
-                        {/* Page Number Badge */}
-                        <div className="absolute top-2 left-2 bg-neutral-900/90 text-[#C9A84C] font-extrabold text-[9px] px-2 py-0.5 rounded-full border border-neutral-800">
-                          Pg {index + 1}
+                      <div key={item.id} className="heritage-card relative p-2 bg-[var(--bg-secondary)] flex flex-col justify-between border-[var(--border)]">
+                        {/* Badge */}
+                        <div className="absolute top-2 left-2 bg-[var(--bg-primary)] text-[var(--gold)] font-extrabold text-[9px] px-2 py-0.5 rounded-full border border-[var(--border)]">
+                          Page {index + 1}
                         </div>
 
-                        {/* Delete Button */}
+                        {/* Remove button */}
                         <button 
                           onClick={() => removeImage(item.id)}
-                          className="absolute top-2 right-2 w-5 h-5 flex items-center justify-center bg-red-950/90 text-red-500 rounded-full text-[10px] border border-red-900 hover:bg-red-900 hover:text-white transition-colors"
+                          className="absolute top-2 right-2 w-5 h-5 flex items-center justify-center bg-[var(--bg-primary)] text-[var(--primary)] rounded-full text-[10px] border border-[var(--primary)]/30 hover:bg-[var(--primary)] hover:text-[var(--bg-primary)] transition-colors"
                           title="Remove Image"
                         >
                           ✕
                         </button>
 
-                        <div className="h-28 flex items-center justify-center p-1 bg-neutral-950 rounded-lg overflow-hidden border border-white/5">
-                          <img src={item.previewUrl} alt={`Uploaded ${index + 1}`} className="object-contain max-h-full max-w-full rounded-md" />
+                        <div className="h-28 flex items-center justify-center p-1 bg-[var(--bg-primary)] rounded-lg overflow-hidden border border-[var(--border)]">
+                          <img src={item.previewUrl} alt={`Thumbnail ${index + 1}`} className="object-contain max-h-full max-w-full rounded shadow" />
                         </div>
 
-                        <p className="text-[9px] text-neutral-400 truncate text-center mt-2 px-1">
+                        <p className="text-[9px] text-[var(--text-muted)] truncate text-center mt-2 px-1">
                           {item.file.name}
                         </p>
 
-                        {/* Page Sorters */}
-                        <div className="grid grid-cols-2 gap-1 mt-2 pt-2 border-t border-white/5">
+                        {/* Page sorters */}
+                        <div className="grid grid-cols-2 gap-1 mt-2 pt-2 border-t border-[var(--border)]">
                           <button 
                             onClick={() => moveImage(index, "left")}
                             disabled={index === 0}
-                            className="p-1 text-[9px] text-center font-bold bg-neutral-900 hover:bg-neutral-800 rounded-lg border border-neutral-800 text-neutral-300 disabled:opacity-30 disabled:hover:bg-neutral-900 transition-colors"
+                            className="p-1 text-[9px] text-center font-bold bg-[var(--bg-primary)] hover:bg-[var(--bg-card-hover)] rounded-lg border border-[var(--border)] text-[var(--text-muted)] disabled:opacity-30 disabled:hover:bg-[var(--bg-primary)] transition-colors"
                           >
                             ◀ Move
                           </button>
                           <button 
                             onClick={() => moveImage(index, "right")}
                             disabled={index === images.length - 1}
-                            className="p-1 text-[9px] text-center font-bold bg-neutral-900 hover:bg-neutral-800 rounded-lg border border-neutral-800 text-neutral-300 disabled:opacity-30 disabled:hover:bg-neutral-900 transition-colors"
+                            className="p-1 text-[9px] text-center font-bold bg-[var(--bg-primary)] hover:bg-[var(--bg-card-hover)] rounded-lg border border-[var(--border)] text-[var(--text-muted)] disabled:opacity-30 disabled:hover:bg-[var(--bg-primary)] transition-colors"
                           >
                             Move ▶
                           </button>
@@ -469,23 +470,23 @@ export default function ImagesToPDFPage() {
 
               {/* Empty state instructions */}
               {!isProcessing && images.length === 0 && (
-                <div className="heritage-card p-12 text-center text-neutral-400 flex flex-col items-center justify-center" style={{ minHeight: 300 }}>
-                  <p className="text-4xl mb-3">📄</p>
-                  <h4 className="text-sm font-bold text-neutral-300" style={{ fontFamily: "'Baloo 2', sans-serif" }}>No Images Added Yet</h4>
-                  <p className="text-xs max-w-xs mx-auto mt-1 mb-6">
-                    Add standard graphic/photo files to get started. You can specify margins, orientations, and compile them into a print-ready document.
+                <div className="heritage-card p-12 text-center text-[var(--text-muted)] flex flex-col items-center justify-center" style={{ minHeight: 300 }}>
+                  <p className="text-4xl mb-2">📸</p>
+                  <h4 className="text-sm font-bold text-[var(--text-primary)]" style={{ fontFamily: "'Baloo 2', sans-serif" }}>No Images Added Yet</h4>
+                  <p className="text-xs max-w-xs mx-auto mt-1 mb-4">
+                    Select the graphic files or snapshots you wish to convert into a consolidated PDF.
                   </p>
-                  <button className="btn-gold px-6 py-2.5 text-xs" onClick={() => document.getElementById("img-upload")?.click()}>
-                    Upload Photos
+                  <button className="btn-gold px-5 py-2 text-xs" onClick={() => document.getElementById("img-upload")?.click()}>
+                    Add Images
                   </button>
                 </div>
               )}
 
               {pdfUrl && !isProcessing && (
-                <div className="heritage-card p-6 text-center border-green-950/20 bg-green-950/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="heritage-card p-6 text-center border-[var(--green)]/20 bg-[var(--green)]/5 flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div className="text-left">
-                    <p className="text-xs font-bold text-green-500">🎉 PDF Render Completed!</p>
-                    <p className="text-[10px] text-neutral-400 mt-0.5">All pages compiled and scaled to layout specifications.</p>
+                    <p className="text-xs font-bold text-[var(--green)]">🎉 PDF Render Completed!</p>
+                    <p className="text-[10px] text-[var(--text-muted)] mt-0.5">All pages compiled and scaled to layout specifications.</p>
                   </div>
                   <div className="flex gap-3">
                     <a href={pdfUrl} target="_blank" className="btn-outline-gold px-5 py-2 text-xs">

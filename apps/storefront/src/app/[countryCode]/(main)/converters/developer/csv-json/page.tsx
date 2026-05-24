@@ -196,7 +196,7 @@ export default function CsvJsonPage() {
             <textarea
               value={csvText}
               onChange={(e) => setCsvText(e.target.value)}
-              className="w-full h-72 bg-neutral-950 border border-neutral-800 rounded-xl p-4 text-xs font-mono text-amber-100 outline-none focus:border-[#C9A84C] resize-none"
+              className="w-full h-72 bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-4 text-xs font-mono text-amber-100 outline-none focus:border-[#C9A84C] resize-none"
             />
             <button onClick={handleCsvToJson} className="w-full btn-gold py-2.5 text-xs mt-4">
               Convert CSV ➔ JSON
@@ -214,7 +214,7 @@ export default function CsvJsonPage() {
             <textarea
               value={jsonText}
               onChange={(e) => setJsonText(e.target.value)}
-              className="w-full h-72 bg-neutral-950 border border-neutral-800 rounded-xl p-4 text-xs font-mono text-amber-100 outline-none focus:border-[#C9A84C] resize-none"
+              className="w-full h-72 bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-4 text-xs font-mono text-amber-100 outline-none focus:border-[#C9A84C] resize-none"
             />
             <button onClick={handleJsonToCsv} className="w-full btn-primary py-2.5 text-xs mt-4">
               Convert JSON ➔ CSV

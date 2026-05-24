@@ -133,7 +133,7 @@ export default function WebPOptimizerPage() {
             <input type="file" id="file-upload" className="hidden" accept="image/*" onChange={handleFileUpload} />
             <div className="text-4xl mb-4">📦</div>
             <h2 className="text-xl font-bold mb-2" style={{ fontFamily: "'Baloo 2', sans-serif" }}>Upload JPG or PNG Image</h2>
-            <p className="text-xs mb-6 text-neutral-400">Drag & drop your image or click to select from your file explorer.</p>
+            <p className="text-xs mb-6 text-[var(--text-muted)]">Drag & drop your image or click to select from your file explorer.</p>
             <button className="btn-gold px-6 py-2.5 text-xs">Select Image</button>
           </div>
         ) : (
@@ -161,7 +161,7 @@ export default function WebPOptimizerPage() {
               <div>
                 <label className="field-label">Max Rescale Dimension</label>
                 <select value={maxDimension} onChange={e => setMaxDimension(e.target.value)}
-                  className="w-full bg-neutral-900 border border-neutral-700 rounded-xl p-3 text-xs text-neutral-200 outline-none focus:border-amber-500">
+                  className="w-full bg-[var(--bg-secondary)] border border-neutral-700 rounded-xl p-3 text-xs text-[var(--text-primary)] outline-none focus:border-amber-500">
                   <option value="original">Keep Original Size</option>
                   <option value="3840">UHD 4K (3840px)</option>
                   <option value="1920">Full HD (1920px)</option>
@@ -199,8 +199,8 @@ export default function WebPOptimizerPage() {
                 
                 {/* Original Preview */}
                 <div className="heritage-card p-4 flex flex-col items-center justify-center text-center">
-                  <h4 className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-3">Original Image</h4>
-                  <div className="relative border border-white/5 rounded-lg overflow-hidden bg-neutral-950 p-2 flex items-center justify-center" style={{ height: 220, width: "100%" }}>
+                  <h4 className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest mb-3">Original Image</h4>
+                  <div className="relative border border-white/5 rounded-lg overflow-hidden bg-[var(--bg-primary)] p-2 flex items-center justify-center" style={{ height: 220, width: "100%" }}>
                     <img src={imageUrl} alt="Original" className="object-contain max-h-full max-w-full" />
                   </div>
                   <p className="text-xs font-bold mt-3" style={{ color: "var(--text-muted)" }}>
@@ -210,12 +210,12 @@ export default function WebPOptimizerPage() {
 
                 {/* Optimized Preview */}
                 <div className="heritage-card p-4 flex flex-col items-center justify-center text-center">
-                  <h4 className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-3">Optimized WebP</h4>
-                  <div className="relative border border-white/5 rounded-lg overflow-hidden bg-neutral-950 p-2 flex items-center justify-center" style={{ height: 220, width: "100%" }}>
+                  <h4 className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest mb-3">Optimized WebP</h4>
+                  <div className="relative border border-white/5 rounded-lg overflow-hidden bg-[var(--bg-primary)] p-2 flex items-center justify-center" style={{ height: 220, width: "100%" }}>
                     {optimizedUrl ? (
                       <img src={optimizedUrl} alt="Optimized" className="object-contain max-h-full max-w-full" />
                     ) : (
-                      <div className="text-xs text-neutral-500 opacity-60">Click 'Compress & Resize' to generate WebP</div>
+                      <div className="text-xs text-[var(--text-subtle)] opacity-60">Click 'Compress & Resize' to generate WebP</div>
                     )}
                   </div>
                   <p className="text-xs font-bold mt-3" style={{ color: "var(--text-muted)" }}>

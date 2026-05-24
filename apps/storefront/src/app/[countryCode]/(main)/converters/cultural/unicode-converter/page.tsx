@@ -91,7 +91,7 @@ export default function UnicodeConverterPage() {
               <h3 className="font-extrabold text-sm mb-3" style={{ fontFamily: "'Baloo 2', sans-serif" }}>Paste Legacy ASCII Text</h3>
               <textarea value={legacyText} onChange={e => setLegacyText(e.target.value)}
                 placeholder="Paste Nudi or Baraha font text here... (Looks like English text before conversion)"
-                className="w-full h-64 bg-neutral-950 border border-neutral-800 rounded-xl p-4 text-sm text-neutral-300 outline-none focus:border-[#C9A84C] resize-none"
+                className="w-full h-64 bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-4 text-sm text-[var(--text-primary)] outline-none focus:border-[#C9A84C] resize-none"
               />
             </div>
             <button onClick={convertToUnicode} disabled={!legacyText.trim()} className="w-full btn-gold py-3 text-xs mt-4">
@@ -110,8 +110,8 @@ export default function UnicodeConverterPage() {
                   </button>
                 )}
               </div>
-              <div className="w-full h-64 bg-neutral-900 border border-neutral-800 rounded-xl p-4 text-base text-neutral-200 overflow-y-auto leading-relaxed whitespace-pre-wrap select-all">
-                {unicodeText || <span className="text-neutral-500 text-xs">Standard Kannada Unicode text will show here...</span>}
+              <div className="w-full h-64 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl p-4 text-base text-[var(--text-primary)] overflow-y-auto leading-relaxed whitespace-pre-wrap select-all">
+                {unicodeText || <span className="text-[var(--text-subtle)] text-xs">Standard Kannada Unicode text will show here...</span>}
               </div>
             </div>
           </div>

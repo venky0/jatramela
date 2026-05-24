@@ -29,7 +29,7 @@ export default function TransferRequestForm() {
           <Heading level="h3" className="!text-sm font-semibold text-neutral-950">
             Order transfers
           </Heading>
-          <p className="text-small-regular text-neutral-500">
+          <p className="text-small-regular text-[var(--text-subtle)]">
             Can&apos;t find the order you are looking for?
             <br /> Connect an order to your account.
           </p>
@@ -72,7 +72,7 @@ export default function TransferRequestForm() {
             className="h-fit"
             onClick={() => setShowSuccess(false)}
           >
-            <XCircleSolid className="w-4 h-4 text-neutral-500" />
+            <XCircleSolid className="w-4 h-4 text-[var(--text-subtle)]" />
           </IconButton>
         </div>
       )}

@@ -352,8 +352,8 @@ export default function PDFOrganizerPage() {
 
         {!libsLoaded && !loadError ? (
           <div className="text-center py-20">
-            <div className="animate-spin inline-block w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full mb-4"></div>
-            <p className="text-xs text-neutral-400">Loading document organizing engines...</p>
+            <div className="animate-spin inline-block w-8 h-8 border-4 border-[var(--gold)] border-t-transparent rounded-full mb-4"></div>
+            <p className="text-xs text-[var(--text-muted)]">Loading document organizing engines...</p>
           </div>
         ) : (
           <div className="space-y-6">
@@ -364,8 +364,8 @@ export default function PDFOrganizerPage() {
                 onClick={() => { setActiveTab("merge"); setStatusMessage(""); setIsProcessing(false); }}
                 className={`py-3 px-6 text-sm font-extrabold transition-all border-b-2 ${
                   activeTab === "merge" 
-                    ? "border-[#C9A84C] text-[#C9A84C]" 
-                    : "border-transparent text-neutral-400 hover:text-neutral-200"
+                    ? "border-[var(--gold)] text-[var(--gold)]" 
+                    : "border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]"
                 }`}
                 style={{ fontFamily: "'Baloo 2', sans-serif" }}
               >
@@ -375,8 +375,8 @@ export default function PDFOrganizerPage() {
                 onClick={() => { setActiveTab("split"); setStatusMessage(""); setIsProcessing(false); }}
                 className={`py-3 px-6 text-sm font-extrabold transition-all border-b-2 ${
                   activeTab === "split" 
-                    ? "border-[#C9A84C] text-[#C9A84C]" 
-                    : "border-transparent text-neutral-400 hover:text-neutral-200"
+                    ? "border-[var(--gold)] text-[var(--gold)]" 
+                    : "border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]"
                 }`}
                 style={{ fontFamily: "'Baloo 2', sans-serif" }}
               >
@@ -393,11 +393,11 @@ export default function PDFOrganizerPage() {
                   {/* Left Controls */}
                   <div className="lg:col-span-1 space-y-6">
                     <div className="heritage-card p-5 space-y-5">
-                      <h3 className="font-extrabold text-sm border-b pb-2 text-neutral-200" style={{ fontFamily: "'Baloo 2', sans-serif", borderColor: "var(--border)" }}>
+                      <h3 className="font-extrabold text-sm border-b pb-2 text-[var(--text-primary)]" style={{ fontFamily: "'Baloo 2', sans-serif", borderColor: "var(--border)" }}>
                         Merge Settings
                       </h3>
                       
-                      <div className="text-[11px] text-neutral-400 leading-relaxed">
+                      <div className="text-[11px] text-[var(--text-muted)] leading-relaxed">
                         Upload two or more PDF files. You can arrange the files in the editor. First file will form the initial pages of the output.
                       </div>
 
@@ -451,8 +451,8 @@ export default function PDFOrganizerPage() {
                       <div className="flex items-center justify-center gap-3">
                         <span className="text-2xl">📂</span>
                         <div>
-                          <p className="text-xs font-bold text-neutral-300">Drag & drop or Click to add PDF files</p>
-                          <p className="text-[10px] text-neutral-500">Add two or more files to combine them</p>
+                          <p className="text-xs font-bold text-[var(--text-primary)]">Drag & drop or Click to add PDF files</p>
+                          <p className="text-[10px] text-[var(--text-subtle)]">Add two or more files to combine them</p>
                         </div>
                       </div>
                     </div>
@@ -460,25 +460,25 @@ export default function PDFOrganizerPage() {
                     {/* Progress indicators */}
                     {isProcessing && (
                       <div className="heritage-card p-8 text-center flex flex-col items-center justify-center">
-                        <div className="animate-spin inline-block w-8 h-8 border-4 border-[#C9A84C] border-t-transparent rounded-full mb-4"></div>
-                        <p className="text-xs text-neutral-300">{statusMessage}</p>
+                        <div className="animate-spin inline-block w-8 h-8 border-4 border-[var(--gold)] border-t-transparent rounded-full mb-4"></div>
+                        <p className="text-xs text-[var(--text-muted)]">{statusMessage}</p>
                       </div>
                     )}
 
                     {/* Merge List */}
                     {!isProcessing && mergeFiles.length > 0 && (
                       <div className="space-y-3">
-                        <h4 className="text-xs font-bold text-neutral-400 px-1">Document Order</h4>
+                        <h4 className="text-xs font-bold text-[var(--text-muted)] px-1">Document Order</h4>
                         <div className="space-y-2">
                           {mergeFiles.map((item, index) => (
-                            <div key={item.id} className="heritage-card p-4 flex items-center justify-between bg-neutral-950/40 border-neutral-800">
+                            <div key={item.id} className="heritage-card p-4 flex items-center justify-between bg-[var(--bg-secondary)]/40 border-[var(--border)]">
                               <div className="flex items-center gap-4 truncate">
-                                <div className="w-7 h-7 flex items-center justify-center bg-neutral-900 text-[#C9A84C] text-[10px] font-extrabold rounded-full border border-neutral-800">
+                                <div className="w-7 h-7 flex items-center justify-center bg-[var(--bg-primary)] text-[var(--gold)] text-[10px] font-extrabold rounded-full border border-[var(--border)]">
                                   {index + 1}
                                 </div>
                                 <div className="truncate">
-                                  <p className="text-xs font-bold text-neutral-200 truncate max-w-xs sm:max-w-md">{item.file.name}</p>
-                                  <p className="text-[10px] text-neutral-500">
+                                  <p className="text-xs font-bold text-[var(--text-primary)] truncate max-w-xs sm:max-w-md">{item.file.name}</p>
+                                  <p className="text-[10px] text-[var(--text-subtle)]">
                                     {item.pageCount} Pages • {formatSize(item.size)}
                                   </p>
                                 </div>
@@ -488,7 +488,7 @@ export default function PDFOrganizerPage() {
                                 <button 
                                   onClick={() => moveMergeFile(index, "up")}
                                   disabled={index === 0}
-                                  className="w-7 h-7 flex items-center justify-center bg-neutral-900 border border-neutral-800 text-neutral-400 rounded-lg text-xs hover:text-white disabled:opacity-20 transition-colors"
+                                  className="w-7 h-7 flex items-center justify-center bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-muted)] rounded-lg text-xs hover:text-[var(--text-primary)] disabled:opacity-20 transition-colors"
                                   title="Move Up"
                                 >
                                   ▲
@@ -496,14 +496,14 @@ export default function PDFOrganizerPage() {
                                 <button 
                                   onClick={() => moveMergeFile(index, "down")}
                                   disabled={index === mergeFiles.length - 1}
-                                  className="w-7 h-7 flex items-center justify-center bg-neutral-900 border border-neutral-800 text-neutral-400 rounded-lg text-xs hover:text-white disabled:opacity-20 transition-colors"
+                                  className="w-7 h-7 flex items-center justify-center bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-muted)] rounded-lg text-xs hover:text-[var(--text-primary)] disabled:opacity-20 transition-colors"
                                   title="Move Down"
                                 >
                                   ▼
                                 </button>
                                 <button 
                                   onClick={() => removeMergeFile(item.id)}
-                                  className="w-7 h-7 flex items-center justify-center bg-red-950/40 border border-red-900 text-red-500 rounded-lg text-xs hover:bg-red-900 hover:text-white transition-colors"
+                                  className="w-7 h-7 flex items-center justify-center bg-[var(--bg-primary)] border border-[var(--primary)]/30 text-[var(--primary)] rounded-lg text-xs hover:bg-[var(--primary)] hover:text-[var(--bg-primary)] transition-colors"
                                   title="Delete"
                                 >
                                   ✕
@@ -517,9 +517,9 @@ export default function PDFOrganizerPage() {
 
                     {/* Empty State */}
                     {!isProcessing && mergeFiles.length === 0 && (
-                      <div className="heritage-card p-12 text-center text-neutral-400 flex flex-col items-center justify-center" style={{ minHeight: 250 }}>
+                      <div className="heritage-card p-12 text-center text-[var(--text-muted)] flex flex-col items-center justify-center" style={{ minHeight: 250 }}>
                         <p className="text-4xl mb-2">📂</p>
-                        <h4 className="text-xs font-bold text-neutral-300" style={{ fontFamily: "'Baloo 2', sans-serif" }}>No Documents Added</h4>
+                        <h4 className="text-xs font-bold text-[var(--text-primary)]" style={{ fontFamily: "'Baloo 2', sans-serif" }}>No Documents Added</h4>
                         <p className="text-xs max-w-xs mx-auto mt-1 mb-4">
                           Select the document files that you want to bind. You can upload multiple PDFs at once.
                         </p>
@@ -530,10 +530,10 @@ export default function PDFOrganizerPage() {
                     )}
 
                     {mergedPdfUrl && !isProcessing && (
-                      <div className="heritage-card p-6 text-center border-green-950/20 bg-green-950/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                      <div className="heritage-card p-6 text-center border-[var(--green)]/20 bg-[var(--green)]/5 flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="text-left">
-                          <p className="text-xs font-bold text-green-500">🎉 PDF Merge Completed!</p>
-                          <p className="text-[10px] text-neutral-400 mt-0.5">All files concatenated in designated sequence.</p>
+                          <p className="text-xs font-bold text-[var(--green)]">🎉 PDF Merge Completed!</p>
+                          <p className="text-[10px] text-[var(--text-muted)] mt-0.5">All files concatenated in designated sequence.</p>
                         </div>
                         <div className="flex gap-3">
                           <a href={mergedPdfUrl} target="_blank" className="btn-outline-gold px-5 py-2 text-xs">
@@ -555,15 +555,15 @@ export default function PDFOrganizerPage() {
                   {/* Left Controls */}
                   <div className="lg:col-span-1 space-y-6">
                     <div className="heritage-card p-5 space-y-5">
-                      <h3 className="font-extrabold text-sm border-b pb-2 text-neutral-200" style={{ fontFamily: "'Baloo 2', sans-serif", borderColor: "var(--border)" }}>
+                      <h3 className="font-extrabold text-sm border-b pb-2 text-[var(--text-primary)]" style={{ fontFamily: "'Baloo 2', sans-serif", borderColor: "var(--border)" }}>
                         Split Settings
                       </h3>
 
                       {splitFile && (
                         <div className="space-y-1 text-xs">
-                          <p className="text-[10px] text-neutral-400 uppercase tracking-widest">Active File</p>
-                          <p className="font-bold text-neutral-200 truncate">{splitFile.name}</p>
-                          <p className="text-neutral-500">{splitPdfPagesCount} Pages • {formatSize(splitFile.size)}</p>
+                          <p className="text-[10px] text-[var(--text-subtle)] uppercase tracking-widest">Active File</p>
+                          <p className="font-bold text-[var(--text-primary)] truncate">{splitFile.name}</p>
+                          <p className="text-[var(--text-muted)]">{splitPdfPagesCount} Pages • {formatSize(splitFile.size)}</p>
                         </div>
                       )}
 
@@ -578,7 +578,7 @@ export default function PDFOrganizerPage() {
                           disabled={!splitFile}
                           className="field-input text-xs disabled:opacity-40" 
                         />
-                        <p className="text-[9px] text-neutral-500 mt-1 leading-normal">
+                        <p className="text-[9px] text-[var(--text-subtle)] mt-1 leading-normal">
                           Type ranges (e.g. 1-4) or single pages separated by commas. Or select thumbnails directly in the workspace.
                         </p>
                       </div>
@@ -640,8 +640,8 @@ export default function PDFOrganizerPage() {
                         <input type="file" id="split-upload" className="hidden" accept="application/pdf" onChange={handleSplitFileUpload} />
                         <div className="flex flex-col items-center justify-center">
                           <span className="text-4xl mb-3">✂️</span>
-                          <h4 className="text-xs font-bold text-neutral-300">Upload PDF to Split Pages</h4>
-                          <p className="text-[10px] text-neutral-500 mt-1 max-w-xs">
+                          <h4 className="text-xs font-bold text-[var(--text-primary)]">Upload PDF to Split Pages</h4>
+                          <p className="text-[10px] text-[var(--text-subtle)] mt-1 max-w-xs">
                             Select a document to render pages visually. Click pages to select them for extraction.
                           </p>
                         </div>
@@ -650,17 +650,17 @@ export default function PDFOrganizerPage() {
 
                     {/* Rendering indicator */}
                     {renderingThumbnails && (
-                      <div className="heritage-card p-10 text-center flex flex-col items-center justify-center border-neutral-800">
-                        <div className="animate-spin inline-block w-6 h-6 border-2 border-[#C9A84C] border-t-transparent rounded-full mb-3"></div>
-                        <p className="text-xs text-neutral-400">Rendering visual page thumbnails...</p>
+                      <div className="heritage-card p-10 text-center flex flex-col items-center justify-center border-[var(--border)]">
+                        <div className="animate-spin inline-block w-6 h-6 border-2 border-[var(--gold)] border-t-transparent rounded-full mb-3"></div>
+                        <p className="text-xs text-[var(--text-muted)]">Rendering visual page thumbnails...</p>
                       </div>
                     )}
 
                     {/* Extraction Progress indicator */}
                     {isProcessing && (
-                      <div className="heritage-card p-10 text-center flex flex-col items-center justify-center border-neutral-800">
-                        <div className="animate-spin inline-block w-8 h-8 border-4 border-[#C9A84C] border-t-transparent rounded-full mb-4"></div>
-                        <p className="text-xs text-neutral-300">{statusMessage}</p>
+                      <div className="heritage-card p-10 text-center flex flex-col items-center justify-center border-[var(--border)]">
+                        <div className="animate-spin inline-block w-8 h-8 border-4 border-[var(--gold)] border-t-transparent rounded-full mb-4"></div>
+                        <p className="text-xs text-[var(--text-muted)]">{statusMessage}</p>
                       </div>
                     )}
 
@@ -668,11 +668,11 @@ export default function PDFOrganizerPage() {
                     {!renderingThumbnails && !isProcessing && splitFile && thumbnails.length > 0 && (
                       <div className="space-y-4">
                         <div className="flex justify-between items-center px-1">
-                          <h4 className="text-xs font-bold text-neutral-400">
+                          <h4 className="text-xs font-bold text-[var(--text-muted)]">
                             Select Pages ({selectedPages.length} Selected)
                           </h4>
                           {splitPdfPagesCount > thumbnails.length && (
-                            <p className="text-[9px] text-neutral-500">Showing first {thumbnails.length} page previews</p>
+                            <p className="text-[9px] text-[var(--text-subtle)]">Showing first {thumbnails.length} page previews</p>
                           )}
                         </div>
 
@@ -683,15 +683,15 @@ export default function PDFOrganizerPage() {
                               <div 
                                 key={thumb.pageNum} 
                                 onClick={() => togglePageSelection(thumb.pageNum)}
-                                className={`heritage-card p-2 bg-neutral-950 relative flex flex-col items-center cursor-pointer transition-all duration-200 border border-neutral-800 ${
-                                  isSelected ? "ring-2 ring-[#C9A84C] border-transparent" : "opacity-85 hover:opacity-100"
+                                className={`heritage-card p-2 bg-[var(--bg-secondary)] relative flex flex-col items-center cursor-pointer transition-all duration-200 border border-[var(--border)] ${
+                                  isSelected ? "ring-2 ring-[var(--gold)] border-transparent" : "opacity-85 hover:opacity-100"
                                 }`}
                               >
                                 {/* Checkbox Indicator */}
                                 <div className={`absolute top-2 right-2 w-4 h-4 flex items-center justify-center rounded border text-[9px] font-extrabold transition-all ${
                                   isSelected 
-                                    ? "bg-[#C9A84C] border-[#C9A84C] text-neutral-950" 
-                                    : "bg-neutral-900 border-neutral-700 text-transparent"
+                                    ? "bg-[var(--gold)] border-[var(--gold)] text-[var(--bg-primary)]" 
+                                    : "bg-[var(--bg-primary)] border-[var(--border)] text-transparent"
                                 }`}>
                                   ✓
                                 </div>
@@ -700,7 +700,7 @@ export default function PDFOrganizerPage() {
                                   <img src={thumb.dataUrl} alt={`Page ${thumb.pageNum}`} className="object-contain max-h-full max-w-full shadow-inner" />
                                 </div>
 
-                                <p className={`text-[10px] mt-2 font-bold ${isSelected ? "text-[#C9A84C]" : "text-neutral-400"}`}>
+                                <p className={`text-[10px] mt-2 font-bold ${isSelected ? "text-[var(--gold)]" : "text-[var(--text-muted)]"}`}>
                                   Page {thumb.pageNum}
                                 </p>
                               </div>
@@ -711,10 +711,10 @@ export default function PDFOrganizerPage() {
                     )}
 
                     {splitPdfUrl && !isProcessing && (
-                      <div className="heritage-card p-6 text-center border-green-950/20 bg-green-950/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                      <div className="heritage-card p-6 text-center border-[var(--green)]/20 bg-[var(--green)]/5 flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="text-left">
-                          <p className="text-xs font-bold text-green-500">🎉 PDF Split Completed!</p>
-                          <p className="text-[10px] text-neutral-400 mt-0.5">Selected pages extracted into a separate PDF.</p>
+                          <p className="text-xs font-bold text-[var(--green)]">🎉 PDF Split Completed!</p>
+                          <p className="text-[10px] text-[var(--text-muted)] mt-0.5">Selected pages extracted into a separate PDF.</p>
                         </div>
                         <div className="flex gap-3">
                           <a href={splitPdfUrl} target="_blank" className="btn-outline-gold px-5 py-2 text-xs">

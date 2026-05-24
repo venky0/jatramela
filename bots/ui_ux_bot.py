@@ -327,6 +327,82 @@ def check_product_card_hover():
     return issues
 
 
+def check_theme_contrast():
+    """Scan storefront page and component files for hardcoded contrast-failing Tailwind classes or inline styles."""
+    issues = []
+    target_dirs = [
+        STOREFRONT / "app",
+        STOREFRONT / "components",
+        STOREFRONT / "modules",
+    ]
+    
+    # Matches class names like text-neutral-400 or bg-gray-900
+    pattern_tailwind_colors = re.compile(
+        r'\b(bg|text|border|ring)-(neutral|gray|zinc|slate|stone)-(50|100|200|300|400|500|600|700|800|900|950)\b'
+    )
+    # Matches simple inline colors like color: '#fff' or backgroundColor: "#000"
+    pattern_hardcoded_hex = re.compile(
+        r'(color|background|backgroundColor|borderColor)\s*:\s*["\'`](#(?:[0-9a-fA-F]{3}){1,2})["\'`]'
+    )
+    
+    for folder in target_dirs:
+        if not folder.exists():
+            continue
+        for path in folder.rglob("*"):
+            if path.is_dir() or ".next" in str(path) or "node_modules" in str(path):
+                continue
+            if path.suffix not in [".tsx", ".ts", ".js", ".jsx"]:
+                continue
+                
+            try:
+                content = path.read_text(encoding="utf-8", errors="ignore")
+                
+                # Check for Tailwind hardcoded grays/colors
+                matches_tailwind = pattern_tailwind_colors.findall(content)
+                if matches_tailwind:
+                    examples = ", ".join([f"{m[0]}-{m[1]}-{m[2]}" for m in matches_tailwind[:3]])
+                    if len(matches_tailwind) > 3:
+                        examples += "..."
+                    issue = UXIssue(
+                        "WARN", "Theme Contrast", path,
+                        f"Found {len(matches_tailwind)} hardcoded Tailwind neutral colors ({examples}) — use theme variables",
+                        "Replace hardcoded Tailwind gray classes with var(--bg-*), var(--text-*), etc."
+                    )
+                    
+                    if AUTO_FIX:
+                        replacements = {
+                            "text-neutral-200": "text-[var(--text-primary)]",
+                            "text-neutral-300": "text-[var(--text-primary)]",
+                            "text-neutral-400": "text-[var(--text-muted)]",
+                            "text-neutral-500": "text-[var(--text-subtle)]",
+                            "bg-neutral-900": "bg-[var(--bg-secondary)]",
+                            "bg-neutral-950": "bg-[var(--bg-primary)]",
+                            "border-neutral-800": "border-[var(--border)]",
+                        }
+                        new_content = content
+                        for old, new in replacements.items():
+                            new_content = new_content.replace(old, new)
+                        if new_content != content:
+                            path.write_text(new_content, encoding="utf-8")
+                            issue.auto_fixed = True
+                            content = new_content
+                    issues.append(issue)
+                    
+                # Check for hardcoded hex styles
+                matches_hex = pattern_hardcoded_hex.findall(content)
+                if matches_hex:
+                    examples = ", ".join([f"{m[0]}: '{m[1]}'" for m in matches_hex[:3]])
+                    issue = UXIssue(
+                        "WARN", "Theme Contrast", path,
+                        f"Found {len(matches_hex)} hardcoded inline colors ({examples}) — use theme variables",
+                        "Replace static color properties with var() expressions"
+                    )
+                    issues.append(issue)
+            except Exception:
+                pass
+    return issues
+
+
 def generate_recommendations():
     """UX design recommendations — tracks implementation status."""
     return [
@@ -515,6 +591,7 @@ def run():
         ("404 Page Branding",         check_not_found_page),
         ("Mobile Bottom Nav",         check_mobile_nav),
         ("Product Card Hover Effect", check_product_card_hover),
+        ("Theme Contrast & Compatibility", check_theme_contrast),
     ]
 
     for label, fn in checks:

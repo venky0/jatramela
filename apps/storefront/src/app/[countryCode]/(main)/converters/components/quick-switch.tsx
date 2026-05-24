@@ -55,21 +55,21 @@ export default function QuickSwitch({ currentHref }: { currentHref: string }) {
   const normalizedHref = currentHref.replace(/^\/[a-z]{2}/, "")
 
   return (
-    <div className="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-neutral-950 border border-neutral-800 text-xs shadow-lg">
-      <span className="text-neutral-400 font-bold" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
-        🔄 Quick Switch Tool:
+    <div className="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--bg-dark)] border border-[var(--border)] text-xs shadow-lg">
+      <span className="text-[var(--text-on-header)]/70 font-bold" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
+        🔄 Quick Switch:
       </span>
       <select
         value={normalizedHref}
         onChange={handleChange}
-        className="bg-transparent text-[#C9A84C] font-extrabold outline-none cursor-pointer pr-2 focus:text-shimmer"
+        className="bg-transparent text-[var(--gold)] font-extrabold outline-none cursor-pointer pr-2 focus:text-shimmer"
         style={{ fontFamily: "'Baloo 2', sans-serif" }}
       >
-        <option value="" disabled className="bg-neutral-950 text-neutral-500">Select Converter...</option>
+        <option value="" disabled className="bg-[var(--bg-card)] text-[var(--text-subtle)]">Select Converter...</option>
         {ALL_TOOLS.map(cat => (
-          <optgroup key={cat.category} label={cat.category} className="bg-neutral-950 text-neutral-500 font-normal">
+          <optgroup key={cat.category} label={cat.category} className="bg-[var(--bg-card)] text-[var(--text-muted)] font-normal">
             {cat.tools.map(tool => (
-              <option key={tool.href} value={tool.href} className="bg-neutral-950 text-[#FFF8E7] font-bold">
+              <option key={tool.href} value={tool.href} className="bg-[var(--bg-card)] text-[var(--text-primary)] font-bold">
                 {tool.name}
               </option>
             ))}

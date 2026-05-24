@@ -116,7 +116,7 @@ export default function HinduCalendarPage() {
             <div>
               <h3 className="font-extrabold text-sm mb-3" style={{ fontFamily: "'Baloo 2', sans-serif" }}>Select Date</h3>
               <input type="date" value={targetDate} onChange={e => setTargetDate(e.target.value)}
-                className="w-full bg-neutral-900 border border-neutral-700 rounded-xl p-3 text-xs text-neutral-200 outline-none focus:border-amber-500" />
+                className="w-full bg-[var(--bg-secondary)] border border-neutral-700 rounded-xl p-3 text-xs text-[var(--text-primary)] outline-none focus:border-amber-500" />
             </div>
             <button onClick={calculatePanchanga} className="w-full btn-gold py-3 text-xs mt-6">
               📅 Calculate Hindu Date
@@ -129,21 +129,21 @@ export default function HinduCalendarPage() {
               <h3 className="font-extrabold text-sm mb-4" style={{ fontFamily: "'Baloo 2', sans-serif" }}>Lunar Panchanga Results</h3>
               {result ? (
                 <div className="space-y-3 text-xs">
-                  <div className="flex justify-between border-b pb-2 border-neutral-800">
-                    <span className="text-neutral-400">Lunar Month (Masa):</span>
-                    <span className="font-bold text-neutral-200">{result.masa}</span>
+                  <div className="flex justify-between border-b pb-2 border-[var(--border)]">
+                    <span className="text-[var(--text-muted)]">Lunar Month (Masa):</span>
+                    <span className="font-bold text-[var(--text-primary)]">{result.masa}</span>
                   </div>
-                  <div className="flex justify-between border-b pb-2 border-neutral-800">
-                    <span className="text-neutral-400">Phase (Paksha):</span>
-                    <span className="font-bold text-neutral-200">{result.paksha}</span>
+                  <div className="flex justify-between border-b pb-2 border-[var(--border)]">
+                    <span className="text-[var(--text-muted)]">Phase (Paksha):</span>
+                    <span className="font-bold text-[var(--text-primary)]">{result.paksha}</span>
                   </div>
-                  <div className="flex justify-between border-b pb-2 border-neutral-800">
-                    <span className="text-neutral-400">Lunar Day (Tithi):</span>
-                    <span className="font-bold text-neutral-200">{result.tithi}</span>
+                  <div className="flex justify-between border-b pb-2 border-[var(--border)]">
+                    <span className="text-[var(--text-muted)]">Lunar Day (Tithi):</span>
+                    <span className="font-bold text-[var(--text-primary)]">{result.tithi}</span>
                   </div>
-                  <div className="flex justify-between border-b pb-2 border-neutral-800">
-                    <span className="text-neutral-400">Lunar Cycle Age:</span>
-                    <span className="font-bold text-neutral-200">{result.lunarAge}</span>
+                  <div className="flex justify-between border-b pb-2 border-[var(--border)]">
+                    <span className="text-[var(--text-muted)]">Lunar Cycle Age:</span>
+                    <span className="font-bold text-[var(--text-primary)]">{result.lunarAge}</span>
                   </div>
                   <div className="p-3 rounded-xl bg-amber-900/20 border border-amber-900/50 mt-4">
                     <p className="text-[10px] text-amber-500 font-bold uppercase tracking-wider">Karnataka Festival / Jatra</p>
@@ -151,7 +151,7 @@ export default function HinduCalendarPage() {
                   </div>
                 </div>
               ) : (
-                <div className="text-neutral-500 text-xs py-8 text-center">Select a target date and press calculate.</div>
+                <div className="text-[var(--text-subtle)] text-xs py-8 text-center">Select a target date and press calculate.</div>
               )}
             </div>
           </div>

@@ -116,7 +116,7 @@ export default function SVGRasterizerPage() {
               <div>
                 <label className="field-label">Upload SVG File</label>
                 <input type="file" accept=".svg" onChange={handleFileUpload}
-                  className="w-full bg-neutral-900 border border-neutral-700 rounded-xl p-3 text-xs text-neutral-300 file:bg-neutral-800 file:text-[#C9A84C] file:border-none file:px-3 file:py-1 file:rounded file:text-[10px] file:font-bold cursor-pointer" />
+                  className="w-full bg-[var(--bg-secondary)] border border-neutral-700 rounded-xl p-3 text-xs text-[var(--text-primary)] file:bg-neutral-800 file:text-[#C9A84C] file:border-none file:px-3 file:py-1 file:rounded file:text-[10px] file:font-bold cursor-pointer" />
               </div>
 
               {/* Format Select */}
@@ -124,11 +124,11 @@ export default function SVGRasterizerPage() {
                 <label className="field-label">Output Format</label>
                 <div className="flex gap-2">
                   <button onClick={() => { setFormat("png"); setRasterUrl(null) }}
-                    className={`flex-1 py-2 text-xs font-bold rounded-xl border transition-all ${format === "png" ? "bg-[#C9A84C] text-[#2C1810]" : "bg-neutral-900 border-neutral-700 text-neutral-300"}`}>
+                    className={`flex-1 py-2 text-xs font-bold rounded-xl border transition-all ${format === "png" ? "bg-[#C9A84C] text-[#2C1810]" : "bg-[var(--bg-secondary)] border-neutral-700 text-[var(--text-primary)]"}`}>
                     PNG (Transparent)
                   </button>
                   <button onClick={() => { setFormat("jpeg"); setRasterUrl(null) }}
-                    className={`flex-1 py-2 text-xs font-bold rounded-xl border transition-all ${format === "jpeg" ? "bg-[#C9A84C] text-[#2C1810]" : "bg-neutral-900 border-neutral-700 text-neutral-300"}`}>
+                    className={`flex-1 py-2 text-xs font-bold rounded-xl border transition-all ${format === "jpeg" ? "bg-[#C9A84C] text-[#2C1810]" : "bg-[var(--bg-secondary)] border-neutral-700 text-[var(--text-primary)]"}`}>
                     JPEG (Solid White)
                   </button>
                 </div>
@@ -138,13 +138,13 @@ export default function SVGRasterizerPage() {
               <div>
                 <label className="field-label">HD Scale Multiplier</label>
                 <select value={scale} onChange={e => { setScale(parseInt(e.target.value)); setRasterUrl(null) }}
-                  className="w-full bg-neutral-900 border border-neutral-700 rounded-xl p-3 text-xs text-neutral-200 outline-none focus:border-amber-500">
+                  className="w-full bg-[var(--bg-secondary)] border border-neutral-700 rounded-xl p-3 text-xs text-[var(--text-primary)] outline-none focus:border-amber-500">
                   <option value="1">1x Standard Res</option>
                   <option value="2">2x High Definition</option>
                   <option value="4">4x Ultra HD 4K</option>
                   <option value="8">8x Maximum Resolution</option>
                 </select>
-                <p className="text-[10px] mt-1 text-neutral-500">Multiply width/height to get super sharp PNG/JPG exports.</p>
+                <p className="text-[10px] mt-1 text-[var(--text-subtle)]">Multiply width/height to get super sharp PNG/JPG exports.</p>
               </div>
 
               <div className="pt-4 border-t border-dashed" style={{ borderColor: "var(--border)" }}>
@@ -169,13 +169,13 @@ export default function SVGRasterizerPage() {
               <h3 className="font-extrabold text-sm mb-3" style={{ fontFamily: "'Baloo 2', sans-serif" }}>Paste SVG Code</h3>
               <textarea value={svgCode} onChange={e => { setSvgCode(e.target.value); setRasterUrl(null) }}
                 placeholder="<svg ...>\n  <path ... />\n</svg>"
-                className="w-full h-44 bg-neutral-950 border border-neutral-800 rounded-xl p-4 text-xs font-mono text-amber-100 outline-none focus:border-[#C9A84C] resize-none"
+                className="w-full h-44 bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-4 text-xs font-mono text-amber-100 outline-none focus:border-[#C9A84C] resize-none"
               />
             </div>
 
             {/* Output Preview */}
             <div className="heritage-card p-6 flex flex-col items-center justify-center text-center" style={{ minHeight: 300 }}>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-4">Raster Output Preview</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] mb-4">Raster Output Preview</h3>
               <div className="relative border border-white/5 rounded-xl overflow-hidden flex items-center justify-center p-2" 
                 style={{ 
                   maxHeight: 280, 
@@ -188,7 +188,7 @@ export default function SVGRasterizerPage() {
                 {rasterUrl ? (
                   <img src={rasterUrl} alt="Raster preview" className="object-contain max-h-full max-w-full" />
                 ) : (
-                  <div className="text-xs text-neutral-500 opacity-60">Paste SVG XML or Upload SVG file above, then click Render.</div>
+                  <div className="text-xs text-[var(--text-subtle)] opacity-60">Paste SVG XML or Upload SVG file above, then click Render.</div>
                 )}
               </div>
             </div>

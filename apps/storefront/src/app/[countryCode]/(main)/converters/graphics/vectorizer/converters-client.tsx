@@ -886,7 +886,7 @@ gsave
                 </label>
                 <select value={upscaleFactor} 
                   onChange={e => setUpscaleFactor(parseInt(e.target.value))}
-                  className="w-full bg-neutral-900 border border-neutral-700 rounded-xl p-3 text-xs text-neutral-200 outline-none focus:border-amber-500">
+                  className="w-full bg-[var(--bg-secondary)] border border-neutral-700 rounded-xl p-3 text-xs text-[var(--text-primary)] outline-none focus:border-amber-500">
                   <option value="1">No Upscale (1x)</option>
                   <option value="2">2x AI Smart Upscale (Recommended)</option>
                   <option value="3">3x AI Super Resolution</option>
@@ -905,7 +905,7 @@ gsave
                 </label>
                 <select value={traceDetail} 
                   onChange={e => setTraceDetail(parseInt(e.target.value))}
-                  className="w-full bg-neutral-900 border border-neutral-700 rounded-xl p-3 text-xs text-neutral-200 outline-none focus:border-amber-500">
+                  className="w-full bg-[var(--bg-secondary)] border border-neutral-700 rounded-xl p-3 text-xs text-[var(--text-primary)] outline-none focus:border-amber-500">
                   <option value="400">Draft (400px)</option>
                   <option value="800">Medium (800px)</option>
                   <option value="1200">High (1200px)</option>
@@ -1031,16 +1031,16 @@ gsave
                   Original: {originalWidth}x{originalHeight} px · Traced Grid: {traceWidth}x{traceHeight} px {upscaleFactor > 1 && `(${upscaleFactor}x Smart Rescale)`}
                 </span>
                 
-                <div className="flex rounded-lg overflow-hidden border border-neutral-700 bg-neutral-900 text-xs">
-                  <button className={`px-4 py-2 font-semibold ${viewMode === "both" ? "bg-[#C9A84C] text-[#2C1810]" : "text-neutral-300 hover:bg-neutral-800"}`}
+                <div className="flex rounded-lg overflow-hidden border border-neutral-700 bg-[var(--bg-secondary)] text-xs">
+                  <button className={`px-4 py-2 font-semibold ${viewMode === "both" ? "bg-[#C9A84C] text-[#2C1810]" : "text-[var(--text-primary)] hover:bg-neutral-800"}`}
                     onClick={() => setViewMode("both")}>
                     Split View
                   </button>
-                  <button className={`px-4 py-2 font-semibold ${viewMode === "vector" ? "bg-[#C9A84C] text-[#2C1810]" : "text-neutral-300 hover:bg-neutral-800"}`}
+                  <button className={`px-4 py-2 font-semibold ${viewMode === "vector" ? "bg-[#C9A84C] text-[#2C1810]" : "text-[var(--text-primary)] hover:bg-neutral-800"}`}
                     onClick={() => setViewMode("vector")}>
                     Vector SVG
                   </button>
-                  <button className={`px-4 py-2 font-semibold ${viewMode === "outline" ? "bg-[#C9A84C] text-[#2C1810]" : "text-neutral-300 hover:bg-neutral-800"}`}
+                  <button className={`px-4 py-2 font-semibold ${viewMode === "outline" ? "bg-[#C9A84C] text-[#2C1810]" : "text-[var(--text-primary)] hover:bg-neutral-800"}`}
                     onClick={() => setViewMode("outline")}>
                     Outline (Cmd+Y)
                   </button>
@@ -1053,8 +1053,8 @@ gsave
                 {/* original */}
                 {(viewMode === "both") && (
                   <div className="heritage-card p-6 flex flex-col items-center justify-center" style={{ minHeight: 380 }}>
-                    <h3 className="text-xs font-bold mb-4 uppercase tracking-wider text-neutral-400">Original Raster Image</h3>
-                    <div className="relative border border-white/5 rounded-xl overflow-hidden shadow-inner max-w-full flex items-center justify-center bg-neutral-950 p-2" style={{ maxHeight: 300, width: "100%", height: 300 }}>
+                    <h3 className="text-xs font-bold mb-4 uppercase tracking-wider text-[var(--text-muted)]">Original Raster Image</h3>
+                    <div className="relative border border-white/5 rounded-xl overflow-hidden shadow-inner max-w-full flex items-center justify-center bg-[var(--bg-primary)] p-2" style={{ maxHeight: 300, width: "100%", height: 300 }}>
                       <img src={originalUrl} alt="Original raster" className="object-contain max-h-full max-w-full" />
                     </div>
                   </div>
@@ -1063,7 +1063,7 @@ gsave
                 {/* vector render */}
                 <div className={`heritage-card p-6 flex flex-col items-center justify-center ${viewMode !== "both" ? "md:col-span-2" : ""}`} style={{ minHeight: 380 }}>
                   <div className="w-full flex items-center justify-between mb-4">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-400">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
                       {viewMode === "outline" ? "Illustrator Wireframe View" : "Traced Vector Output"}
                     </h3>
                     
@@ -1092,7 +1092,7 @@ gsave
                         }} 
                       />
                     ) : (
-                      <div className="flex flex-col items-center justify-center opacity-35 text-xs text-neutral-400">
+                      <div className="flex flex-col items-center justify-center opacity-35 text-xs text-[var(--text-muted)]">
                         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-amber-500 mb-3"></div>
                         Generating vector curves...
                       </div>

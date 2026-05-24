@@ -193,7 +193,7 @@ export default function ColorExtractorPage() {
             <input type="file" id="file-upload" className="hidden" accept="image/*" onChange={handleFileUpload} />
             <div className="text-4xl mb-4">🎨</div>
             <h2 className="text-xl font-bold mb-2" style={{ fontFamily: "'Baloo 2', sans-serif" }}>Upload Reference Image</h2>
-            <p className="text-xs mb-6 text-neutral-400">Drag & drop your file or click to select a PNG or JPG logo/photo.</p>
+            <p className="text-xs mb-6 text-[var(--text-muted)]">Drag & drop your file or click to select a PNG or JPG logo/photo.</p>
             <button className="btn-gold px-6 py-2.5 text-xs">Select Image</button>
           </div>
         ) : (
@@ -206,7 +206,7 @@ export default function ColorExtractorPage() {
                 Reference Asset
               </h3>
               
-              <div className="relative border border-white/5 rounded-xl overflow-hidden bg-neutral-950 p-2 flex items-center justify-center" style={{ height: 200 }}>
+              <div className="relative border border-white/5 rounded-xl overflow-hidden bg-[var(--bg-primary)] p-2 flex items-center justify-center" style={{ height: 200 }}>
                 <img src={imageUrl} alt="Reference" className="object-contain max-h-full max-w-full" />
               </div>
 
@@ -241,10 +241,10 @@ export default function ColorExtractorPage() {
                 {extractedColors.length > 0 ? (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                     {extractedColors.map(color => (
-                      <div key={color} className="p-3 rounded-xl border flex items-center gap-3 bg-neutral-900 border-neutral-800">
+                      <div key={color} className="p-3 rounded-xl border flex items-center gap-3 bg-[var(--bg-secondary)] border-[var(--border)]">
                         <div className="w-10 h-10 rounded-lg shadow border border-white/10 flex-shrink-0" style={{ backgroundColor: color }} />
                         <div className="overflow-hidden">
-                          <p className="font-bold text-xs text-neutral-200">{color}</p>
+                          <p className="font-bold text-xs text-[var(--text-primary)]">{color}</p>
                           <button onClick={() => copyToClipboard(color, color)} className="text-[10px] text-[#C9A84C] font-semibold hover:underline block mt-0.5">
                             {copyStatus === color ? "Copied! ✓" : "Copy Hex"}
                           </button>
@@ -253,7 +253,7 @@ export default function ColorExtractorPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-xs text-neutral-500 py-6 text-center">Color centroids will show here once processed.</div>
+                  <div className="text-xs text-[var(--text-subtle)] py-6 text-center">Color centroids will show here once processed.</div>
                 )}
               </div>
 
@@ -264,12 +264,12 @@ export default function ColorExtractorPage() {
                   {/* CSS Variables */}
                   <div className="heritage-card p-5">
                     <div className="flex justify-between items-center mb-2">
-                      <h4 className="text-xs font-bold text-neutral-400">CSS Root Variables</h4>
+                      <h4 className="text-xs font-bold text-[var(--text-muted)]">CSS Root Variables</h4>
                       <button onClick={() => copyToClipboard(getCssVariables(), "css")} className="text-[10px] text-[#C9A84C] font-bold">
                         {copyStatus === "css" ? "Copied! ✓" : "Copy Code"}
                       </button>
                     </div>
-                    <pre className="p-3 bg-neutral-950 rounded-lg text-[10px] font-mono text-amber-100 overflow-x-auto">
+                    <pre className="p-3 bg-[var(--bg-primary)] rounded-lg text-[10px] font-mono text-amber-100 overflow-x-auto">
 {`:root {
 ${getCssVariables()}
 }`}
@@ -279,12 +279,12 @@ ${getCssVariables()}
                   {/* Tailwind Config */}
                   <div className="heritage-card p-5">
                     <div className="flex justify-between items-center mb-2">
-                      <h4 className="text-xs font-bold text-neutral-400">Tailwind Theme Colors</h4>
+                      <h4 className="text-xs font-bold text-[var(--text-muted)]">Tailwind Theme Colors</h4>
                       <button onClick={() => copyToClipboard(getTailwindConfig(), "tailwind")} className="text-[10px] text-[#C9A84C] font-bold">
                         {copyStatus === "tailwind" ? "Copied! ✓" : "Copy Code"}
                       </button>
                     </div>
-                    <pre className="p-3 bg-neutral-950 rounded-lg text-[10px] font-mono text-amber-100 overflow-x-auto">
+                    <pre className="p-3 bg-[var(--bg-primary)] rounded-lg text-[10px] font-mono text-amber-100 overflow-x-auto">
 {`colors: {
 ${getTailwindConfig()}
 }`}

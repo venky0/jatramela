@@ -211,7 +211,7 @@ function FreeShippingPopup({
     >
       <div>
         <Button
-          className="rounded-full bg-neutral-900 shadow-none outline-none border-none text-[15px] p-2"
+          className="rounded-full bg-[var(--bg-secondary)] shadow-none outline-none border-none text-[15px] p-2"
           onClick={() => setIsClosed(true)}
         >
           <XMark />
@@ -221,7 +221,7 @@ function FreeShippingPopup({
       <div className="w-[400px] bg-black text-white p-6 rounded-lg ">
         <div className="pb-4">
           <div className="space-y-3">
-            <div className="flex justify-between text-[15px] text-neutral-400">
+            <div className="flex justify-between text-[15px] text-[var(--text-muted)]">
               <div>
                 {price.target_reached ? (
                   <div className="flex items-center gap-1.5">

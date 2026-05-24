@@ -261,7 +261,7 @@ export default function MarkdownHtmlPage() {
             <textarea
               value={mdText}
               onChange={(e) => setMdText(e.target.value)}
-              className="w-full h-80 bg-neutral-950 border border-neutral-800 rounded-xl p-4 text-xs font-mono text-amber-100 outline-none focus:border-[#C9A84C] resize-none"
+              className="w-full h-80 bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-4 text-xs font-mono text-amber-100 outline-none focus:border-[#C9A84C] resize-none"
             />
             <button onClick={handleMdToHtml} className="w-full btn-gold py-2.5 text-xs mt-4">
               Compile to HTML ➔
@@ -279,7 +279,7 @@ export default function MarkdownHtmlPage() {
             <textarea
               value={htmlText}
               onChange={(e) => setHtmlText(e.target.value)}
-              className="w-full h-80 bg-neutral-950 border border-neutral-800 rounded-xl p-4 text-xs font-mono text-amber-100 outline-none focus:border-[#C9A84C] resize-none"
+              className="w-full h-80 bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-4 text-xs font-mono text-amber-100 outline-none focus:border-[#C9A84C] resize-none"
             />
             <button onClick={handleHtmlToMd} className="w-full btn-primary py-2.5 text-xs mt-4">
               Decompile HTML ➔ Markdown

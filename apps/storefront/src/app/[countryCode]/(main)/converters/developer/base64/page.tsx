@@ -136,13 +136,13 @@ export default function Base64ConverterPage() {
         )}
 
         {/* Mode Selector Tabs */}
-        <div className="flex border-b border-neutral-800 mb-8 justify-center space-x-6">
+        <div className="flex border-b border-[var(--border)] mb-8 justify-center space-x-6">
           <button
             onClick={() => { setMode("text"); setError(null); }}
             className={`pb-3 text-sm font-bold transition-colors ${
               mode === "text"
                 ? "text-[#C9A84C] border-b-2 border-[#C9A84C]"
-                : "text-neutral-500 hover:text-neutral-300"
+                : "text-[var(--text-subtle)] hover:text-[var(--text-primary)]"
             }`}
             style={{ fontFamily: "'Baloo 2', sans-serif" }}
           >
@@ -153,7 +153,7 @@ export default function Base64ConverterPage() {
             className={`pb-3 text-sm font-bold transition-colors ${
               mode === "file"
                 ? "text-[#C9A84C] border-b-2 border-[#C9A84C]"
-                : "text-neutral-500 hover:text-neutral-300"
+                : "text-[var(--text-subtle)] hover:text-[var(--text-primary)]"
             }`}
             style={{ fontFamily: "'Baloo 2', sans-serif" }}
           >
@@ -172,7 +172,7 @@ export default function Base64ConverterPage() {
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   placeholder="Type or paste content here..."
-                  className="w-full h-72 bg-neutral-950 border border-neutral-800 rounded-xl p-4 text-xs font-mono text-amber-100 outline-none focus:border-[#C9A84C] resize-none"
+                  className="w-full h-72 bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-4 text-xs font-mono text-amber-100 outline-none focus:border-[#C9A84C] resize-none"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4 mt-4">
@@ -200,7 +200,7 @@ export default function Base64ConverterPage() {
                   readOnly
                   value={outputText}
                   placeholder="Processed output will appear here..."
-                  className="w-full h-72 bg-neutral-950 border border-neutral-800 rounded-xl p-4 text-xs font-mono text-amber-100 outline-none resize-none"
+                  className="w-full h-72 bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-4 text-xs font-mono text-amber-100 outline-none resize-none"
                 />
               </div>
               <button
@@ -220,7 +220,7 @@ export default function Base64ConverterPage() {
             </h3>
             
             {/* Upload Area */}
-            <div className="border-2 border-dashed border-neutral-800 hover:border-[#C9A84C]/50 rounded-xl p-8 text-center transition-all bg-neutral-950/50 relative">
+            <div className="border-2 border-dashed border-[var(--border)] hover:border-[#C9A84C]/50 rounded-xl p-8 text-center transition-all bg-[var(--bg-primary)]/50 relative">
               <input
                 type="file"
                 onChange={handleFileUpload}
@@ -228,7 +228,7 @@ export default function Base64ConverterPage() {
               />
               <div className="space-y-2">
                 <div className="text-4xl">📥</div>
-                <p className="text-xs text-neutral-400">
+                <p className="text-xs text-[var(--text-muted)]">
                   {fileName ? (
                     <span className="text-[#C9A84C] font-bold">{fileName} ({fileSize})</span>
                   ) : (
@@ -244,12 +244,12 @@ export default function Base64ConverterPage() {
             {fileBase64 && (
               <div className="mt-6 space-y-4">
                 <div className="flex items-center justify-between">
-                  <label className="flex items-center space-x-2 text-xs text-neutral-400 cursor-pointer">
+                  <label className="flex items-center space-x-2 text-xs text-[var(--text-muted)] cursor-pointer">
                     <input
                       type="checkbox"
                       checked={includePrefix}
                       onChange={(e) => togglePrefix(e.target.checked)}
-                      className="rounded border-neutral-800 text-[#C9A84C] focus:ring-0 focus:ring-offset-0 bg-neutral-950"
+                      className="rounded border-[var(--border)] text-[#C9A84C] focus:ring-0 focus:ring-offset-0 bg-[var(--bg-primary)]"
                     />
                     <span>Include Data URI Prefix (e.g. <code className="text-[#C9A84C] text-[10px]">data:image/png;base64,...</code>)</span>
                   </label>
@@ -261,7 +261,7 @@ export default function Base64ConverterPage() {
                 <textarea
                   readOnly
                   value={fileBase64}
-                  className="w-full h-40 bg-neutral-950 border border-neutral-800 rounded-xl p-3 text-[10px] font-mono text-amber-200/80 outline-none resize-none"
+                  className="w-full h-40 bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl p-3 text-[10px] font-mono text-amber-200/80 outline-none resize-none"
                 />
               </div>
             )}

@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useTransition } from "react"
+import Link from "next/link"
 import {
   adminLogout,
   updateCMSConfig,
@@ -356,6 +357,29 @@ export default function PortalDashboardClient({
                 <p className="text-sm text-zinc-400 mt-1">
                   Level 1 Authorization: Customize announcement banners, active page sliders, and theme configurations in real-time.
                 </p>
+              </div>
+
+              {/* ELEMENTOR PRO VISUAL EDITOR CTA CARD */}
+              <div className="p-6 rounded-2xl border border-amber-500/30 bg-gradient-to-br from-[#2D160A]/85 via-zinc-950/40 to-zinc-950/60 shadow-[0_0_25px_rgba(201,168,76,0.12)] space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="space-y-1.5">
+                    <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-amber-500 text-zinc-950 shadow-md">
+                      ✨ PREMIUM WORKSPACE UNLOCKED
+                    </span>
+                    <h3 className="text-lg font-bold text-amber-400" style={{ fontFamily: "'Baloo 2', sans-serif" }}>
+                      Elementor Pro Visual Page Editor
+                    </h3>
+                    <p className="text-xs text-zinc-300 leading-relaxed max-w-xl">
+                      Design your homepage visually in real-time! Access layout columns, margins, typography, custom color pickers, layering structures, device viewports, and more.
+                    </p>
+                  </div>
+                  <Link 
+                    href={`/${countryCode}/portal/editor`}
+                    className="flex-shrink-0 px-6 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:brightness-115 text-zinc-950 font-extrabold text-xs uppercase tracking-wider text-center shadow-lg transition-transform hover:scale-[1.03] active:scale-[0.98]"
+                  >
+                    Launch Live Editor 🚀
+                  </Link>
+                </div>
               </div>
 
               <form onSubmit={handleSaveCMS} className="bg-zinc-950/40 p-6 rounded-2xl border border-zinc-800 space-y-6">

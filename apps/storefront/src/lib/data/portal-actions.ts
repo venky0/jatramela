@@ -4,8 +4,10 @@ import { sdk } from "@lib/config"
 import { cookies } from "next/headers"
 import fs from "fs/promises"
 import path from "path"
+import { DEFAULT_LAYOUT } from "@lib/default-layout"
 
 const CMS_CONFIG_PATH = path.join(process.cwd(), "src/lib/cms-config.json")
+const HOME_LAYOUT_PATH = path.join(process.cwd(), "src/lib/home-layout.json")
 
 // Helper to get auth headers for admin requests
 async function getAdminHeaders() {
@@ -110,6 +112,24 @@ export async function updateCMSConfig(config: any) {
     return { success: true }
   } catch (error: any) {
     return { success: false, error: error.message || "Failed to update configuration" }
+  }
+}
+
+export async function getHomeLayout() {
+  try {
+    const data = await fs.readFile(HOME_LAYOUT_PATH, "utf-8")
+    return JSON.parse(data)
+  } catch (error) {
+    return DEFAULT_LAYOUT
+  }
+}
+
+export async function saveHomeLayout(layout: any) {
+  try {
+    await fs.writeFile(HOME_LAYOUT_PATH, JSON.stringify(layout, null, 2), "utf-8")
+    return { success: true }
+  } catch (error: any) {
+    return { success: false, error: error.message || "Failed to save visual layout" }
   }
 }
 

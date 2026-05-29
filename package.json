@@ -1,9 +1,4 @@
 {
   "name": "jatramela-root",
-  "private": true,
-  "pnpm": {
-    "patchedDependencies": {
-      "@devx-commerce/razorpay@4.1.0-beta.0": "patches/@devx-commerce__razorpay@4.1.0-beta.0.patch"
-    }
-  }
+  "private": true
 }

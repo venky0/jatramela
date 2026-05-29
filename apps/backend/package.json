@@ -21,7 +21,6 @@
     "test:unit": "TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit"
   },
   "dependencies": {
-    "@devx-commerce/razorpay": "4.1.0-beta.0",
     "@medusajs/admin-sdk": "2.15.0",
     "@medusajs/admin-shared": "2.15.0",
     "@medusajs/caching": "2.15.0",

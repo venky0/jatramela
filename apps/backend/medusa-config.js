@@ -1,7 +1,6 @@
 /**
- * Production-ready medusa-config.js
- * This is a standalone CommonJS file — no dependency on .medusa/server/ build output.
- * medusa start will load this directly from node_modules.
+ * Production-ready medusa-config.js (CommonJS)
+ * Self-contained — no dependency on build output.
  */
 const { loadEnv, defineConfig } = require('@medusajs/framework/utils')
 
@@ -19,23 +18,4 @@ module.exports = defineConfig({
       cookieSecret: process.env.COOKIE_SECRET || 'supersecret',
     },
   },
-  modules: [
-    {
-      resolve: '@medusajs/medusa/payment',
-      options: {
-        providers: [
-          {
-            resolve: '@devx-commerce/razorpay',
-            id: 'razorpay',
-            options: {
-              key_id: process.env.RAZORPAY_ID,
-              key_secret: process.env.RAZORPAY_SECRET,
-              capture: true,
-              webhook_secret: process.env.RAZORPAY_WEBHOOK_SECRET,
-            },
-          },
-        ],
-      },
-    },
-  ],
 })

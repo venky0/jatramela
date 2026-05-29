@@ -1,0 +1,14 @@
+{
+  "announcement": {
+    "enabled": true,
+    "text": "🌾 Support Karnataka's local artisans & weavers directly. Free shipping on orders above ₹999!"
+  },
+  "hero": {
+    "title": "Experience Karnataka's Heritage",
+    "subtitle": "Handcrafted with love by local SHGs, weavers, and farmers.",
+    "buttonText": "Explore Marketplace"
+  },
+  "theme": {
+    "primaryColor": "dasara"
+  }
+}

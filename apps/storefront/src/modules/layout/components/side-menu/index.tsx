@@ -148,7 +148,7 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                                 href={href}
                                 onClick={close}
                                 data-testid={`${name.toLowerCase().replace(/\s+/g, "-")}-link`}
-                                className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group"
+                                className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative"
                                 style={{
                                   color: "rgba(255,248,231,0.85)",
                                   border: "1px solid transparent",
@@ -166,6 +166,9 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                               >
                                 <span className="text-lg leading-none w-7 text-center flex-shrink-0">{icon}</span>
                                 <span className="text-sm font-medium">{name}</span>
+                                {(name === "Creative Tools" || name === "Converters") && (
+                                  <span className="free-tag-badge-side">Free</span>
+                                )}
                                 <svg className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" width="14" height="14"
                                   viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2">
                                   <path d="M9 18l6-6-6-6"/>

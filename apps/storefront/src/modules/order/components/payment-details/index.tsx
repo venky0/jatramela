@@ -50,6 +50,12 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                       ).toLocaleString()}`}
                 </Text>
               </div>
+              {/* Transaction ID tracking */}
+              {payment.data && (payment.data.razorpay_payment_id || payment.data.id) && (
+                <div className="mt-2 text-xs text-ui-fg-subtle">
+                  Transaction ID: <span className="font-mono text-amber-500 font-semibold">{payment.data.razorpay_payment_id || payment.data.id}</span>
+                </div>
+              )}
             </div>
           </div>
         )}

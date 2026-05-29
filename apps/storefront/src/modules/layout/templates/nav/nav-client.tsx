@@ -114,8 +114,15 @@ export function NavLinks() {
 
       {/* Main Nav Links */}
       {NAV_LINKS.map(link => (
-        <Link key={link.href} href={link.href} className="nav-link px-3 py-1.5 rounded-full transition-all duration-200 hover:bg-white/10">
-          {link.label}
+        <Link 
+          key={link.href} 
+          href={link.href} 
+          className="nav-link px-3 py-1.5 rounded-full transition-all duration-200 hover:bg-white/10 relative"
+        >
+          <span>{link.label}</span>
+          {(link.label === "Creative Tools" || link.label === "Converters") && (
+            <span className="free-tag-badge">Free</span>
+          )}
         </Link>
       ))}
     </nav>

@@ -59,6 +59,78 @@ export function FooterBrand() {
 export function FooterNewsletter() {
   const [email, setEmail] = useState("")
   const [done, setDone] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleSubscribe = async () => {
+    if (!email || !email.includes("@")) {
+      setError("Please enter a valid email address.")
+      return
+    }
+
+    setLoading(true)
+    setError(null)
+
+    const mailflowUrl = process.env.NEXT_PUBLIC_MAILFLOW_URL
+    let success = false
+    let lastError = "Unable to connect to the newsletter service. Make sure Mailflow is running."
+
+    if (mailflowUrl) {
+      try {
+        const response = await fetch(`${mailflowUrl}/api/lists/demo-list-id/subscribe`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        })
+
+        const data = await response.json()
+
+        if (response.ok) {
+          success = true
+        } else {
+          lastError = data.error || "Subscription failed. Please try again."
+        }
+      } catch (err) {
+        console.warn(`Connection to Mailflow at ${mailflowUrl} failed:`, err)
+      }
+    }
+
+    if (!success) {
+      const ports = [3001, 3000]
+      for (const port of ports) {
+        try {
+          const response = await fetch(`http://localhost:${port}/api/lists/demo-list-id/subscribe`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
+          })
+
+          const data = await response.json()
+
+          if (response.ok) {
+            success = true
+            break
+          } else {
+            lastError = data.error || "Subscription failed. Please try again."
+          }
+        } catch (err) {
+          // Silent catch to fall back to next port
+          console.warn(`Connection to Mailflow on port ${port} failed, trying next port...`)
+        }
+      }
+    }
+
+    if (success) {
+      setDone(true)
+    } else {
+      setError(lastError)
+    }
+    setLoading(false)
+  }
 
   return (
     <div className="rounded-2xl p-6 mb-10" style={{ background: "rgba(201,168,76,0.08)", border: "1.5px solid rgba(201,168,76,0.2)" }}>
@@ -76,15 +148,24 @@ export function FooterNewsletter() {
             🎉 Subscribed! Dhanyavada!
           </p>
         ) : (
-          <div className="flex gap-2">
-            <input type="email" placeholder="your@email.com" value={email} onChange={e => setEmail(e.target.value)}
-              className="flex-1 px-4 py-2.5 rounded-full text-sm outline-none"
-              style={{ background: "rgba(255,255,255,0.08)", border: "1.5px solid rgba(255,248,231,0.2)", color: "#FFF8E7" }} />
-            <button onClick={() => email.includes("@") && setDone(true)}
-              className="px-5 py-2.5 rounded-full text-sm font-bold flex-shrink-0"
-              style={{ background: "var(--gradient-gold-btn)", color: "#2C1810" }}>
-              Subscribe
-            </button>
+          <div className="flex flex-col gap-2 w-full">
+            <div className="flex gap-2">
+              <input type="email" placeholder="your@email.com" value={email} onChange={e => { setEmail(e.target.value); setError(null); }}
+                disabled={loading}
+                className="flex-1 px-4 py-2.5 rounded-full text-sm outline-none transition-opacity"
+                style={{ background: "rgba(255,255,255,0.08)", border: "1.5px solid rgba(255,248,231,0.2)", color: "#FFF8E7", opacity: loading ? 0.6 : 1 }} />
+              <button onClick={handleSubscribe}
+                disabled={loading}
+                className="px-5 py-2.5 rounded-full text-sm font-bold flex-shrink-0 transition-all hover:brightness-105 active:scale-95 disabled:opacity-50"
+                style={{ background: "var(--gradient-gold-btn)", color: "#2C1810" }}>
+                {loading ? "Subscribing..." : "Subscribe"}
+              </button>
+            </div>
+            {error && (
+              <p className="text-xs px-2" style={{ color: "#F87171" }}>
+                ⚠️ {error}
+              </p>
+            )}
           </div>
         )}
       </div>

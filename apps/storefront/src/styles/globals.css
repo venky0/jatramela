@@ -362,6 +362,68 @@ h1, h2, h3, .display-font { font-family: 'Baloo 2', 'Playfair Display', sans-ser
   }
   .nav-link:hover { color: var(--gold-bright); }
 
+  /* Animated Free Tags */
+  .free-tag-badge {
+    position: absolute;
+    top: -5px;
+    right: -2px;
+    background: linear-gradient(135deg, #ff4d4d 0%, #cc0000 100%);
+    color: #ffffff;
+    font-size: 7px;
+    font-weight: 900;
+    padding: 1.5px 4px;
+    border-radius: 4px;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    border: 1px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(204, 0, 0, 0.4);
+    pointer-events: none;
+    animation: freeTagBounce 2.2s infinite ease-in-out;
+    transform-origin: center bottom;
+    text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .free-tag-badge-side {
+    position: absolute;
+    top: 10px;
+    right: 32px;
+    background: linear-gradient(135deg, #ff4d4d 0%, #cc0000 100%);
+    color: #ffffff;
+    font-size: 7px;
+    font-weight: 900;
+    padding: 1.5px 4px;
+    border-radius: 4px;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    border: 1px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(204, 0, 0, 0.4);
+    pointer-events: none;
+    animation: freeTagBounce 2.2s infinite ease-in-out;
+    transform-origin: center bottom;
+    text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
+  }
+
+  @keyframes freeTagBounce {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+    }
+    40% {
+      transform: translateY(-2.5px) scale(1.1);
+      box-shadow: 0 4px 10px rgba(204, 0, 0, 0.6);
+    }
+    50% {
+      transform: translateY(-2.5px) scale(1.15) rotate(3deg);
+    }
+    60% {
+      transform: translateY(-2.5px) scale(1.1) rotate(-3deg);
+    }
+    75% {
+      transform: translateY(0) scale(1);
+    }
+  }
+
   /* ─ Footer ─ */
   .footer-link {
     font-size: 0.82rem;

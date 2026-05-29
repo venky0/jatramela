@@ -7,21 +7,56 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import CartButton from "@modules/layout/components/cart-button"
 import SideMenu from "@modules/layout/components/side-menu"
 import { NavLogo, NavLinks, NavSearchBtn, ThemeToggle } from "./nav-client"
-import DasaraTheme from "@modules/layout/components/dasara-theme"
+import { getCMSConfig } from "@lib/data/portal-actions"
 
 const GoldBorder = () => (
   <div className="temple-border" />
 )
 
 export default async function Nav() {
-  const [regions, locales, currentLocale] = await Promise.all([
+  const [regions, locales, currentLocale, cmsConfig] = await Promise.all([
     listRegions().then((r: StoreRegion[]) => r),
     listLocales(),
     getLocale(),
+    getCMSConfig(),
   ])
 
   return (
     <div className="sticky top-0 inset-x-0 z-50">
+      {/* Theme Variable Injection */}
+      {cmsConfig.theme?.primaryColor && (
+        <style dangerouslySetInnerHTML={{__html: `
+          :root {
+            ${cmsConfig.theme.primaryColor === 'gold' ? `
+              --primary: #D4AF37;
+              --primary-dark: #AA8418;
+              --bg-header: #111111;
+              --bg-primary: #0D0D0D;
+              --bg-secondary: #161616;
+              --bg-card: #1c1c1c;
+              --text-primary: #FFF3D6;
+              --gold: #D4AF37;
+              --border: rgba(212,175,55,0.25);
+              --gradient-btn: linear-gradient(135deg, #D4AF37 0%, #AA8418 100%);
+              --gradient-gold-btn: linear-gradient(135deg, #D4AF37 0%, #AA8418 100%);
+            ` : ''}
+            ${cmsConfig.theme.primaryColor === 'default' ? `
+              --primary: #2E6B3E;
+              --primary-dark: #1b4325;
+              --bg-header: #1b4325;
+              --gradient-btn: linear-gradient(135deg, #2E6B3E 0%, #1b4325 100%);
+            ` : ''}
+          }
+        `}} />
+      )}
+
+      {/* Announcement Bar */}
+      {cmsConfig.announcement?.enabled && (
+        <div className="bg-gradient-to-r from-amber-500 via-orange-600 to-amber-500 text-zinc-950 text-xs font-bold text-center py-2 px-4 select-none relative z-50 flex items-center justify-center gap-2 shadow-[inset_0_-1px_0_rgba(0,0,0,0.1)]">
+          <span>{cmsConfig.announcement.text}</span>
+        </div>
+      )}
+
       <GoldBorder />
       <header style={{ background: "var(--bg-header)", boxShadow: "var(--shadow-header)" }}>
         <nav className="content-container flex items-center gap-4 h-16">

@@ -294,212 +294,127 @@ export default async function initial_data_seed({
   });
   logger.info("Finished seeding stock location data.");
 
-  logger.info("Seeding product data...");
+  logger.info("Seeding collections data...");
+  const { result: collectionsResult } = await createCollectionsWorkflow(
+    container
+  ).run({
+    input: {
+      collections: [
+        {
+          title: "Mysore Silk & Sarees",
+          handle: "silk-sarees",
+        },
+        {
+          title: "Organic Foods",
+          handle: "organic-foods",
+        },
+        {
+          title: "Wellness & Ayurveda",
+          handle: "wellness-ayurveda",
+        },
+        {
+          title: "Heritage Handicrafts",
+          handle: "heritage-handicrafts",
+        },
+        {
+          title: "Natural Home",
+          handle: "natural-home",
+        },
+        {
+          title: "Digital Products",
+          handle: "digital-products",
+        },
+      ],
+    },
+  });
+  logger.info("Finished seeding collections data.");
 
+  logger.info("Seeding product categories data...");
   const { result: categoryResult } = await createProductCategoriesWorkflow(
     container
   ).run({
     input: {
       product_categories: [
         {
-          name: "Shirts",
+          name: "Clothing",
+          handle: "clothing",
           is_active: true,
         },
         {
-          name: "Sweatshirts",
+          name: "Organic Food",
+          handle: "organic",
           is_active: true,
         },
         {
-          name: "Pants",
+          name: "Wellness",
+          handle: "wellness",
           is_active: true,
         },
         {
-          name: "Merch",
+          name: "Handicrafts",
+          handle: "handicrafts",
           is_active: true,
         },
       ],
     },
   });
+  logger.info("Finished seeding product categories data.");
 
+  logger.info("Seeding Jatramela products data...");
   await createProductsWorkflow(container).run({
     input: {
       products: [
         {
-          title: "Medusa T-Shirt",
-          category_ids: [
-            categoryResult.find((cat) => cat.name === "Shirts")!.id,
+          title: "Pure Mysore Silk Zari Saree",
+          handle: "pure-mysore-silk-zari-saree",
+          description: "An exquisite traditional pure Mysore silk saree adorned with rich golden zari borders. Hand-woven with love in Karnataka.",
+          thumbnail: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=800",
+          images: [
+            { url: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=800" }
           ],
-          description:
-            "Reimagine the feeling of a classic T-shirt. With our cotton T-shirts, everyday essentials no longer have to be ordinary.",
-          handle: "t-shirt",
-          weight: 400,
+          collection_id: collectionsResult.find((c) => c.handle === "silk-sarees")!.id,
+          category_ids: [
+            categoryResult.find((cat) => cat.handle === "clothing")!.id,
+          ],
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          images: [
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-black-front.png",
-            },
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-black-back.png",
-            },
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-white-front.png",
-            },
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-white-back.png",
-            },
-          ],
           options: [
-            {
-              title: "Size",
-              values: ["S", "M", "L", "XL"],
-            },
             {
               title: "Color",
-              values: ["Black", "White"],
+              values: ["Royal Red", "Peacock Blue"],
             },
           ],
           variants: [
             {
-              title: "S / Black",
-              sku: "SHIRT-S-BLACK",
+              title: "Royal Red Saree",
+              sku: "MYS-SILK-RED",
               options: {
-                Size: "S",
-                Color: "Black",
+                Color: "Royal Red",
               },
               prices: [
                 {
-                  amount: 10,
-                  currency_code: "eur",
+                  amount: 8499,
+                  currency_code: "inr",
                 },
                 {
-                  amount: 15,
+                  amount: 110,
                   currency_code: "usd",
                 },
               ],
             },
             {
-              title: "S / White",
-              sku: "SHIRT-S-WHITE",
+              title: "Peacock Blue Saree",
+              sku: "MYS-SILK-BLUE",
               options: {
-                Size: "S",
-                Color: "White",
+                Color: "Peacock Blue",
               },
               prices: [
                 {
-                  amount: 10,
-                  currency_code: "eur",
+                  amount: 8499,
+                  currency_code: "inr",
                 },
                 {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "M / Black",
-              sku: "SHIRT-M-BLACK",
-              options: {
-                Size: "M",
-                Color: "Black",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "M / White",
-              sku: "SHIRT-M-WHITE",
-              options: {
-                Size: "M",
-                Color: "White",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "L / Black",
-              sku: "SHIRT-L-BLACK",
-              options: {
-                Size: "L",
-                Color: "Black",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "L / White",
-              sku: "SHIRT-L-WHITE",
-              options: {
-                Size: "L",
-                Color: "White",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "XL / Black",
-              sku: "SHIRT-XL-BLACK",
-              options: {
-                Size: "XL",
-                Color: "Black",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "XL / White",
-              sku: "SHIRT-XL-WHITE",
-              options: {
-                Size: "XL",
-                Color: "White",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
+                  amount: 110,
                   currency_code: "usd",
                 },
               ],
@@ -512,95 +427,32 @@ export default async function initial_data_seed({
           ],
         },
         {
-          title: "Medusa Sweatshirt",
-          category_ids: [
-            categoryResult.find((cat) => cat.name === "Sweatshirts")!.id,
+          title: "Organic Byadgi Chilli Powder",
+          handle: "organic-byadgi-chilli-powder",
+          description: "Authentic, vibrant red Byadgi Chilli Powder known for its gorgeous color and mild heat. Sourced from organic farms in Dharwad.",
+          thumbnail: "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?auto=format&fit=crop&q=80&w=800",
+          images: [
+            { url: "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?auto=format&fit=crop&q=80&w=800" }
           ],
-          description:
-            "Reimagine the feeling of a classic sweatshirt. With our cotton sweatshirt, everyday essentials no longer have to be ordinary.",
-          handle: "sweatshirt",
-          weight: 400,
+          collection_id: collectionsResult.find((c) => c.handle === "organic-foods")!.id,
+          category_ids: [
+            categoryResult.find((cat) => cat.handle === "organic")!.id,
+          ],
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          images: [
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatshirt-vintage-front.png",
-            },
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatshirt-vintage-back.png",
-            },
-          ],
-          options: [
-            {
-              title: "Size",
-              values: ["S", "M", "L", "XL"],
-            },
-          ],
+          options: [],
           variants: [
             {
-              title: "S",
-              sku: "SWEATSHIRT-S",
-              options: {
-                Size: "S",
-              },
+              title: "500g Pack",
+              sku: "BYA-CHL-500G",
+              options: {},
               prices: [
                 {
-                  amount: 10,
-                  currency_code: "eur",
+                  amount: 249,
+                  currency_code: "inr",
                 },
                 {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "M",
-              sku: "SWEATSHIRT-M",
-              options: {
-                Size: "M",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "L",
-              sku: "SWEATSHIRT-L",
-              options: {
-                Size: "L",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "XL",
-              sku: "SWEATSHIRT-XL",
-              options: {
-                Size: "XL",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
+                  amount: 3.5,
                   currency_code: "usd",
                 },
               ],
@@ -613,95 +465,32 @@ export default async function initial_data_seed({
           ],
         },
         {
-          title: "Medusa Sweatpants",
-          category_ids: [
-            categoryResult.find((cat) => cat.name === "Pants")!.id,
+          title: "Heritage Pure Sandalwood Soap",
+          handle: "heritage-pure-sandalwood-soap",
+          description: "Infused with pure natural sandalwood oil from Mysore, this rich soap hydrates, heals, and keeps your skin smelling divine.",
+          thumbnail: "https://images.unsplash.com/photo-1608248597481-496100c80836?auto=format&fit=crop&q=80&w=800",
+          images: [
+            { url: "https://images.unsplash.com/photo-1608248597481-496100c80836?auto=format&fit=crop&q=80&w=800" }
           ],
-          description:
-            "Reimagine the feeling of classic sweatpants. With our cotton sweatpants, everyday essentials no longer have to be ordinary.",
-          handle: "sweatpants",
-          weight: 400,
+          collection_id: collectionsResult.find((c) => c.handle === "wellness-ayurveda")!.id,
+          category_ids: [
+            categoryResult.find((cat) => cat.handle === "wellness")!.id,
+          ],
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          images: [
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatpants-gray-front.png",
-            },
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatpants-gray-back.png",
-            },
-          ],
-          options: [
-            {
-              title: "Size",
-              values: ["S", "M", "L", "XL"],
-            },
-          ],
+          options: [],
           variants: [
             {
-              title: "S",
-              sku: "SWEATPANTS-S",
-              options: {
-                Size: "S",
-              },
+              title: "Standard Bar 150g",
+              sku: "SAN-SOAP-150G",
+              options: {},
               prices: [
                 {
-                  amount: 10,
-                  currency_code: "eur",
+                  amount: 149,
+                  currency_code: "inr",
                 },
                 {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "M",
-              sku: "SWEATPANTS-M",
-              options: {
-                Size: "M",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "L",
-              sku: "SWEATPANTS-L",
-              options: {
-                Size: "L",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "XL",
-              sku: "SWEATPANTS-XL",
-              options: {
-                Size: "XL",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
+                  amount: 2,
                   currency_code: "usd",
                 },
               ],
@@ -714,95 +503,108 @@ export default async function initial_data_seed({
           ],
         },
         {
-          title: "Medusa Shorts",
-          category_ids: [
-            categoryResult.find((cat) => cat.name === "Merch")!.id,
+          title: "Channapatna Wooden Toy Train",
+          handle: "channapatna-wooden-toy-train",
+          description: "Handcrafted toy train made from ivory wood and colored using non-toxic natural vegetable dyes by traditional artisans of Channapatna.",
+          thumbnail: "https://images.unsplash.com/photo-1537758061216-049a37e504c5?auto=format&fit=crop&q=80&w=800",
+          images: [
+            { url: "https://images.unsplash.com/photo-1537758061216-049a37e504c5?auto=format&fit=crop&q=80&w=800" }
           ],
-          description:
-            "Reimagine the feeling of classic shorts. With our cotton shorts, everyday essentials no longer have to be ordinary.",
-          handle: "shorts",
-          weight: 400,
+          collection_id: collectionsResult.find((c) => c.handle === "heritage-handicrafts")!.id,
+          category_ids: [
+            categoryResult.find((cat) => cat.handle === "handicrafts")!.id,
+          ],
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          images: [
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/shorts-vintage-front.png",
-            },
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/shorts-vintage-back.png",
-            },
-          ],
-          options: [
-            {
-              title: "Size",
-              values: ["S", "M", "L", "XL"],
-            },
-          ],
+          options: [],
           variants: [
             {
-              title: "S",
-              sku: "SHORTS-S",
-              options: {
-                Size: "S",
-              },
+              title: "Classic Toy Train",
+              sku: "CHA-TRA-CLASSIC",
+              options: {},
               prices: [
                 {
-                  amount: 10,
-                  currency_code: "eur",
+                  amount: 699,
+                  currency_code: "inr",
                 },
                 {
-                  amount: 15,
+                  amount: 9,
                   currency_code: "usd",
                 },
               ],
             },
+          ],
+          sales_channels: [
             {
-              title: "M",
-              sku: "SHORTS-M",
-              options: {
-                Size: "M",
-              },
+              id: defaultSalesChannel.id,
+            },
+          ],
+        },
+        {
+          title: "Traditional Pure Copper Water Jug",
+          handle: "traditional-pure-copper-water-jug",
+          description: "Hand-hammered pure copper water jug for storing water overnight, providing traditional Ayurvedic health benefits.",
+          thumbnail: "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=800",
+          images: [
+            { url: "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=800" }
+          ],
+          collection_id: collectionsResult.find((c) => c.handle === "natural-home")!.id,
+          category_ids: [
+            categoryResult.find((cat) => cat.handle === "handicrafts")!.id,
+          ],
+          status: ProductStatus.PUBLISHED,
+          shipping_profile_id: shippingProfile.id,
+          options: [],
+          variants: [
+            {
+              title: "Copper Jug 1.5L",
+              sku: "COP-JUG-1.5L",
+              options: {},
               prices: [
                 {
-                  amount: 10,
-                  currency_code: "eur",
+                  amount: 1299,
+                  currency_code: "inr",
                 },
                 {
-                  amount: 15,
+                  amount: 17,
                   currency_code: "usd",
                 },
               ],
             },
+          ],
+          sales_channels: [
             {
-              title: "L",
-              sku: "SHORTS-L",
-              options: {
-                Size: "L",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
+              id: defaultSalesChannel.id,
             },
+          ],
+        },
+        {
+          title: "Carnatic Devotional Flute Album",
+          handle: "carnatic-devotional-flute-album",
+          description: "A peaceful collection of instrumental flute tracks playing traditional Carnatic ragas. Perfect for meditation and focus.",
+          thumbnail: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&q=80&w=800",
+          images: [
+            { url: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&q=80&w=800" }
+          ],
+          collection_id: collectionsResult.find((c) => c.handle === "digital-products")!.id,
+          category_ids: [
+            categoryResult.find((cat) => cat.handle === "wellness")!.id,
+          ],
+          status: ProductStatus.PUBLISHED,
+          shipping_profile_id: shippingProfile.id,
+          options: [],
+          variants: [
             {
-              title: "XL",
-              sku: "SHORTS-XL",
-              options: {
-                Size: "XL",
-              },
+              title: "Digital Audio Pack (MP3/FLAC)",
+              sku: "CAR-FLUT-ALB",
+              options: {},
               prices: [
                 {
-                  amount: 10,
-                  currency_code: "eur",
+                  amount: 199,
+                  currency_code: "inr",
                 },
                 {
-                  amount: 15,
+                  amount: 2.5,
                   currency_code: "usd",
                 },
               ],
@@ -817,10 +619,9 @@ export default async function initial_data_seed({
       ],
     },
   });
-  logger.info("Finished seeding product data.");
+  logger.info("Finished seeding Jatramela products data.");
 
-  logger.info("Seeding inventory levels.");
-
+  logger.info("Seeding inventory levels...");
   const { data: inventoryItems } = await query.graph({
     entity: "inventory_item",
     fields: ["id"],
@@ -835,6 +636,5 @@ export default async function initial_data_seed({
       })),
     },
   });
-
   logger.info("Finished seeding inventory levels data.");
 }
